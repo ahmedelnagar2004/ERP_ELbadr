@@ -10,8 +10,8 @@ class CreateOrderItemsTable extends Migration {
 		Schema::create('order_items', function(Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
-			$table->integer('order_id')->unsigned();
-			$table->integer('item_id')->unsigned();
+			$table->bigInteger('order_id')->unsigned();
+			$table->bigInteger('item_id')->unsigned();
 			$table->decimal('unit_price', 10,2);
 			$table->decimal('quantity');
 			$table->decimal('total_price', 10,2);

@@ -10,7 +10,7 @@ class CreateShippingAddressesTable extends Migration {
 		Schema::create('shipping_addresses', function(Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
-			$table->integer('order_id')->unsigned();
+			$table->bigInteger('order_id')->unsigned();
 			$table->string('name');
 			$table->string('email');
 			$table->string('phone');

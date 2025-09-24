@@ -56,8 +56,8 @@
             </div>
         </div>
         <div class="mt-6 flex gap-3">
-            <button class="btn-primary">حفظ</button>
-            <a href="{{ route('admin.users.index') }}" class="btn-secondary">إلغاء</a>
+            <button class="btn btn-primary">حفظ</button>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">إلغاء</a>
         </div>
     </form>
 </div>

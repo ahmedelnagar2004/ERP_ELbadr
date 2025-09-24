@@ -10,8 +10,8 @@ class CreateSafeTransactionsTable extends Migration {
 		Schema::create('safe_transactions', function(Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
-			$table->integer('safe_id')->unsigned();
-			$table->integer('user_id')->unsigned();
+			$table->bigInteger('safe_id')->unsigned();
+			$table->bigInteger('user_id')->unsigned();
 			$table->tinyInteger('type');
 			$table->decimal('amount', 10,2);
 			$table->nullableMorphs('reference');

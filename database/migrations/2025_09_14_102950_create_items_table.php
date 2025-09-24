@@ -16,8 +16,8 @@ class CreateItemsTable extends Migration {
 			$table->text('description')->nullable();
 			$table->decimal('price', 10,2);
 			$table->decimal('quantity');
-			$table->integer('category_id')->unsigned();
-			$table->integer('unit_id')->unsigned();
+			$table->bigInteger('category_id')->unsigned();
+			$table->bigInteger('unit_id')->unsigned();
 			$table->boolean('is_shown_in_store');
 			$table->decimal('minimum_stock');
 		});

@@ -14,7 +14,7 @@
     </div>
 
     <div class="text-center py-8">
-        <p class="text-gray-500">لا توجد طلبات حال<|im_end|>p>
+        <p class="text-gray-500">لا توجد طلبات حالياً</p>
         <p class="text-sm text-gray-400 mt-2">سيتم إضافة وظائف إدارة الطلبات قريباً</p>
     </div>
 </div>

@@ -26,8 +26,8 @@
             </div>
         </div>
         <div class="mt-6 flex gap-3">
-            <button type="submit" class="btn-primary">حفظ</button>
-            <a href="{{ route('admin.roles.index') }}" class="btn-secondary">إلغاء</a>
+            <button type="submit" class="btn btn-success">حفظ</button>
+            <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary">إلغاء</a>
         </div>
     </form>
 </div>

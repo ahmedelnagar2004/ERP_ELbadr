@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::table('sales', function (Blueprint $table) {
+            $table->text('notes')->nullable()->after('order_date');
+            //
+        });
     }
 
     /**
@@ -19,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('sales', function (Blueprint $table) {
+            $table->dropColumn('notes');
+            //
+        });
     }
 };

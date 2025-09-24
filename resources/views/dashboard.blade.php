@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'لوحة التحكم')
-@section('page-title', 'لوحة التحكم')
-@section('page-subtitle') مرحباً {{ auth()->user()->name }} - نظرة عامة على النظام @endsection
+@section('title', __('admin.dashboard'))
+@section('page-title', __('admin.dashboard'))
+@section('page-subtitle') {{ __('admin.welcome_back') }}, {{ auth()->user()->name }} - {{ __('admin.system_overview') }} @endsection
 
 @section('content')
 <style>
@@ -156,6 +156,19 @@
     .earnings-body { padding: 16px; }
     .earnings-title { font-weight:700; color:#1e293b; }
     .earnings-sub { color:#64748b; font-size:.875rem; }
+    /* Fancy action links inside stat cards */
+    .stat-action { display:inline-flex; align-items:center; gap:8px; margin-top:8px; padding:8px 14px; border-radius:9999px; font-weight:700; font-size:.85rem; color:#fff; box-shadow:0 6px 14px rgba(2,6,23,.12); transition: all .2s; border: 1px solid transparent; }
+    .stat-action svg { width:16px; height:16px; }
+    .stat-action:hover { transform: translateY(-1px); box-shadow:0 10px 22px rgba(2,6,23,.16); }
+    .stat-action:active { transform: translateY(0); box-shadow:0 4px 10px rgba(2,6,23,.12); }
+    .stat-action--indigo { background: linear-gradient(135deg, #6366f1, #4f46e5); border-color:#6366f1; }
+    .stat-action--green { background: linear-gradient(135deg, #10b981, #059669); border-color:#10b981; }
+    .stat-action--blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-color:#3b82f6; }
+    .stat-action--amber { background: linear-gradient(135deg, #f59e0b, #d97706); border-color:#f59e0b; }
+    .stat-action--red { background: linear-gradient(135deg, #ef4444, #dc2626); border-color:#ef4444; }
+    .stat-action--purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-color:#8b5cf6; }
+    .stat-action--cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); border-color:#06b6d4; }
+    .stat-action--disabled { background:#e5e7eb; color:#9ca3af; cursor:not-allowed; box-shadow:none; }
 </style>
 
 <!-- Statistics Cards -->
@@ -164,19 +177,10 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">المشرفين</div>
+                <div class="stat-label">@lang('admin.users')</div>
                 <div class="stat-number">{{ number_format($total_users) }}</div>
-                <div class="stat-change positive">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    +5.2%
-                </div>
-                @can('view-users')
-                <a href="{{ route('admin.users.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">إدارة المشرفين</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                
+                <x-stat-action href="{{ route('admin.users.index') }}" color="indigo" permission="view-users">@lang('admin.manage') @lang('admin.users')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -190,19 +194,9 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">المنتجات</div>
+                <div class="stat-label">@lang('admin.items')</div>
                 <div class="stat-number">{{ number_format($total_items) }}</div>
-                <div class="stat-change positive">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    +16.24%
-                </div>
-                @can('view-items')
-                <a href="{{ route('admin.items.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">عرض المنتجات</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                <x-stat-action href="{{ route('admin.items.index') }}" color="green" permission="view-items">@lang('admin.manage') @lang('admin.items')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -216,19 +210,10 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">الطلبات</div>
+                <div class="stat-label">@lang('admin.orders')</div>
                 <div class="stat-number">{{ number_format($total_orders) }}</div>
-                <div class="stat-change negative">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    -3.57%
-                </div>
-                @can('view-orders')
-                <a href="{{ route('admin.orders.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">عرض الطلبات</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                
+                <x-stat-action href="{{ route('admin.orders.index') }}" color="blue" permission="view-orders">@lang('admin.manage') @lang('admin.orders')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -242,19 +227,9 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">المبيعات</div>
+                <div class="stat-label">@lang('admin.sales')</div>
                 <div class="stat-number">{{ number_format($total_sales) }}</div>
-                <div class="stat-change positive">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    +29.08%
-                </div>
-                @can('view-sales')
-                <a href="{{ route('admin.sales.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">عرض المبيعات</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                <x-stat-action href="{{ route('admin.sales.index') }}" color="amber" permission="view-sales">@lang('admin.manage') @lang('admin.sales')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -271,16 +246,9 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">العملاء</div>
+                <div class="stat-label">@lang('admin.clients')</div>
                 <div class="stat-number">{{ number_format($total_clients) }}</div>
-                <div class="stat-change" style="color: #64748b;">
-                    +0.00%
-                </div>
-                @can('view-clients')
-                <a href="{{ route('admin.clients.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">عرض العملاء</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                    <x-stat-action href="{{ route('admin.clients.index') }}" color="red" permission="view-clients">@lang('admin.manage') @lang('admin.clients')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -294,13 +262,9 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">الأصناف</div>
+                <div class="stat-label">@lang('admin.categories')</div>
                 <div class="stat-number">{{ number_format($total_categories) }}</div>
-                @can('view-categories')
-                <a href="{{ route('admin.categories.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">إدارة الأصناف</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                <x-stat-action href="{{ route('admin.categories.index') }}" color="purple" permission="view-categories">@lang('admin.manage') @lang('admin.categories')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -314,13 +278,9 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">الوحدات</div>
+                <div class="stat-label">@lang('admin.units')</div>
                 <div class="stat-number">{{ number_format($total_units) }}</div>
-                @can('view-units')
-                <a href="{{ route('admin.units.index') }}" class="inline-block mt-2 text-blue-600 text-sm font-medium hover:underline">إدارة الوحدات</a>
-                @else
-                <span class="inline-block mt-2 text-gray-400 text-sm">غير مصرح</span>
-                @endcan
+                <x-stat-action href="{{ route('admin.units.index') }}" color="cyan" permission="view-units">@lang('admin.manage') @lang('admin.units')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -329,29 +289,44 @@
             </div>
         </div>
     </div>
+        <div class="stat-card">
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1">
+                    <div class="stat-label">@lang('admin.roles')</div>
+                    <div class="stat-number">{{ number_format($total_roles ?? 0) }}</div>
+                    <x-stat-action href="{{ route('admin.roles.index') }}" color="amber" permission="manage-roles">@lang('admin.manage') @lang('admin.roles')</x-stat-action>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.27 5.82 22 7 13.87 2 9l6.91-.74L12 2z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
 
     <div class="earnings-card mt-8 -mx-6">
     <div class="p-5 border-b border-slate-100 flex items-start justify-between gap-4">
         <div>
-            <div class="earnings-title text-lg">Earning Reports</div>
-            <div class="earnings-sub">Yearly Earnings Overview</div>
+            <div class="earnings-title text-lg">@lang('admin.earning_reports')</div>
+            <div class="earnings-sub">@lang('admin.yearly_earnings_overview')</div>
         </div>
         <div class="earnings-toolbar">
             <button class="earnings-tab active" data-series="orders" type="button">
                 <svg fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222.01.042 1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/></svg>
-                Orders
+                @lang('admin.orders')
             </button>
             <button class="earnings-tab" data-series="sales" type="button">
                 <svg fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14a1 1 0 011 1v3H2V4a1 1 0 011-1zm-1 7h16v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6z"/></svg>
-                Sales
+                @lang('admin.sales')
             </button>
             <button class="earnings-tab" data-series="profit" type="button">
                 <svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a2.25 2.25 0 011.5 4.031v.219a.75.75 0 01-1.5 0v-.219a.75.75 0 10-1.5 0v.219a2.25 2.25 0 101.5-4.031z"/></svg>
-                Profit
+                @lang('admin.profit')
             </button>
             <button class="earnings-tab" data-series="income" type="button">
                 <svg fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1H6.5a.5.5 0 000 1H9v9H6.5a.5.5 0 000 1H9v1a1 1 0 102 0v-1h2.5a.5.5 0 000-1H11V5h2.5a.5.5 0 000-1H11V3z"/></svg>
-                Income
+                @lang('admin.income')
             </button>
         </div>
     </div>
@@ -362,7 +337,7 @@
 
 <!-- Additional Statistics -->
 
-    
+
 @endsection
 
 @push('scripts')

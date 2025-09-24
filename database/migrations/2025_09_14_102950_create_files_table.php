@@ -11,12 +11,12 @@ class CreateFilesTable extends Migration {
 		Schema::create('files', function(Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
-			$table->string('usage');
+			$table->string('filename');
 			$table->string('path');
-			$table->string('ext')->nullable();
-			$table->string('filename')->nullable();
-			$table->unsignedBigInteger('size')->nullable();
-			$table->string('mime_type')->nullable();
+			$table->string('ext');
+			$table->integer('size');
+			$table->string('mime_type');
+			$table->string('usage');
 			$table->nullableMorphs('fileable');
 		});
 	}

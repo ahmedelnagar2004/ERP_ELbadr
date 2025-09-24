@@ -3,71 +3,58 @@
 @section('title', 'إضافة وحدة جديدة')
 
 @section('content')
-<div class="dashboard-container">
-    <div class="dashboard-max-width">
-        <div class="widget-card">
-            <div class="widget-header">
-                <h3 class="widget-title">إضافة وحدة جديدة</h3>
+<style>
+    .form-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; box-shadow:0 2px 12px rgba(15,23,42,.04); }
+    .form-header { padding:14px 16px; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between; }
+    .form-body { padding:16px; }
+    .input { border:1px solid #e2e8f0; border-radius:12px; padding:.5rem .75rem; background:#fff; width:100%; }
+    .select { border:1px solid #e2e8f0; border-radius:12px; padding:.5rem .75rem; background:#fff; width:100%; }
+    .label { font-weight:600; color:#334155; margin-bottom:6px; display:block; }
+    .hint { color:#64748b; font-size:.85rem; margin-top:6px; }
+    .error { color:#dc2626; font-size:.85rem; margin-top:4px; }
+</style>
+
+<div class="form-card">
+    <div class="form-header">
+        <h3 class="text-lg font-bold text-gray-900">إضافة وحدة جديدة</h3>
+        <a href="{{ route('admin.units.index') }}" class="text-sm text-blue-600">رجوع للقائمة</a>
+    </div>
+    <div class="form-body">
+        <form action="{{ route('admin.units.store') }}" method="POST" class="space-y-5">
+            @csrf
+
+            <!-- اسم الوحدة -->
+            <div>
+                <label for="name" class="label">اسم الوحدة <span class="text-red-500">*</span></label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="مثال: قطعة، متر، لتر، كيلو" class="input" required>
+                @error('name')<div class="error">{{ $message }}</div>@enderror
+                <div class="hint">اختر اسمًا واضحًا يسهل استخدامه في المنتجات.</div>
             </div>
-            <form action="{{ route('admin.units.store') }}" method="POST">
-                @csrf
 
-                <!-- اسم الوحدة -->
-                <div class="mb-6">
-                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        اسم الوحدة <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" name="name" id="name"
-                        value="{{ old('name') }}"
-                        placeholder="مثال: قطعة، متر، لتر، كيلو"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                        required>
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
+            <!-- الحالة -->
+            <div>
+                <label for="status" class="label">الحالة <span class="text-red-500">*</span></label>
+                <select name="status" id="status" class="select" required>
+                    <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>نشط</option>
+                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>غير نشط</option>
+                </select>
+                @error('status')<div class="error">{{ $message }}</div>@enderror
+            </div>
 
-                <!-- الحالة -->
-                <div class="mb-6">
-                    <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        الحالة <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" id="status"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                        required>
-                        <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>نشط</option>
-                        <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>غير نشط</option>
-                    </select>
-                    @error('status')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
+            <!-- الوصف -->
+            <div>
+                <label for="description" class="label">الوصف</label>
+                <textarea name="description" id="description" rows="3" placeholder="وصف مختصر للوحدة..." class="input">{{ old('description') }}</textarea>
+                @error('description')<div class="error">{{ $message }}</div>@enderror
+            </div>
 
-                <!-- الوصف -->
-                <div class="mb-6">
-                    <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        الوصف
-                    </label>
-                    <textarea name="description" id="description" rows="3"
-                        placeholder="وصف مختصر للوحدة..."
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">{{ old('description') }}</textarea>
-                    @error('description')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="flex justify-end gap-2">
-                    <a href="{{ route('admin.units.index') }}" 
-                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        إلغاء
-                    </a>
-                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        حفظ الوحدة
-                    </button>
-                </div>
-            </form>
-        </div>
+            <div class="pt-2 flex gap-3">
+                <button type="submit" class="btn-success" style="width:120px; height:40px;">حفظ الوحدة</button>
+                <a href="{{ route('admin.units.index') }}" class="btn-secondary" style="width:120px; height:40px; text-align:center; line-height:40px;">إلغاء</a>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
+
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -11,123 +12,128 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'permission:view-dashboard'])
-    ->name('dashboard');
+// Language switcher route
+Route::post('lang/{locale}', [LanguageController::class, 'switchLang'])
+    ->name('lang.switch');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Apply web middleware group to all routes
+Route::middleware(['web'])->group(function () {
+    // Apply set.locale middleware to routes that need it
+    Route::middleware(['set.locale'])->group(function () {
+        // Public routes
+        Route::get('/', function () {
+            return view('welcome');
+        })->name('home');
 
-// Admin Routes - Protected by permissions
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
-    
-    // User Management Routes
-    Route::middleware(['permission:view-users'])->group(function () {
-        Route::resource('users', UserController::class);
-    });
+        // Authenticated routes
+        Route::middleware(['auth', 'verified'])->group(function () {
+            // Dashboard
+            Route::get('/dashboard', [DashboardController::class, 'index'])
+                ->middleware('permission:view-dashboard')
+                ->name('dashboard');
 
-    // Role Management Routes
-    Route::middleware(['permission:manage-roles'])->group(function () {
-        Route::resource('roles', RoleController::class);
-    });
+            // Profile
+            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Items Management
-    Route::middleware(['permission:view-items'])->group(function () {
-        Route::resource('items', ItemController::class);
-    });
+            // Admin Routes
+            Route::prefix('admin')->name('admin.')->group(function () {
+                // User Management Routes
+                Route::middleware(['permission:view-users'])->group(function () {
+                    Route::resource('users', UserController::class);
+                });
 
-    // Categories Management  
-    Route::middleware(['permission:view-categories'])->group(function () {
-        Route::resource('categories', CategoryController::class);
-    });
+                // Role Management Routes
+                Route::middleware(['permission:manage-roles'])->group(function () {
+                    Route::resource('roles', RoleController::class);
+                });
 
-    // Units Management
-    Route::middleware(['permission:view-units'])->group(function () {
-        Route::resource('units', UnitController::class);
-    });
+                // Items Management
+                Route::middleware(['permission:view-items'])->group(function () {
+                    Route::resource('items', ItemController::class);
+                });
 
-    // Clients management routes
-    Route::middleware(['permission:manage-clients'])->group(function () {
-        Route::resource('clients', ClientController::class);
-    });
+                // Categories Management  
+                Route::middleware(['permission:view-categories'])->group(function () {
+                    Route::resource('categories', CategoryController::class);
+                });
 
-    // Orders management routes
-    Route::middleware(['permission:manage-orders'])->group(function () {
-        Route::resource('orders', OrderController::class);
-    });
+                // Units Management
+                Route::middleware(['permission:view-units'])->group(function () {
+                    Route::resource('units', UnitController::class);
+                });
 
-    // Settings routes
-    Route::middleware(['permission:manage-settings'])->group(function () {
-        Route::get('/settings', function () {
-            return view('admin.settings.index');
-        })->name('settings.index');
-    });
+                // Clients management routes
+                Route::middleware(['permission:view-clients'])->group(function () {
+                    Route::resource('clients', ClientController::class);
+                });
 
-    // Inventory routes
-    Route::middleware(['permission:view-inventory'])->group(function () {
-        Route::get('/inventory', function () {
-            return view('admin.inventory.index');
-        })->name('inventory.index');
-    });
+                // Orders management routes
+                Route::middleware(['permission:manage-orders'])->group(function () {
+                    Route::resource('orders', OrderController::class);
+                });
 
-    // Example protected routes for different ERP modules
-    Route::middleware('permission:view-clients')->group(function () {
-        Route::get('/clients', function () {
-            return view('admin.clients.index');
-        })->name('clients.index');
-    });
-    
-    Route::middleware('permission:view-orders')->group(function () {
-        Route::get('/orders', function () {
-            return view('admin.orders.index');
-        })->name('orders.index');
-    });
-    
-    Route::middleware('permission:view-sales')->group(function () {
-        Route::get('/sales', function () {
-            return view('admin.sales.index');
-        })->name('sales.index');
-    });
-    
-    Route::middleware('permission:view-reports')->group(function () {
-        Route::get('/reports', function () {
-            return view('admin.reports.index');
-        })->name('reports.index');
-    });
-});
+                // Settings routes
+                Route::middleware(['permission:manage-settings'])->group(function () {
+                    Route::get('/settings', function () {
+                        return view('admin.settings.index');
+                    })->name('settings.index');
+                });
 
-// Remove the duplicate routes at the bottom
+                // Inventory routes
+                Route::middleware(['permission:view-inventory'])->group(function () {
+                    Route::get('/inventory', function () {
+                        return view('admin.inventory.index');
+                    })->name('inventory.index');
+                });
+
+                // TEST ROUTE - Remove after testing
+                Route::get('/test', function () {
+                    return 'Route test successful';
+                })->name('test');
+
+                // Example protected routes for different ERP modules
+                Route::middleware('permission:view-orders')->group(function () {
+                    Route::get('/orders', function () {
+                        return view('admin.orders.index');
+                    })->name('orders.index');
+                });
+
+                // Sales management routes
+                Route::middleware(['permission:view-sales'])->group(function () {
+                    Route::get('/sales', [\App\Http\Controllers\SaleController::class, 'index'])->name('sales.index');
+                    Route::get('/sales/create', [\App\Http\Controllers\SaleController::class, 'create'])->name('sales.create');
+                    Route::post('/sales', [\App\Http\Controllers\SaleController::class, 'store'])->name('sales.store');
+                    Route::get('/sales/{id}', [\App\Http\Controllers\SaleController::class, 'show'])->name('sales.show');
+                    Route::get('/sales/{id}/edit', [\App\Http\Controllers\SaleController::class, 'edit'])->name('sales.edit');
+                    Route::put('/sales/{id}', [\App\Http\Controllers\SaleController::class, 'update'])->name('sales.update');
+                    Route::delete('/sales/{id}', [\App\Http\Controllers\SaleController::class, 'destroy'])->name('sales.destroy');
+                    Route::get('/sales/{id}/print', [\App\Http\Controllers\SaleController::class, 'print'])->name('sales.print');
+                    Route::post('/sales/{id}/complete', [\App\Http\Controllers\SaleController::class, 'complete'])->name('sales.complete');
+                });
+
+                // Reports
+                Route::middleware('permission:view-reports')->group(function () {
+                    Route::get('/reports', function () {
+                        return view('admin.reports.index');
+                    })->name('reports.index');
+                });
+            }); // End of admin prefix group
+        }); // End of auth middleware group
+    }); // End of set.locale middleware group
+}); // End of web middleware group
+
+// Authentication routes
 require __DIR__.'/auth.php';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

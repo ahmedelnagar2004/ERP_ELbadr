@@ -27,7 +27,7 @@
         <p class="text-sm text-gray-500 mt-1">إدارة المنتجات والمخزون</p>
     </div>
     @can('create-items')
-    <a href="{{ route('admin.items.create') }}" class="btn-primary">إضافة منتج جديد</a>
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('admin.items.create') }}'">إضافة منتج جديد</button>
     @endcan
 </div>
 

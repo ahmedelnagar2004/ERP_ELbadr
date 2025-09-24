@@ -10,8 +10,8 @@ class CreateReturnItemsTable extends Migration {
 		Schema::create('return_items', function(Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
-			$table->integer('return_id')->unsigned();
-			$table->integer('item_id')->unsigned();
+			$table->bigInteger('return_id')->unsigned();
+			$table->bigInteger('item_id')->unsigned();
 			$table->decimal('quantity');
 			$table->decimal('unit_price', 10,2);
 			$table->decimal('total_price', 10,2);
