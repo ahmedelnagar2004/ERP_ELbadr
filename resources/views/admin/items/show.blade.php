@@ -15,7 +15,11 @@
         <div>
             <h3 class="font-semibold text-slate-800 mb-2">البيانات الأساسية</h3>
             <p><span class="text-slate-500">الاسم:</span> {{ $item->name }}</p>
+<<<<<<< HEAD
             <p><span class="text-slate-500">الكود:</span> {{ $item->item_code }}</p>
+=======
+            <p><span class="text-slate-500">الكود:</span> {{ $item->code }}</p>
+>>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             <p><span class="text-slate-500">الفئة:</span> {{ $item->category->name ?? 'غير محدد' }}</p>
             <p><span class="text-slate-500">الوحدة:</span> {{ $item->unit->name ?? 'غير محدد' }}</p>
             <p><span class="text-slate-500">السعر:</span> {{ $item->price }} ج.م</p>
@@ -60,9 +64,15 @@
     </div>
     <div class="mt-6 flex gap-3">
         @can('edit-items')
+<<<<<<< HEAD
         <a href="{{ route('admin.items.edit', $item) }}" class="btn btn-primary">تعديل</a>
         @endcan
         <a href="{{ route('admin.items.index') }}" class="btn btn-secondary">عودة</a>
+=======
+        <a href="{{ route('admin.items.edit', $item) }}" class="btn-primary">تعديل</a>
+        @endcan
+        <a href="{{ route('admin.items.index') }}" class="btn-secondary">عودة</a>
+>>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
     </div>
    
 </div>

@@ -23,7 +23,8 @@ use App\Http\Controllers\NotificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//route for notfication
+
+//route for notification
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 // Language switcher route
 Route::post('lang/{locale}', [LanguageController::class, 'switchLang'])
@@ -101,8 +102,7 @@ Route::middleware(['web'])->group(function () {
                     // Additional safe routes can be added here
                     // Example: Route::get('safes/{safe}/transactions', [\App\Http\Controllers\SafeController::class, 'transactions'])->name('safes.transactions');
                 });
-
-                // Inventory routes
+             // Inventory routes
                 Route::middleware(['permission:view-inventory'])->group(function () {
                     Route::get('/inventory', function () {
                         return view('admin.inventory.index');

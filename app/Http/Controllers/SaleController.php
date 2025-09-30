@@ -51,6 +51,12 @@ class SaleController extends Controller
             'items' => $items,
             'safes' => $safes
         ]);
+        
+        return view('admin.sales.create', [
+            'clients' => $clients,
+            'items' => $items
+
+        ]);
     }
 
     /**
@@ -150,6 +156,91 @@ class SaleController extends Controller
 
     /**
      * Show the form for editing the specified sale.
+
+     */
+    public function edit($id)
+    {
+        $sale = Sale::with(['items' => function($q) {
+            $q->withPivot('quantity', 'unit_price');
+        }])->findOrFail($id);
+
+        if ($sale->status === 'completed') {
+            return back()->with('error', 'لا يمكن تعديل فاتورة مكتملة');
+        }
+
+        $clients = Client::select('id', 'name', 'phone')->get();
+        $items = Item::select('id', 'name', 'price', 'quantity')->get();
+        
+        return view('admin.sales.edit', compact('sale', 'clients', 'items'));
+    }
+
+    /**
+     * Update the specified sale in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $sale = Sale::findOrFail($id);
+
+        if ($sale->status === 'completed') {
+            return back()->with('error', 'لا يمكن تعديل فاتورة مكتملة');
+        }
+
+        $validated = $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'payment_type' => 'required|in:cash,card,bank,credit',
+            'items' => 'required|array|min:1',
+            'items.*.item_id' => 'required|exists:items,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+            'discount_type' => 'nullable|in:fixed,percentage',
+            'shipping_cost' => 'nullable|numeric|min:0',
+            'order_date' => 'nullable|date',
+            'notes' => 'nullable|string|max:1000',
+        ]);
+
+        return DB::transaction(function () use ($validated, $sale) {
+            $subtotal = collect($validated['items'])->sum(function ($item) {
+                return $item['quantity'] * $item['price'];
+            });
+
+            $discount = $validated['discount'] ?? 0;
+            if (($validated['discount_type'] ?? '') === 'percentage') {
+                $discount = ($subtotal * $discount) / 100;
+            }
+
+            $netAmount = $subtotal - $discount + ($validated['shipping_cost'] ?? 0);
+
+            $sale->update([
+                'client_id' => $validated['client_id'],
+                'total' => $subtotal,
+                'discount' => $discount,
+                'discount_type' => $validated['discount_type'] ?? 'fixed', 
+                'shipping_cost' => $validated['shipping_cost'] ?? 0,
+                'net_amount' => $netAmount,
+                'payment_type' => $validated['payment_type'],
+                'order_date' => $validated['order_date'] ?? $sale->order_date,
+                'notes' => $validated['notes'] ?? null,
+            ]);
+
+            $itemsData = [];
+            foreach ($validated['items'] as $item) {
+                $itemsData[$item['item_id']] = [
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                    'total_price' => $item['quantity'] * $item['price'],
+                ];
+            }
+            $sale->items()->syncWithoutDetaching($itemsData);
+            $sale->items()->sync(array_keys($itemsData));
+
+            return redirect()->route('admin.sales.show', $sale->id)
+                ->with('success', 'تم تحديث الفاتورة بنجاح');
+        });
+    }
+
+    /**
+
      * Remove the specified sale from storage.
      */
     public function destroy($id)

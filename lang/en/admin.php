@@ -16,8 +16,10 @@ return [
     'all_rights_reserved' => 'All rights reserved.',
     'version' => 'Version',
     'toggle_navigation' => 'Toggle navigation',
+
     'profit' => 'Profit',
     'income' => 'Income',
+
     // Common
     'save' => 'Save',
     'edit' => 'Edit',
@@ -126,6 +128,7 @@ return [
     'failed' => 'Failed',
     'view_all_transactions' => 'View All Transactions',
 
+
     'COMMON' => [
         'name' => 'Name',
         'description' => 'Description',
@@ -164,4 +167,5 @@ return [
             'AED' => 'ريال إماراتي',
         ],
     ],
+
 ];

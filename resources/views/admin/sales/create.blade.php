@@ -39,6 +39,7 @@
                 @endforeach
             </select>
         </div>
+
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label fw-bold">الخزنة</label>
@@ -71,8 +72,6 @@
                 <small class="text-muted" id="remaining-amount-hint">المبلغ المتبقي: <span id="remaining-amount">0.00</span> ج.م</small>
             </div>
         </div>
-        <!-- Safe -->
-        
         <!-- العناصر -->
         <div class="mb-3">
             <label class="form-label fw-bold">المنتجات</label>

@@ -8,6 +8,7 @@ class Safe extends Model
 {
 
     protected $table = 'safes';
+
     protected $fillable = [
         'name',
         'type',

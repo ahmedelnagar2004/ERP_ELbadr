@@ -308,7 +308,11 @@
     <div class="earnings-card mt-8 -mx-6">
     <div class="p-5 border-b border-slate-100 flex items-start justify-between gap-4">
         <div>
+
             <div class="earnings-title text-lg">@lang('admin.menu.reports')</div>
+
+            <div class="earnings-title text-lg">@lang('admin.earning_reports')</div>
+
             <div class="earnings-sub">@lang('admin.yearly_earnings_overview')</div>
         </div>
         <div class="earnings-toolbar">

@@ -11,7 +11,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+
     use HasFactory, Notifiable, SoftDeletes, HasRoles, Authorizable , Notifiable;
+
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, Authorizable;
 
     protected $table = 'users';
     public $timestamps = true;

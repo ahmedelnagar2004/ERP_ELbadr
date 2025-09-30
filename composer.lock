@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "babd0bec7c48203e3ac37d62dc4e5ccc",
+=======
+    "content-hash": "10dd3868a2c4d7309b5596f5d083a9c5",
+>>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
     "packages": [
         {
             "name": "brick/math",
@@ -6499,6 +6503,7 @@
             "time": "2025-04-30T06:54:44+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "laravel/boost",
             "version": "v1.2.1",
             "source": {
@@ -6565,6 +6570,8 @@
             "time": "2025-09-23T07:31:42+00:00"
         },
         {
+=======
+>>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             "name": "laravel/breeze",
             "version": "v2.3.8",
             "source": {
@@ -6626,6 +6633,7 @@
             "time": "2025-07-18T18:49:59+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "laravel/mcp",
             "version": "v0.2.1",
             "source": {
@@ -6699,6 +6707,8 @@
             "time": "2025-09-24T15:48:16+00:00"
         },
         {
+=======
+>>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             "name": "laravel/pail",
             "version": "v1.2.3",
             "source": {
@@ -6847,6 +6857,7 @@
             "time": "2025-07-10T18:09:32+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "laravel/roster",
             "version": "v0.2.8",
             "source": {
@@ -6908,6 +6919,8 @@
             "time": "2025-09-22T13:28:47+00:00"
         },
         {
+=======
+>>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             "name": "laravel/sail",
             "version": "v1.45.0",
             "source": {

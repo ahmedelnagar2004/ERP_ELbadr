@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'ERP') }} - @yield('title', __('admin.dashboard'))</title>
 
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
@@ -17,6 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @vite(['resources/css/app.css','resources/js/app.js'])
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
 
     <style>
         * { font-family: 'Cairo', sans-serif; }
@@ -166,8 +175,8 @@
                             <h1 class="text-2xl font-bold text-slate-800">@yield('page-title','لوحة التحكم')</h1>
                             <p class="text-slate-500 mt-1">@yield('page-subtitle', 'مرحباً بك في نظام إدارة الموارد')</p>
                         </div>
-                    
                         <div class="flex items-center gap-3">
+                            <!-- Language Switcher -->
                             <!-- Language Switcher -->
                             <div class="hidden sm:flex sm:items-center sm:ms-6">
                                 <form action="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" method="POST" class="inline">
@@ -177,9 +186,11 @@
                                         {{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}
                                     </button>
                                 </form>
-            </div>
+                            </div>
                             
-                           
+                            
+                            
+                            <!-- Reports Button -->
                             @if (Route::has('admin.reports.index'))
                             <a href="{{ route('admin.reports.index') }}" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
                                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14a1 1 0 011 1v3H2V4a1 1 0 011-1zm-1 7h16v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6z"/></svg>
@@ -192,6 +203,7 @@
                                 </svg>
                                 @lang('admin.menu.sales')
                             </a>
+            
                         </div>
                     </div>
                 </div>
@@ -200,6 +212,9 @@
                 @yield('content')
             </main>
             
+            <footer class="footer px-6 py-3">
+                <div class="text-xs text-white text-center">© {{ date('Y-m-d') }} نظام ERP - جميع الحقوق محفوظة.</div>
+            </footer>
         </div>
     </div>
     @stack('scripts')
