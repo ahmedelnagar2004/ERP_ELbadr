@@ -59,6 +59,7 @@ return [
     
     // Categories
     'categories' => [
+        'create' => 'إضافة فئة جديدة',
         'title' => 'الفئات',
         'name' => 'اسم الفئة',
         'status' => 'الحالة',
@@ -71,6 +72,7 @@ return [
         'view' => 'عرض',
         'edit' => 'تعديل',
         'delete' => 'حذف',
+        'management' => 'إدارة الفئات',
         'search_placeholder' => 'بحث باسم الفئة...',
         'sort_by' => 'ترتيب حسب',
         'sort_options' => [
@@ -175,6 +177,39 @@ return [
     'yearly_earnings_overview' => 'نظرة عامة على الإيرادات السنوية',
 
     'COMMON' => [
+        'save_invoice' => 'حفظ الفاتورة',
+        'add_new_sale' => 'إضافة عملية بيع جديدة',
+        'sales' => 'المبيعات',
+        'sales_description' => 'إدارة ومتابعة جميع عمليات البيع',
+        'total' => 'المجموع',
+        'invoice' => 'فاتورة',
+        'invoice_number' => 'رقم الفاتورة',
+        'payment_type' => 'نوع الدفع',
+        'created_at' => 'تاريخ الإنشاء',
+        'client' => 'العميل',   
+        'phone' => 'الهاتف',
+        'product' => 'المنتج',
+        'quantity' => 'الكمية',
+        'unit_price' => 'السعر',
+        'total_price' => 'الإجمالي',
+        'sub_total' => 'المجموع الفرعي',
+        'remaining_amount' => 'المبلغ المتبقي',
+        'final_amount' => 'المبلغ النهائي',
+        'shipping_cost' => 'تكلفة الشحن',
+        'print' => 'طباعة',
+        'create_category' => 'إنشاء فئة جديدة',
+        'save_category' => 'حفظ الفئة',
+        'photo' => 'الصورة',
+        'photo_help' => 'الامتدادات المدعومة: JPG, PNG, GIF - الحد الأقصى: 2MB',
+        'description_placeholder'=>'أدخل وصفاً للفئة',
+        'name_placeholder'=>'أدخل اسم الفئة',
+        'no_records_found' => 'لا توجد سجلات',
+        'name'=>'الاسم',
+        'view'=>'عرض',
+        'edit'=>'تعديل',
+        'delete'=>'حذف',
+        'active'=>'نشط',
+        'inactive'=>'غير نشط',
         'name' => 'الاسم',
         'description' => 'الوصف',
         'actions' => 'الإجراءات',
@@ -198,6 +233,7 @@ return [
         'update' => 'تحديث',
         'current_balance' => 'الرصيد الحالي',
         'initial_balance' => 'الرصيد الافتتاحي',
+        'create' => 'إنشاء',
         'types' => [
             'cash' => 'الكاش',
             'bank' => 'البنك',
@@ -210,6 +246,7 @@ return [
             'EUR' => 'يورو',
             'SAR' => 'ريال سعودي',
             'AED' => 'ريال إماراتي'
-        ]  
-]
-        ];
+        ],
+        'management' => 'إدارة'
+    ]
+];

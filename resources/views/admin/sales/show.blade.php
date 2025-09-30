@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 
-@section('title', 'عرض فاتورة المبيعات')
 
 @push('styles')
 <style>
@@ -107,13 +106,13 @@
     <div class="invoice-header">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold mb-2">فاتورة مبيعات</h1>
-                <p class="text-lg opacity-90">رقم الفاتورة: {{ $sale->invoice_number }}</p>
+                <h1 class="text-2xl font-bold mb-2">@lang('admin.COMMON.invoice')</h1>
+                <p class="text-lg opacity-90">@lang('admin.COMMON.invoice_number') : {{ $sale->invoice_number }}</p>
             </div>
             <div class="text-right">
                 
                 <p class="mt-2 text-sm opacity-90">
-                    تاريخ الإنشاء: {{ $sale->created_at->format('Y/m/d') }}
+                    @lang('admin.COMMON.created_at') : {{ $sale->created_at->format('Y/m/d') }}
                 </p>
             </div>
         </div>
@@ -123,15 +122,15 @@
     <div class="invoice-details">
         <div class="info-grid">
             <div class="info-item">
-                <div class="info-label">اسم العميل</div>
+                <div class="info-label">@lang('admin.COMMON.client')</div>
                 <div class="info-value">{{ $sale->client->name }}</div>
             </div>
             <div class="info-item">
-                <div class="info-label">رقم الهاتف</div>
+                <div class="info-label">@lang('admin.COMMON.phone')</div>
                 <div class="info-value">{{ $sale->client->phone }}</div>
             </div>
             <div class="info-item">
-                <div class="info-label">نوع الدفع</div>
+                <div class="info-label">@lang('admin.COMMON.payment_type')</div>
                 <div class="info-value">
                     @switch($sale->payment_type)
                         @case('cash')
@@ -161,12 +160,12 @@
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th>المنتج</th>
-                        <th>الكمية</th>
-                        <th>السعر</th>
-                        <th>الإجمالي</th>
+                        <th>@lang('admin.COMMON.product')</th>
+                        <th>@lang('admin.COMMON.quantity')</th>
+                        <th>@lang('admin.COMMON.unit_price')</th>
+                        <th>@lang('admin.COMMON.total_price')</th>
 
-                        <th>الخزنة</th>
+                        <th>@lang('admin.COMMON.safe')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -186,7 +185,7 @@
         <!-- Totals -->
         <div class="total-section">
             <div class="total-row">
-                <span>المجموع الفرعي:</span>
+                <span>@lang('admin.COMMON.sub_total')</span>
                 <span>{{ number_format($sale->total, 2) }} ر.س</span>
             </div>
             @if($sale->discount > 0)
@@ -197,17 +196,17 @@
             @endif
             @if($sale->shipping_cost > 0)
             <div class="total-row">
-                <span>تكلفة الشحن:</span>
+                <span>@lang('admin.COMMON.shipping_cost')</span>
                 <span>{{ number_format($sale->shipping_cost, 2) }} ر.س</span>
             </div>
             @endif
             <div class="total-row final">
-                <span>الإجمالي النهائي:</span>
+                <span>@lang('admin.COMMON.final_amount')</span>
                 <span>{{ number_format($sale->net_amount, 2) }} ر.س</span>
             </div>
             @if($sale->remaining_amount > 0)
             <div class="total-row" style="color: #ef4444;">
-                <span>المبلغ المتبقي:</span>
+                <span>@lang('admin.COMMON.remaining_amount')</span>
                 <span>{{ number_format($sale->remaining_amount, 2) }} ر.س</span>
             </div>
             @endif
@@ -221,39 +220,16 @@
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                العودة للقائمة
+                @lang('admin.back') 
             </a>
-
-
-            @can('edit-sales')
-            <a href="{{ route('admin.sales.edit', $sale->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-                تعديل
-            </a>
-            @endcan
 
         </div>
         <div class="flex gap-3">
-            @can('complete-sales')
-            @if($sale->status !== 'completed')
-            <form method="POST" action="{{ route('admin.sales.complete', $sale->id) }}" style="display: inline;">
-                @csrf
-                <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    إتمام الفاتورة
-                </button>
-            </form>
-            @endif
-            @endcan
             <a href="{{ route('admin.sales.print', $sale->id) }}" class="print-btn" target="_blank">
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                 </svg>
-                طباعة
+                @lang('admin.COMMON.print')
             </a>
         </div>
     </div>

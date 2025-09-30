@@ -7,7 +7,7 @@
     <div class="dashboard-max-width">
         <div class="widget-card">
             <div class="p-5 border-b border-slate-200 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-slate-800">@lang('admin.categories.create')</h3>
+                <h3 class="text-lg font-bold text-slate-800">@lang('admin.COMMON.create_category')</h3>
                 <a href="{{ route('admin.categories.index') }}" class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm bg-slate-100 text-slate-700 hover:bg-slate-200">@lang('admin.back')</a>
             </div>
             <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data" class="p-5">
@@ -15,9 +15,9 @@
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- اسم الفئة -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.categories.name') <span class="text-red-500">*</span></label>
+                        <label for="name" class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.COMMON.name') <span class="text-red-500">*</span></label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" required
-                               class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="@lang('admin.categories.name_placeholder')">
+                               class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="@lang('admin.COMMON.name_placeholder')">
                         @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -40,17 +40,17 @@
 
                 <!-- الوصف -->
                 <div class="mt-4">
-                    <label for="description" class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.description')</label>
+                    <label for="description" class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.COMMON.description')</label>
                     <textarea name="description" id="description" rows="3"
-                              class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="@lang('admin.categories.description_placeholder')">{{ old('description') }}</textarea>
+                              class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="@lang('admin.COMMON.description_placeholder')">{{ old('description') }}</textarea>
                     @error('description') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- صورة الفئة -->
                 <div class="mt-4">
-                    <label for="photo" class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.categories.photo')</label>
+                    <label for="photo" class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.COMMON.photo')</label>
                     <input type="file" name="photo" id="photo" accept="image/*" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 focus:outline-none">
-                    <p class="mt-1 text-xs text-slate-500">@lang('admin.categories.photo_help')</p>
+                    <p class="mt-1 text-xs text-slate-500">@lang('admin.COMMON.photo_help')</p>
                     @error('photo') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     <div id="categoryPhotoPreview" class="mt-3"></div>
                 </div>
@@ -58,7 +58,7 @@
                 <!-- الأزرار -->
                 <div class="flex justify-end gap-2 mt-6">
                     <a href="{{ route('admin.categories.index') }}" class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50">@lang('admin.cancel')</a>
-                    <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700" style="background-color: #4CAF50;">@lang('admin.categories.save_category')</button>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700" style="background-color: #4CAF50;">@lang('admin.COMMON.save_category')</button>
                 </div>
             </form>
         </div>

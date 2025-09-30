@@ -175,7 +175,7 @@
             <textarea name="notes" class="form-control" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">حفظ الفاتورة</button>
+        <button type="submit" class="btn btn-primary">@lang('admin.COMMON.save_invoice')</button>
     </form>
 </div>
 @endsection

@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "babd0bec7c48203e3ac37d62dc4e5ccc",
-=======
-    "content-hash": "10dd3868a2c4d7309b5596f5d083a9c5",
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
+    "content-hash": "cd365c414e3146744e3802249968207a",
     "packages": [
         {
             "name": "brick/math",
@@ -6503,7 +6499,6 @@
             "time": "2025-04-30T06:54:44+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "laravel/boost",
             "version": "v1.2.1",
             "source": {
@@ -6570,8 +6565,6 @@
             "time": "2025-09-23T07:31:42+00:00"
         },
         {
-=======
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             "name": "laravel/breeze",
             "version": "v2.3.8",
             "source": {
@@ -6633,7 +6626,6 @@
             "time": "2025-07-18T18:49:59+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "laravel/mcp",
             "version": "v0.2.1",
             "source": {
@@ -6707,8 +6699,6 @@
             "time": "2025-09-24T15:48:16+00:00"
         },
         {
-=======
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             "name": "laravel/pail",
             "version": "v1.2.3",
             "source": {
@@ -6857,7 +6847,6 @@
             "time": "2025-07-10T18:09:32+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "laravel/roster",
             "version": "v0.2.8",
             "source": {
@@ -6919,8 +6908,6 @@
             "time": "2025-09-22T13:28:47+00:00"
         },
         {
-=======
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
             "name": "laravel/sail",
             "version": "v1.45.0",
             "source": {
@@ -6985,16 +6972,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v5.11.4",
+            "version": "v5.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "8b7bd77857d6b1b8c9362560cde74911cee68ab8"
+                "reference": "ad5fadb26c1e4dc2e35958e6dc36191dcf1c10d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/8b7bd77857d6b1b8c9362560cde74911cee68ab8",
-                "reference": "8b7bd77857d6b1b8c9362560cde74911cee68ab8",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/ad5fadb26c1e4dc2e35958e6dc36191dcf1c10d8",
+                "reference": "ad5fadb26c1e4dc2e35958e6dc36191dcf1c10d8",
                 "shasum": ""
             },
             "require": {
@@ -7048,9 +7035,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/telescope/issues",
-                "source": "https://github.com/laravel/telescope/tree/v5.11.4"
+                "source": "https://github.com/laravel/telescope/tree/v5.13.0"
             },
-            "time": "2025-09-12T14:36:07+00:00"
+            "time": "2025-09-30T10:03:05+00:00"
         },
         {
             "name": "mockery/mockery",

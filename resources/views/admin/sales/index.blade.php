@@ -106,11 +106,11 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center gap-4">
                 <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
+                    <i class="fas fa-plus me-1"></i> @lang('admin.COMMON.add_new_sale')
                 </a>
                 <div>
-                    <h3 class="h5 mb-0 text-gray-800 fw-bold">قائمة المبيعات</h3>
-                    <p class="text-muted mb-0">إدارة ومتابعة جميع عمليات البيع</p>
+                    <h3 class="h5 mb-0 text-gray-800 fw-bold">@lang('admin.COMMON.sales')</h3>
+                    <p class="text-muted mb-0">@lang('admin.COMMON.sales_description')</p>
                 </div>
             </div>
         </div>
@@ -121,12 +121,12 @@
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th class="text-nowrap text-end" style="width: 10%;">رقم الفاتورة</th>
-                            <th class="text-nowrap text-end" style="width: 20%;">العميل</th>
-                            <th class="text-nowrap text-end" style="width: 15%;">التاريخ</th>
-                            <th class="text-nowrap text-end" style="width: 15%;">الإجمالي</th>
-                            <th class="text-nowrap text-center" style="width: 15%;">حالة الدفع</th>
-                            <th class="text-nowrap text-center" style="width: 15%;">الإجراءات</th>
+                            <th class="text-nowrap text-end" style="width: 10%;">@lang('admin.COMMON.invoice_number')</th>
+                            <th class="text-nowrap text-end" style="width: 20%;">@lang('admin.COMMON.client')</th>
+                            <th class="text-nowrap text-end" style="width: 15%;">@lang('admin.COMMON.created_at')</th>
+                            <th class="text-nowrap text-end" style="width: 15%;">@lang('admin.COMMON.total')</th>
+                            <th class="text-nowrap text-center" style="width: 15%;">@lang('admin.COMMON.payment_type')</th>
+                            <th class="text-nowrap text-center" style="width: 15%;">@lang('admin.COMMON.actions')</th>
                         </tr>
                 </thead>
                     <tbody>
@@ -202,17 +202,17 @@
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('admin.sales.show', $sale->id) }}" class="btn btn-sm btn-action btn-view" data-bs-toggle="tooltip" title="عرض التفاصيل">
                                             <i class="fas fa-eye"></i>
-                                            <span class="d-none d-md-inline">عرض</span>
+                                            <span class="d-none d-md-inline">@lang('admin.COMMON.view')</span>
                                         </a>
                                         @can('delete-sales')
                                         <button onclick="confirmDelete({{ $sale->id }}, '{{ $sale->invoice_number }}')" class="btn btn-sm btn-action btn-delete" data-bs-toggle="tooltip" title="حذف الفاتورة">
                                             <i class="fas fa-trash-alt"></i>
-                                            <span class="d-none d-md-inline">حذف</span>
+                                            <span class="d-none d-md-inline">@lang('admin.COMMON.delete')</span>
                                         </button>
                                         @endcan
                                         <a href="{{ route('admin.sales.print', $sale->id) }}" target="_blank" class="btn btn-sm btn-action btn-print" data-bs-toggle="tooltip" title="طباعة الفاتورة">
                                             <i class="fas fa-print"></i>
-                                            <span class="d-none d-md-inline">طباعة</span>
+                                            <span class="d-none d-md-inline">@lang('admin.COMMON.print')</span>
                                         </a>
                                     </div>
                                 </td>
