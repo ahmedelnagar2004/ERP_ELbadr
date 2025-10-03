@@ -60,7 +60,7 @@
             </thead>
             <tbody id="usersTableBody">
                 @forelse($users as $user)
-                <tr data-full_name="{{ Str::lower($user->full_name) }}" data-username="{{ Str::lower($user->username) }}" data-email="{{ Str::lower($user->email) }}" data-status="{{ (int)($user->status == 1) }}">
+                <tr data-full_name="{{ Str::lower($user->full_name) }}" data-username="{{ Str::lower($user->username) }}" data-email="{{ Str::lower($user->email) }}" data-status="{{ $user->status }}">
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $user->full_name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $user->username }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $user->email }}</td>

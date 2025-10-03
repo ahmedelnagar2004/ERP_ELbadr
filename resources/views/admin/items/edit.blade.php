@@ -59,8 +59,8 @@
             <div>
                 <label class="block text-sm font-medium mb-1">يظهر في المتجر</label>
                 <select name="is_shown_in_store" class="form-input w-full">
-                    <option value="1" {{ old('is_shown_in_store', $item->is_shown_in_store) ? 'selected' : '' }}>نعم</option>
-                    <option value="0" {{ !old('is_shown_in_store', $item->is_shown_in_store) ? 'selected' : '' }}>لا</option>
+                    <option value="shown" {{ $item->is_shown_in_store == 1 ? 'selected' : '' }}>نعم</option>
+                    <option value="hidden" {{ $item->is_shown_in_store == 0 ? 'selected' : '' }}>لا</option>
                 </select>
             </div>
             <div>

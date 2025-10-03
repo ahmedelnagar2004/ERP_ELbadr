@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\OrderController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-//route for notification
+// route for notification
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 // Language switcher route
 Route::post('lang/{locale}', [LanguageController::class, 'switchLang'])
@@ -68,7 +68,7 @@ Route::middleware(['web'])->group(function () {
                     Route::resource('items', ItemController::class);
                 });
 
-                // Categories Management  
+                // Categories Management
                 Route::middleware(['permission:view-categories'])->group(function () {
                     Route::resource('categories', CategoryController::class);
                 });
@@ -98,11 +98,14 @@ Route::middleware(['web'])->group(function () {
                 // Safes Management
                 Route::middleware(['permission:view-safes'])->group(function () {
                     Route::resource('safes', \App\Http\Controllers\SafeController::class)->except(['show']);
-                    
+
+                    // Add show route for safes
+                    Route::get('safes/{safe}', [\App\Http\Controllers\SafeController::class, 'show'])->name('admin.safes.show');
+
                     // Additional safe routes can be added here
                     // Example: Route::get('safes/{safe}/transactions', [\App\Http\Controllers\SafeController::class, 'transactions'])->name('safes.transactions');
                 });
-             // Inventory routes
+                // Inventory routes
                 Route::middleware(['permission:view-inventory'])->group(function () {
                     Route::get('/inventory', function () {
                         return view('admin.inventory.index');

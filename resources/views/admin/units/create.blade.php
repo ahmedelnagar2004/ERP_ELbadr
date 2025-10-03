@@ -35,8 +35,8 @@
             <div>
                 <label for="status" class="label">الحالة <span class="text-red-500">*</span></label>
                 <select name="status" id="status" class="select" required>
-                    <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>نشط</option>
-                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>غير نشط</option>
+                    <option value="active" {{ old('status', 'active') == 'active' ? 'selected' : '' }}>نشط</option>
+                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>غير نشط</option>
                 </select>
                 @error('status')<div class="error">{{ $message }}</div>@enderror
             </div>

@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', __('admin.menu.safes') . ' - ' . __('admin.actions.edit'))
+@section('title', 'تعديل الخزنة - ' . $safe->name)
 
 @section('content')
 <div class="bg-white dark:bg-slate-800 rounded-lg shadow">
     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
         <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
-            @lang('admin.actions.edit') @lang('admin.menu.safes')
+            تعديل الخزنة: {{ $safe->name }}
         </h2>
     </div>
 
@@ -19,24 +19,25 @@
                 <!-- Name -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        @lang('admin.COMMON.name') <span class="text-red-500">*</span>
+                        اسم الخزنة <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="name" id="name" value="{{ old('name', $safe->name) }}" required
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-white dark:text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="أدخل اسم الخزنة">
                     @error('name')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Account Number -->
+                <!-- Description -->
                 <div>
-                    <label for="account_number" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        @lang('admin.COMMON.account_number') <span class="text-red-500">*</span>
+                    <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        وصف الخزنة
                     </label>
-                    <input type="text" name="account_number" id="account_number" 
-                        value="{{ old('account_number', $safe->account_number) }}" required
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-white dark:text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                    @error('account_number')
+                    <textarea name="description" id="description" rows="3"
+                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="أدخل وصف الخزنة (اختياري)">{{ old('description', $safe->description) }}</textarea>
+                    @error('description')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
@@ -44,13 +45,14 @@
                 <!-- Type -->
                 <div>
                     <label for="type" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        @lang('admin.COMMON.type') <span class="text-red-500">*</span>
+                        نوع الخزنة <span class="text-red-500">*</span>
                     </label>
                     <select name="type" id="type" required
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-white dark:text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                        <option value="1" {{ old('type', $safe->type) == 1 ? 'selected' : '' }}>@lang('admin.COMMON.types.cash')</option>
-                        <option value="2" {{ old('type', $safe->type) == 2 ? 'selected' : '' }}>@lang('admin.COMMON.types.bank')</option>
-                        <option value="3" {{ old('type', $safe->type) == 3 ? 'selected' : '' }}>@lang('admin.COMMON.types.credit_card')</option>
+                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <option value="1" {{ old('type', $safe->type) == 1 ? 'selected' : '' }}>محفظة إلكترونية</option>
+                        <option value="2" {{ old('type', $safe->type) == 2 ? 'selected' : '' }}>حساب بنكي</option>
+                        <option value="3" {{ old('type', $safe->type) == 3 ? 'selected' : '' }}>إنستا باي</option>
+                        <option value="4" {{ old('type', $safe->type) == 4 ? 'selected' : '' }}>خزنة داخل الكاشير</option>
                     </select>
                     @error('type')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -60,11 +62,19 @@
                 <!-- Balance -->
                 <div>
                     <label for="balance" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        @lang('admin.COMMON.balance') <span class="text-red-500">*</span>
+                        الرصيد الحالي <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" name="balance" id="balance" 
-                        value="{{ old('balance', $safe->balance) }}" step="0.01" min="0" required
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-white dark:text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-slate-500 dark:text-slate-300 sm:text-sm">
+                                <span id="currency-symbol-edit">{{ $safe->currency == 'EGP' ? 'ج.م' : ($safe->currency == 'USD' ? '$' : ($safe->currency == 'EUR' ? '€' : 'ر.س')) }}</span>
+                            </span>
+                        </div>
+                        <input type="number" name="balance" id="balance"
+                            value="{{ old('balance', $safe->balance) }}" step="0.01" min="0" required
+                            class="pl-16 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            placeholder="0.00">
+                    </div>
                     @error('balance')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
@@ -73,15 +83,14 @@
                 <!-- Currency -->
                 <div>
                     <label for="currency" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        @lang('admin.COMMON.currency') <span class="text-red-500">*</span>
+                        العملة <span class="text-red-500">*</span>
                     </label>
                     <select name="currency" id="currency" required
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-white dark:text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                        <option value="EGP" {{ old('currency', $safe->currency) == 'EGP' ? 'selected' : '' }}>EGP - @lang('admin.COMMON.currencies.EGP')</option>
-                        <option value="USD" {{ old('currency', $safe->currency) == 'USD' ? 'selected' : '' }}>USD - @lang('admin.COMMON.currencies.USD')</option>
-                        <option value="EUR" {{ old('currency', $safe->currency) == 'EUR' ? 'selected' : '' }}>EUR - @lang('admin.COMMON.currencies.EUR')</option>
-                        <option value="SAR" {{ old('currency', $safe->currency) == 'SAR' ? 'selected' : '' }}>SAR - @lang('admin.COMMON.currencies.SAR')</option>
-                        <option value="AED" {{ old('currency', $safe->currency) == 'AED' ? 'selected' : '' }}>AED - @lang('admin.COMMON.currencies.AED')</option>
+                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <option value="EGP" {{ old('currency', $safe->currency) == 'EGP' ? 'selected' : '' }}>جنيه مصري (EGP)</option>
+                        <option value="USD" {{ old('currency', $safe->currency) == 'USD' ? 'selected' : '' }}>دولار أمريكي (USD)</option>
+                        <option value="EUR" {{ old('currency', $safe->currency) == 'EUR' ? 'selected' : '' }}>يورو (EUR)</option>
+                        <option value="SAR" {{ old('currency', $safe->currency) == 'SAR' ? 'selected' : '' }}>ريال سعودي (SAR)</option>
                     </select>
                     @error('currency')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -89,43 +98,31 @@
                 </div>
 
                 <!-- Status -->
-                <div>
+                <div class="mt-4">
                     <label class="flex items-center">
-                        <input type="checkbox" name="status" id="status" value="1" 
-                            {{ old('status', $safe->status) ? 'checked' : '' }}
-                            class="rounded border-slate-300 dark:border-slate-600 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-white">
-                        <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
-                            @lang('admin.COMMON.active')
-                        </span>
-                    </label>
-                    @error('status')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Description -->
-                <div>
-                    <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        @lang('admin.COMMON.description')
-                    </label>
-                    <textarea name="description" id="description" rows="3"
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-white dark:text-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{ old('description', $safe->description) }}</textarea>
-                    @error('description')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Status -->
-                <div>
-                    <label class="flex items-center">
-                        <input type="checkbox" name="status" id="status" value="1" 
+                        <input type="hidden" name="status" value="0">
+                        <input type="checkbox" name="status" id="status" value="1"
                             {{ old('status', $safe->status) ? 'checked' : '' }}
                             class="rounded border-slate-300 dark:border-slate-600 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-700">
                         <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
-                            @lang('admin.COMMON.active')
+                            نشطة
                         </span>
                     </label>
                     @error('status')
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Account Number -->
+                <div class="mt-4">
+                    <label for="account_number" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        رقم الحساب <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="account_number" id="account_number"
+                        value="{{ old('account_number', $safe->account_number) }}" required
+                        class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="أدخل رقم الحساب">
+                    @error('account_number')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
@@ -133,10 +130,10 @@
 
             <div class="mt-6 flex items-center justify-end space-x-4">
                 <a href="{{ route('admin.safes.index') }}" class="btn btn-secondary">
-                    @lang('admin.COMMON.cancel')
+                    إلغاء
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    @lang('admin.COMMON.update')
+                    حفظ التغييرات
                 </button>
             </div>
         </form>
@@ -145,9 +142,39 @@
 
 @push('scripts')
 <script>
-    // Initialize any JavaScript for the edit form here
+    // تهيئة أي جافا سكريبت لنموذج التعديل هنا
     document.addEventListener('DOMContentLoaded', function() {
-        // Add any client-side validation or other JavaScript functionality
+        // إضافة أي التحقق من جانب العميل أو وظائف جافا سكريبت أخرى
+
+        // تحديث رمز العملة عند تغيير العملة
+        const currencySelect = document.getElementById('currency');
+        const currencySymbolSpan = document.getElementById('currency-symbol-edit');
+
+        if (currencySelect && currencySymbolSpan) {
+            function updateCurrencySymbol() {
+                const selectedCurrency = currencySelect.value;
+                switch(selectedCurrency) {
+                    case 'EGP':
+                        currencySymbolSpan.textContent = 'ج.م';
+                        break;
+                    case 'USD':
+                        currencySymbolSpan.textContent = '$';
+                        break;
+                    case 'EUR':
+                        currencySymbolSpan.textContent = '€';
+                        break;
+                    case 'SAR':
+                        currencySymbolSpan.textContent = 'ر.س';
+                        break;
+                    default:
+                        currencySymbolSpan.textContent = 'ج.م';
+                }
+            }
+
+            // تحديث الرمز عند التحميل وعند التغيير
+            updateCurrencySymbol();
+            currencySelect.addEventListener('change', updateCurrencySymbol);
+        }
     });
 </script>
 @endpush

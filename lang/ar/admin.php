@@ -18,7 +18,7 @@ return [
     'toggle_navigation' => 'تبديل القائمة',
     'profit' => 'الربح',
     'income' => 'الدخل',
-    
+
     // Common
     'save' => 'حفظ',
     'edit' => 'تعديل',
@@ -48,7 +48,7 @@ return [
         'categories' => 'الفئات',
         'products' => 'المنتجات',
         'units' => 'الوحدات',
-        'staff' => 'الموظفون',
+        'staff' => 'المستخدمون',
         'roles' => 'الأدوار',
         'sales' => 'المبيعات',
         'clients' => 'العملاء',
@@ -56,7 +56,7 @@ return [
         'safes' => 'الخزائن',
         'settings' => 'الإعدادات',
     ],
-    
+
     // Categories
     'categories' => [
         'create' => 'إضافة فئة جديدة',
@@ -117,7 +117,7 @@ return [
         'deleted_success' => 'تم حذف الفئة بنجاح',
         'error_occurred' => 'حدث خطأ أثناء معالجة طلبك',
     ],
-    
+
     // Dashboard
     'welcome_back' => 'مرحباً بعودتك',
     'system_overview' => 'نظرة عامة على النظام',
@@ -144,7 +144,6 @@ return [
     'pending' => 'قيد الانتظار',
     'failed' => 'فشل',
     'view_all_transactions' => 'عرض كل المعاملات',
-
 
     // Safes
     'safes' => [
@@ -177,6 +176,7 @@ return [
     'yearly_earnings_overview' => 'نظرة عامة على الإيرادات السنوية',
 
     'COMMON' => [
+        'status' => 'الحالة',
         'save_invoice' => 'حفظ الفاتورة',
         'add_new_sale' => 'إضافة عملية بيع جديدة',
         'sales' => 'المبيعات',
@@ -186,7 +186,7 @@ return [
         'invoice_number' => 'رقم الفاتورة',
         'payment_type' => 'نوع الدفع',
         'created_at' => 'تاريخ الإنشاء',
-        'client' => 'العميل',   
+        'client' => 'العميل',
         'phone' => 'الهاتف',
         'product' => 'المنتج',
         'quantity' => 'الكمية',
@@ -201,15 +201,15 @@ return [
         'save_category' => 'حفظ الفئة',
         'photo' => 'الصورة',
         'photo_help' => 'الامتدادات المدعومة: JPG, PNG, GIF - الحد الأقصى: 2MB',
-        'description_placeholder'=>'أدخل وصفاً للفئة',
-        'name_placeholder'=>'أدخل اسم الفئة',
+        'description_placeholder' => 'أدخل وصفاً للفئة',
+        'name_placeholder' => 'أدخل اسم الفئة',
         'no_records_found' => 'لا توجد سجلات',
-        'name'=>'الاسم',
-        'view'=>'عرض',
-        'edit'=>'تعديل',
-        'delete'=>'حذف',
-        'active'=>'نشط',
-        'inactive'=>'غير نشط',
+        'name' => 'الاسم',
+        'view' => 'عرض',
+        'edit' => 'تعديل',
+        'delete' => 'حذف',
+        'active' => 'نشط',
+        'inactive' => 'غير نشط',
         'name' => 'الاسم',
         'description' => 'الوصف',
         'actions' => 'الإجراءات',
@@ -245,8 +245,8 @@ return [
             'USD' => 'دولار أمريكي',
             'EUR' => 'يورو',
             'SAR' => 'ريال سعودي',
-            'AED' => 'ريال إماراتي'
+            'AED' => 'ريال إماراتي',
         ],
-        'management' => 'إدارة'
-    ]
+        'management' => 'إدارة',
+    ],
 ];

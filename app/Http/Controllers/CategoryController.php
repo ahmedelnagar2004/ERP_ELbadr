@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreCategoryRequest;
+use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 // Removed Laravel 11 static middleware interfaces to avoid conflicts
 
 class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view-categories')->only(['index','show']);
-        $this->middleware('permission:create-categories')->only(['create','store']);
-        $this->middleware('permission:edit-categories')->only(['edit','update']);
+        $this->middleware('permission:view-categories')->only(['index', 'show']);
+        $this->middleware('permission:create-categories')->only(['create', 'store']);
+        $this->middleware('permission:edit-categories')->only(['edit', 'update']);
         $this->middleware('permission:delete-categories')->only(['destroy']);
     }
 
@@ -22,8 +24,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        
+
         $categories = Category::with('photo')->paginate(15);
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -38,34 +41,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name',
-            'status' => 'required|boolean',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        $category = Category::create([
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
-
-        // Handle photo upload
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('categories', $filename, 'public');
-            
-            $category->photo()->create([
-                'filename' => $filename,
-                'path' => $path,
-                'ext' => $file->getClientOriginalExtension(),
-                'size' => $file->getSize(),
-                'mime_type' => $file->getMimeType(),
-                'usage' => 'category_photo'
-            ]);
-        }
+        $request->persist();
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'تم إنشاء الفئة بنجاح');
@@ -77,6 +55,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $category->load(['photo', 'items']);
+
         return view('admin.categories.show', compact('category'));
     }
 
@@ -91,40 +70,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'status' => 'required|boolean',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        $category->update([
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
-
-        // Handle photo upload
-        if ($request->hasFile('photo')) {
-            // Delete old photo if exists
-            if ($category->photo) {
-                Storage::disk('public')->delete($category->photo->path);
-                $category->photo->delete();
-            }
-
-            $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('categories', $filename, 'public');
-            
-            $category->photo()->create([
-                'filename' => $filename,
-                'path' => $path,
-                'ext' => $file->getClientOriginalExtension(),
-                'size' => $file->getSize(),
-                'mime_type' => $file->getMimeType(),
-                'usage' => 'category_photo'
-            ]);
-        }
+        $request->persist($category);
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'تم تحديث الفئة بنجاح');
@@ -153,6 +101,3 @@ class CategoryController extends Controller
             ->with('success', 'تم حذف الفئة بنجاح');
     }
 }
-
-
-

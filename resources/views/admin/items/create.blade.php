@@ -87,11 +87,11 @@
                         <label class="block text-sm font-medium text-slate-700 mb-1">يظهر في المتجر</label>
                         <div class="flex items-center gap-3">
                             <label class="inline-flex items-center cursor-pointer">
-                                <input type="radio" name="is_shown_in_store" value="1" class="sr-only" {{ old('is_shown_in_store', 1) == 1 ? 'checked' : '' }}>
+                                <input type="radio" name="is_shown_in_store" value="shown" class="sr-only" {{ old('is_shown_in_store', 'shown') == 'shown' ? 'checked' : '' }}>
                                 <span class="px-3 py-1.5 rounded-lg border border-slate-300" data-role="toggle">نعم</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer">
-                                <input type="radio" name="is_shown_in_store" value="0" class="sr-only" {{ old('is_shown_in_store') == 0 ? 'checked' : '' }}>
+                                <input type="radio" name="is_shown_in_store" value="hidden" class="sr-only" {{ old('is_shown_in_store') == 'hidden' ? 'checked' : '' }}>
                                 <span class="px-3 py-1.5 rounded-lg border border-slate-300" data-role="toggle">لا</span>
                             </label>
                         </div>

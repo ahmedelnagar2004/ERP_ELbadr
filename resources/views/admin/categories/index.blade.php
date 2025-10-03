@@ -64,8 +64,8 @@
             </thead>
             <tbody id="categoriesTableBody">
                 @forelse($categories as $category)
-                <tr data-name="{{ Str::lower($category->name) }}" data-status="{{ (int)$category->status }}" data-created_at="{{ $category->created_at ? $category->created_at->timestamp : 0 }}">
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">@lang('admin.COMMON.name')</td>
+                <tr data-name="{{ Str::lower($category->name) }}" data-status="{{ $category->status }}" data-created_at="{{ $category->created_at ? $category->created_at->timestamp : 0 }}">
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $category->name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                         @if($category->status == 1)
                             <span class="text-green-600 font-bold">@lang('admin.COMMON.active')</span>

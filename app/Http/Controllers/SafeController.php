@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreSafeRequest;
+use App\Http\Requests\Admin\UpdateSafeRequest;
 use App\Models\Safe;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SafeController extends Controller
 {
@@ -25,6 +24,7 @@ class SafeController extends Controller
     public function index()
     {
         $safes = Safe::latest()->paginate(10);
+
         return view('admin.safes.index', compact('safes'));
     }
 
@@ -33,50 +33,41 @@ class SafeController extends Controller
         return view('admin.safes.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreSafeRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'type' => 'required|boolean',
-            'status' => 'required|boolean',
-            'balance' => 'required|numeric',
-            'currency' => 'required|string|max:3',
-            'account_number' => 'required|string|max:255',
-         //   'branch_id' => 'required|exists:branches,id',
-            
-        ]);
-        Safe::create($request->all());
+        $request->persist();
+
         return redirect()->route('admin.safes.index')->with('success', 'Safe created successfully');
-        
     }
 
+    /**
+     * Display the specified safe.
+     */
+    public function show(Safe $safe)
+    {
+        $safe->load(['transactions' => function ($query) {
+            $query->latest()->limit(10);
+        }]);
 
+        return view('admin.safes.show', compact('safe'));
+    }
 
     public function edit(Safe $safe)
     {
         return view('admin.safes.edit', compact('safe'));
     }
-    public function update(Request $request, Safe $safe)
+
+    public function update(UpdateSafeRequest $request, Safe $safe)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'type' => 'required|boolean',
-            'status' => 'required|boolean',
-            'balance' => 'required|numeric',
-            'currency' => 'required|string|max:3',
-            'account_number' => 'required|string|max:255',
-         //   'branch_id' => 'required|exists:branches,id',
-            
-        ]);
-        
-        $safe->update($request->all());
+        $request->persist($safe);
+
         return redirect()->route('admin.safes.index')->with('success', 'Safe updated successfully');
     }
+
     public function destroy(Safe $safe)
     {
         $safe->delete();
+
         return redirect()->route('admin.safes.index')->with('success', 'Safe deleted successfully');
     }
 }

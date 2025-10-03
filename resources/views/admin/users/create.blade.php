@@ -26,8 +26,8 @@
             <div>
                 <label class="block text-sm font-medium mb-1">الحالة</label>
                 <select name="status" class="form-input w-full">
-                    <option value="1" {{ old('status', '1')=='1' ? 'selected' : '' }}>نشط</option>
-                    <option value="0" {{ old('status')=='0' ? 'selected' : '' }}>غير نشط</option>
+                    <option value="active" {{ old('status', 'active') == 'active' ? 'selected' : '' }}>نشط</option>
+                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>غير نشط</option>
                 </select>
                 @error('status')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
             </div>

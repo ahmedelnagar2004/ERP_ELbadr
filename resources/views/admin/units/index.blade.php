@@ -58,7 +58,7 @@
             </thead>
             <tbody id="unitsTableBody">
                 @forelse($units as $unit)
-                <tr data-name="{{ Str::lower($unit->name) }}" data-products_count="{{ (int)($unit->products_count ?? 0) }}" data-created_at="{{ optional($unit->created_at)->timestamp ?? 0 }}" data-status="{{ (int)($unit->status == 1) }}">
+                <tr data-name="{{ Str::lower($unit->name) }}" data-products_count="{{ (int)($unit->products_count ?? 0) }}" data-created_at="{{ optional($unit->created_at)->timestamp ?? 0 }}" data-status="{{ $unit->status }}">
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $unit->name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                         @if($unit->status == 1)

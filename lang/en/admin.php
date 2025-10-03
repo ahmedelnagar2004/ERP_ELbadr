@@ -42,7 +42,7 @@ return [
     'updated_successfully' => 'Updated successfully',
     'error_occurred' => 'An error occurred',
     'currency' => 'EGP',
-    
+
     'menu' => [
         'main' => 'MAIN NAVIGATION',
         'dashboard' => 'Dashboard',
@@ -52,13 +52,13 @@ return [
         'categories' => 'Categories',
         'products' => 'Products',
         'units' => 'Units',
-        'staff' => 'Staff',
+        'staff' => 'users',
         'reports' => 'Reports',
         'sales' => 'Sales',
         'safes' => 'Safes',
         'clients' => 'Clients',
     ],
-    
+
     // Categories
     'categories' => [
         'create' => 'Add New Category',
@@ -101,7 +101,7 @@ return [
         'deleted_success' => 'Category deleted successfully',
         'error_occurred' => 'An error occurred while processing your request',
     ],
-    
+
     // Dashboard
     'welcome_back' => 'Welcome back',
     'system_overview' => 'System Overview',
@@ -130,8 +130,8 @@ return [
     'failed' => 'Failed',
     'view_all_transactions' => 'View All Transactions',
 
-
-    'COMMON' => [   
+    'COMMON' => [
+        'status' => 'Status',
         'save_invoice' => 'Save Invoice',
         'add_new_sale' => 'Add New Sale',
         'sales' => 'Sales',
@@ -156,14 +156,14 @@ return [
         'save_category' => 'Save Category',
         'photo' => 'Photo',
         'photo_help' => 'Supported formats: JPG, PNG, GIF - Max size: 2MB',
-        'description_placeholder'=>'Enter category description',
-        'name_placeholder'=>'Enter category name',
+        'description_placeholder' => 'Enter category description',
+        'name_placeholder' => 'Enter category name',
         'no_records_found' => 'No records found',
-        'name'=>'Name',
-        'view'=>'View',
-        'active'=>'Active',
-        'inactive'=>'Inactive',
-        'create'=>'Create',
+        'name' => 'Name',
+        'view' => 'View',
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+        'create' => 'Create',
         'name' => 'Name',
         'description' => 'Description',
         'actions' => 'Actions',

@@ -48,9 +48,19 @@
                 @error('address')<div class="error">{{ $message }}</div>@enderror
             </div>
 
-            <div class="pt-2 flex gap-3">
-                <button type="submit" class="btn-primary">حفظ التعديلات</button>
-                <a href="{{ route('admin.clients.show', $client->id) }}" class="btn-secondary">إلغاء</a>
+            <div>
+                <label class="label" for="status">الحالة</label>
+                <select id="status" name="status" class="input" required>
+                    <option value="active" {{ $client->status == 1 ? 'selected' : '' }}>نشط</option>
+                    <option value="inactive" {{ $client->status == 0 ? 'selected' : '' }}>غير نشط</option>
+                </select>
+                @error('status')<div class="error">{{ $message }}</div>@enderror
+            </div>
+
+            <div>
+                <label class="label" for="balance">الرصيد</label>
+                <input id="balance" name="balance" type="number" step="0.01" class="input" value="{{ old('balance', $client->balance) }}">
+                @error('balance')<div class="error">{{ $message }}</div>@enderror
             </div>
         </form>
     </div>

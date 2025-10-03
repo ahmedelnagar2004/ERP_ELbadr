@@ -33,36 +33,43 @@
 
 <div class="table-card">
     <div class="table-toolbar">
-        <div class="toolbar-left">
             <input id="clientsSearch" type="search" class="toolbar-input" placeholder="بحث بالاسم أو البريد أو الهاتف...">
         </div>
         <div class="flex items-center gap-2">
             <label for="clientsSortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
             <select id="clientsSortBy" class="toolbar-select">
-                <option value="name">الاسم</option>
-                <option value="email">البريد</option>
-                <option value="phone">الهاتف</option>
+                <option value="name">اسم العميل (أ-ي)</option>
+                <option value="email">البريد الإلكتروني</option>
+                <option value="phone">رقم الهاتف</option>
+                <option value="status">الحالة</option>
                 <option value="created_at">تاريخ الإنشاء</option>
             </select>
         </div>
     </div>
     <div class="table-wrap">
-        <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
                     <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الاسم</th>
                     <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">البريد</th>
                     <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الهاتف</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحالة</th>
                     <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">تاريخ الإنشاء</th>
                     <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">إجراءات</th>
                 </tr>
             </thead>
             <tbody id="clientsTableBody">
                 @forelse($clients as $client)
-                <tr data-name="{{ Str::lower($client->name) }}" data-email="{{ Str::lower($client->email) }}" data-phone="{{ Str::lower($client->phone) }}" data-created_at="{{ optional($client->created_at)->timestamp ?? 0 }}">
+                <tr data-name="{{ Str::lower($client->name) }}" data-email="{{ Str::lower($client->email) }}" data-phone="{{ Str::lower($client->phone) }}" data-created_at="{{ optional($client->created_at)->timestamp ?? 0 }}" data-status="{{ $client->status }}">
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $client->name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->email }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->phone }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm">
+                        @if($client->status == 1)
+                            <span class="text-green-600 font-bold">نشط</span>
+                        @else
+                            <span class="text-red-600 font-bold">غير نشط</span>
+                        @endif
+                    </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->created_at ? $client->created_at->format('Y-m-d') : '-' }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
@@ -82,7 +89,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">لا توجد بيانات عملاء</td>
+                    <td colspan="6" class="px-4 py-6 text-center text-gray-500">لا توجد بيانات عملاء</td>
                 </tr>
                 @endforelse
             </tbody>

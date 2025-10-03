@@ -16,9 +16,9 @@
     </div>
     <div class="mt-6 flex gap-3">
         @can('edit-units')
-        <a href="{{ route('admin.units.edit', $unit) }}" class="btn-primary">تعديل</a>
+        <a href="{{ route('admin.units.edit', $unit) }}" class="btn btn-primary">تعديل</a>
         @endcan
-        <a href="{{ route('admin.units.index') }}" class="btn-secondary">عودة</a>
+        <a href="{{ route('admin.units.index') }}" class="btn btn-secondary">عودة</a>
     </div>
 </div>
 @endsection

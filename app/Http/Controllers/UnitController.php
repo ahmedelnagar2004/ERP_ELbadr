@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreUnitRequest;
+use App\Http\Requests\Admin\UpdateUnitRequest;
 use App\Models\Unit;
-use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
@@ -21,6 +22,7 @@ class UnitController extends Controller
     public function index()
     {
         $units = Unit::paginate(15);
+
         return view('admin.units.index', compact('units'));
     }
 
@@ -35,17 +37,9 @@ class UnitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUnitRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'required|boolean'
-        ]);
-
-        Unit::create([
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
+        $request->persist();
 
         return redirect()->route('admin.units.index')
             ->with('success', 'تم إنشاء الوحدة بنجاح');
@@ -57,6 +51,7 @@ class UnitController extends Controller
     public function show(Unit $unit)
     {
         $unit->load('items');
+
         return view('admin.units.show', compact('unit'));
     }
 
@@ -71,17 +66,9 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Unit $unit)
+    public function update(UpdateUnitRequest $request, Unit $unit)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:units,name,' . $unit->id,
-            'status' => 'required|boolean'
-        ]);
-
-        $unit->update([
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
+        $request->persist($unit);
 
         return redirect()->route('admin.units.index')
             ->with('success', 'تم تحديث الوحدة بنجاح');
@@ -104,5 +91,3 @@ class UnitController extends Controller
             ->with('success', 'تم حذف الوحدة بنجاح');
     }
 }
-
-

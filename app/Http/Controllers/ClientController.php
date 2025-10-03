@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\StoreClientRequest;
+use App\Http\Requests\Admin\UpdateClientRequest;
 use App\Models\Client;
 
 class ClientController extends Controller
@@ -18,6 +19,7 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::latest()->get();
+
         return view('admin.clients.index', compact('clients'));
     }
 
@@ -26,57 +28,43 @@ class ClientController extends Controller
         return view('admin.clients.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string',
-            'balance' => 'nullable|numeric',
-            'status' => 'nullable|integer|in:0,1',
-        ]);
+        $request->persist();
 
-        $data = $validated + [
-            'balance' => $validated['balance'] ?? 0,
-            'status' => $validated['status'] ?? 1,
-        ];
-
-        Client::create($data);
-
-        return redirect()->route('admin.clients.index');
+        return redirect()->route('admin.clients.index')
+            ->with('success', 'تم إنشاء العميل بنجاح');
     }
 
     public function show($id)
     {
         $client = Client::findOrFail($id);
+
         return view('admin.clients.show', compact('client'));
     }
 
     public function edit($id)
     {
         $client = Client::findOrFail($id);
+
         return view('admin.clients.edit', compact('client'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateClientRequest $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string',
-        ]);
         $client = Client::findOrFail($id);
-        $client->update($validated);
-        
-        return redirect()->route('admin.clients.index');
+        $request->persist($client);
+
+        return redirect()->route('admin.clients.index')
+            ->with('success', 'تم تحديث العميل بنجاح');
     }
 
     public function destroy($id)
     {
         // Logic for deleting client
         Client::destroy($id);
-        return redirect()->route('admin.clients.index');
+
+        return redirect()->route('admin.clients.index')
+            ->with('success', 'تم حذف العميل بنجاح');
     }
 }

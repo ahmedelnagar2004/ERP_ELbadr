@@ -26,11 +26,11 @@
                         <label class="block text-sm font-medium text-slate-700 mb-1">@lang('admin.status') <span class="text-red-500">*</span></label>
                         <div class="flex items-center gap-3">
                             <label class="inline-flex items-center cursor-pointer">
-                                <input type="radio" name="status" value="1" class="sr-only" {{ old('status', 1) == 1 ? 'checked' : '' }}>
+                                <input type="radio" name="status" value="active" class="sr-only" {{ old('status', 'active') == 'active' ? 'checked' : '' }}>
                                 <span class="px-3 py-1.5 rounded-lg border border-slate-300" data-role="toggle">@lang('admin.active')</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer">
-                                <input type="radio" name="status" value="0" class="sr-only" {{ old('status') == 0 ? 'checked' : '' }}>
+                                <input type="radio" name="status" value="inactive" class="sr-only" {{ old('status') == 'inactive' ? 'checked' : '' }}>
                                 <span class="px-3 py-1.5 rounded-lg border border-slate-300" data-role="toggle">@lang('admin.inactive')</span>
                             </label>
                         </div>

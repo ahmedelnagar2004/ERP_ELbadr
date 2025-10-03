@@ -23,14 +23,14 @@
         
 
         <div class="mb-4">
-            <label for="image" class="block mb-2 font-bold">@lang('admin.categories.photo')</label>
-            <input type="file" name="image" id="image" class="form-input w-full">
+            <label for="photo" class="block mb-2 font-bold">@lang('admin.categories.photo')</label>
+            <input type="file" name="photo" id="photo" class="form-input w-full">
             @if($category->image)
                 <div class="mt-2">
                     <img src="{{ asset('storage/' . $category->image) }}" alt="@lang('admin.categories.photo')" style="width:80px; height:80px; object-fit:cover;" class="rounded border">
                 </div>
             @endif
-            @error('image')
+            @error('photo')
                 <span class="text-red-600 text-xs">{{ $message }}</span>
             @enderror
         </div>
@@ -38,8 +38,8 @@
         <div class="mb-4">
             <label for="status" class="block mb-2 font-bold">@lang('admin.categories.status')</label>
             <select name="status" id="status" class="form-input w-full">
-                <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>@lang('admin.active')</option>
-                <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>@lang('admin.inactive')</option>
+                <option value="active" {{ $category->status == 1 ? 'selected' : '' }}>@lang('admin.active')</option>
+                <option value="inactive" {{ $category->status == 0 ? 'selected' : '' }}>@lang('admin.inactive')</option>
             </select>
             @error('status')
                 <span class="text-red-600 text-xs">{{ $message }}</span>

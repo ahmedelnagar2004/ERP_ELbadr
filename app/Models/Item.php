@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
+use App\ItemStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-
     protected $table = 'items';
+
     public $timestamps = true;
 
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('name', 'item_code', 'description', 'price', 'quantity', 'is_shown_in_store', 'minimum_stock', 'category_id', 'unit_id', 'allow_decimal');
+
+    protected $fillable = ['name', 'item_code', 'description', 'price', 'quantity', 'is_shown_in_store', 'minimum_stock', 'category_id', 'unit_id', 'allow_decimal'];
 
     public function unit()
     {
@@ -48,11 +50,27 @@ class Item extends Model
 
     public function orders()
     {
-        return $this->belongsToMany('App\Models\Order', 'order_items')->withPivot('unit_price','quantity','total_price');
+        return $this->belongsToMany('App\Models\Order', 'order_items')->withPivot('unit_price', 'quantity', 'total_price');
     }
+
     public function orderItems()
     {
         return $this->hasMany('App\Models\OrderItem');
     }
 
+    /**
+     * Get the status as enum (using is_shown_in_store field)
+     */
+    public function getStatusEnumAttribute(): ItemStatus
+    {
+        return $this->is_shown_in_store == 1 ? ItemStatus::Shown : ItemStatus::Hidden;
+    }
+
+    /**
+     * Set the status from enum (updates is_shown_in_store field)
+     */
+    public function setStatusEnumAttribute(ItemStatus $status): void
+    {
+        $this->is_shown_in_store = $status->value;
+    }
 }
