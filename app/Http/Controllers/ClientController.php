@@ -18,7 +18,7 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::latest()->get();
+        $clients = Client::paginate(25);
 
         return view('admin.clients.index', compact('clients'));
     }
@@ -36,33 +36,27 @@ class ClientController extends Controller
             ->with('success', 'تم إنشاء العميل بنجاح');
     }
 
-    public function show($id)
+    public function show(Client $client)
     {
-        $client = Client::findOrFail($id);
-
         return view('admin.clients.show', compact('client'));
     }
 
-    public function edit($id)
+    public function edit(Client $client)
     {
-        $client = Client::findOrFail($id);
-
         return view('admin.clients.edit', compact('client'));
     }
 
-    public function update(UpdateClientRequest $request, $id)
+    public function update(UpdateClientRequest $request, Client $client)
     {
-        $client = Client::findOrFail($id);
         $request->persist($client);
 
         return redirect()->route('admin.clients.index')
             ->with('success', 'تم تحديث العميل بنجاح');
     }
 
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        // Logic for deleting client
-        Client::destroy($id);
+        $client->delete();
 
         return redirect()->route('admin.clients.index')
             ->with('success', 'تم حذف العميل بنجاح');

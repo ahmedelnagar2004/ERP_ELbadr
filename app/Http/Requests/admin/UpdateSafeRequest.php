@@ -3,7 +3,9 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Safe;
+use App\SafeStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateSafeRequest extends FormRequest
 {
@@ -26,7 +28,7 @@ class UpdateSafeRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'type' => ['required', 'integer', 'in:1,2,3,4'], // 1 for محفظة إلكترونية, 2 for حساب بنكي, 3 for إنستا باي, 4 for خزنة داخل الكاشير
-            'status' => ['required', 'boolean'],
+            'status' => ['required', new Enum(SafeStatus::class)],
             'balance' => ['required', 'numeric'],
             'currency' => ['required', 'string', 'max:3'],
             'account_number' => ['required', 'string', 'max:255'],

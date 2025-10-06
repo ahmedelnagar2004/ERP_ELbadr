@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
-
-// Removed Laravel 11 static middleware interfaces to avoid conflicts
 
 class CategoryController extends Controller
 {
@@ -19,83 +18,74 @@ class CategoryController extends Controller
         $this->middleware('permission:delete-categories')->only(['destroy']);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
 
-        $categories = Category::with('photo')->paginate(15);
+        $categories = Cache::remember('categories_page_'.request('page', 1), 60, function () {
+            return Category::with('photo')->paginate(15);
+        });
 
         return view('admin.categories.index', compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.categories.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * تخزين فئة جديدة في قاعدة البيانات
      */
     public function store(StoreCategoryRequest $request)
     {
         $request->persist();
 
+        Cache::flush();
+
         return redirect()->route('admin.categories.index')
             ->with('success', 'تم إنشاء الفئة بنجاح');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Category $category)
     {
-        $category->load(['photo', 'items']);
 
-        return view('admin.categories.show', compact('category'));
+        $category->load('photo');
+        $items = $category->items()->with('photo')->paginate(15);
+
+        return view('admin.categories.show', compact('category', 'items'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
         return view('admin.categories.edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $request->persist($category);
+
+        Cache::flush();
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'تم تحديث الفئة بنجاح');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        // Check if category has items
-        if ($category->items()->count() > 0) {
+
+        if ($category->items()->exists()) {
             return redirect()->route('admin.categories.index')
                 ->with('error', 'لا يمكن حذف الفئة لأنها تحتوي على منتجات');
         }
 
-        // Delete photo if exists
         if ($category->photo) {
             Storage::disk('public')->delete($category->photo->path);
             $category->photo->delete();
         }
 
         $category->delete();
+
+        Cache::flush();
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'تم حذف الفئة بنجاح');

@@ -172,10 +172,12 @@ return [
         ],
         'reports' => 'التقارير',
     ],
-    'earning_reports' => 'تقرير الإيرادات',
-    'yearly_earnings_overview' => 'نظرة عامة على الإيرادات السنوية',
 
     'COMMON' => [
+        'create_at'=> 'تاريخ الإنشاء',
+        'updated_at'=> 'تاريخ التحديث',
+        'earning_reports' => 'تقرير الإيرادات',
+        'yearly_earnings_overview' => 'نظرة عامة على الإيرادات السنوية',
         'status' => 'الحالة',
         'save_invoice' => 'حفظ الفاتورة',
         'add_new_sale' => 'إضافة عملية بيع جديدة',

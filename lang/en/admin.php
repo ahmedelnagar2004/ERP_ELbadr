@@ -63,13 +63,11 @@ return [
     'categories' => [
         'create' => 'Add New Category',
         'title' => 'Categories',
-        'create' => 'Add New Category',
         'edit' => 'Edit Category',
         'show' => 'View Category',
         'list' => 'Categories List',
         'management' => 'Categories Management',
         'name' => 'Category Name',
-        'management' => 'Categories Management',
         'name_placeholder' => 'Enter category name',
         'status' => 'Category Status',
         'description' => 'Category Description',
@@ -102,6 +100,7 @@ return [
         'error_occurred' => 'An error occurred while processing your request',
     ],
 
+    
     // Dashboard
     'welcome_back' => 'Welcome back',
     'system_overview' => 'System Overview',
@@ -131,6 +130,10 @@ return [
     'view_all_transactions' => 'View All Transactions',
 
     'COMMON' => [
+        'create_at'=>'Created At',
+        'update_at'=>'Updated At',
+        'earning_reports' => 'Earning Reports',
+        'yearly_earnings_overview' => 'Yearly Earnings Overview',
         'status' => 'Status',
         'save_invoice' => 'Save Invoice',
         'add_new_sale' => 'Add New Sale',
@@ -159,12 +162,10 @@ return [
         'description_placeholder' => 'Enter category description',
         'name_placeholder' => 'Enter category name',
         'no_records_found' => 'No records found',
-        'name' => 'Name',
         'view' => 'View',
         'active' => 'Active',
         'inactive' => 'Inactive',
         'create' => 'Create',
-        'name' => 'Name',
         'description' => 'Description',
         'actions' => 'Actions',
         'balance' => 'Balance',

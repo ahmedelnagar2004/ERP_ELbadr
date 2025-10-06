@@ -21,47 +21,45 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             // User Management
             'view-users', 'create-users', 'edit-users', 'delete-users', 'manage-users',
-            
+
             // Client Management
             'view-clients', 'create-clients', 'edit-clients', 'delete-clients',
-            
+
             // Category Management
             'view-categories', 'create-categories', 'edit-categories', 'delete-categories',
-            
+
             // Item Management
             'view-items', 'create-items', 'edit-items', 'delete-items',
-            
+
             // Order Management
             'view-orders', 'create-orders', 'edit-orders', 'delete-orders', 'approve-orders',
-            
+
             // Sales Management
             'view-sales', 'create-sales', 'edit-sales', 'delete-sales', 'approve-sales',
-            
+
             // Unit Management
             'view-units', 'create-units', 'edit-units', 'delete-units',
-            
+
             // File Management
             'view-files', 'upload-files', 'edit-files', 'delete-files',
-            
+
             // Reports
             'view-reports', 'export-reports',
-            
+
             // System Settings
             'manage-settings',
             'manage-roles',
             'manage-permissions',
-            
-<<<<<<< HEAD
             // Safe Management
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
-            
+
             // Dashboard
             'view-dashboard',
             //safe
-=======
+            'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
             // Dashboard
             'view-dashboard',
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
+
         ];
 
         foreach ($permissions as $permission) {
@@ -69,7 +67,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         // Create roles and assign permissions
-        
+
         // Super Admin - has all permissions
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $superAdmin->syncPermissions(Permission::all());
@@ -85,10 +83,9 @@ class RolePermissionSeeder extends Seeder
             'view-sales', 'create-sales', 'edit-sales', 'delete-sales', 'approve-sales',
             'view-files', 'upload-files', 'edit-files', 'delete-files',
             'view-reports', 'export-reports',
-<<<<<<< HEAD
+
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
-=======
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
+
             'view-dashboard',
         ];
         $admin->syncPermissions($adminPermissions);
@@ -135,10 +132,9 @@ class RolePermissionSeeder extends Seeder
             'view-orders',
             'view-sales',
             'view-reports', 'export-reports',
-<<<<<<< HEAD
+
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes',
-=======
->>>>>>> 24b0991d0ec959d4099cb3f5625b19e7db8f06b4
+
             'view-dashboard',
         ];
         $accountant->syncPermissions($accountantPermissions);
@@ -163,7 +159,7 @@ class RolePermissionSeeder extends Seeder
                 'status' => 1, // 1 for active, 0 for inactive
             ]
         );
-        
+
         $superAdminUser->assignRole('super-admin');
 
         $this->command->info('Roles and permissions seeded successfully!');
