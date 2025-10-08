@@ -5,6 +5,7 @@ namespace App\Http\Requests\admin;
 use App\CategoryStatus;
 use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class StoreCategoryRequest extends FormRequest
 {

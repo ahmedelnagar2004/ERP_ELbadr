@@ -36,6 +36,8 @@ class UpdateItemRequest extends FormRequest
             'photos' => ['nullable', 'array'],
             'photos.*' => ['image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'delete_photos' => ['nullable', 'array'],
+            'delete_photos.*' => ['integer', 'exists:files,id'],
         ];
     }
 
@@ -60,7 +62,24 @@ class UpdateItemRequest extends FormRequest
             'allow_decimal' => $this->allow_decimal ?? false,
         ]);
 
-        // رفع الصور الجديدة وحفظها في جدول الصور المرتبط بالمنتج
+        // حذف الصور المحددة للحذف
+        if ($this->delete_photos) {
+            \Log::info('حذف الصور المحددة:', $this->delete_photos);
+            foreach ($this->delete_photos as $photoId) {
+                $photo = $item->gallery()->find($photoId);
+                if ($photo) {
+                    \Log::info('حذف الصورة:', ['id' => $photo->id, 'path' => $photo->path]);
+                    Storage::disk('public')->delete($photo->path);
+                    $photo->delete();
+                } else {
+                    \Log::warning('الصورة غير موجودة:', $photoId);
+                }
+            }
+        } else {
+            \Log::info('لا توجد صور محددة للحذف');
+        }
+
+       
         if ($this->hasFile('photos')) {
             foreach ($this->file('photos') as $file) {
                 $filename = time().'_'.$file->getClientOriginalName();

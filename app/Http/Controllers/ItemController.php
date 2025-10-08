@@ -69,6 +69,9 @@ class ItemController extends Controller
         $categories = Category::where('status', 1)->get();
         $units = Unit::where('status', 1)->get();
 
+        // تحميل الصور المرتبطة بالمنتج
+        $item->load(['mainPhoto', 'gallery']);
+
         return view('admin.items.edit', compact('item', 'categories', 'units'));
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\CategoryStatus;
 use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
