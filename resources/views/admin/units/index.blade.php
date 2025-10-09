@@ -27,7 +27,7 @@
         <p class="text-sm text-gray-500 mt-1">إدارة الوحدات وتعريفاتها</p>
     </div>
     <a href="{{ route('admin.units.create') }}" class="btn btn-success">إضافة وحدة جديدة</a>
-    
+
 </div>
 
 <div class="table-card">
@@ -68,7 +68,7 @@
                         @endif
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {{ $unit->products_count }} منتج
+                        {{ $unit->items()->count() ?? 0 }}
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
                         {{ $unit->created_at ? $unit->created_at->format('Y-m-d') : '-' }}

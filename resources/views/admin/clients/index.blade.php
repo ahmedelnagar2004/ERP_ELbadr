@@ -4,6 +4,10 @@
 @section('page-title', 'إدارة العملاء')
 @section('page-subtitle', 'عرض وإدارة بيانات العملاء')
 
+@php
+    use App\Enums\ClientStatus;
+@endphp
+
 @section('content')
 <div class="container-fluid px-4">
     <div class="space-y-6">
@@ -38,41 +42,27 @@
                         <tbody>
                             @forelse($clients as $client)
                                 <tr>
-                                    <td class="text-nowrap text-end">
-                                        <div class="fw-semibold">
-                                            {{ $loop->iteration }}
-                                        </div>
-                                    </td>
-                                    <td class="text-nowrap text-end">
-                                        <div class="fw-medium">{{ $client->name }}</div>
-                                    </td>
-                                    <td class="text-nowrap text-end">
-                                        <div class="fw-medium">{{ $client->email }}</div>
-                                    </td>
-                                    <td class="text-nowrap text-end">
-                                        <div class="fw-medium">{{ $client->phone }}</div>
-                                    </td>
-                                    <td class="text-center">
-                                        @php
-                                            $statusInfo = $client->status == 1
-                                                ? ['class' => 'success', 'icon' => 'check-circle', 'bg' => 'bg-success-light']
-                                                : ['class' => 'danger', 'icon' => 'times-circle', 'bg' => 'bg-danger-light'];
-                                        @endphp
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <div class="payment-method {{ $statusInfo['bg'] }} text-{{ $statusInfo['class'] }} d-flex align-items-center px-3 py-2 rounded-pill">
-                                                <i class="fas fa-{{ $statusInfo['icon'] }} me-2"></i>
-                                                <span class="fw-medium">{{ $client->status == 1 ? 'نشط' : 'غير نشط' }}</span>
-                                            </div>
-                                        </div>
+                                    <td class="text-nowrap text-end">{{ $loop->iteration }}</td>
+                                    <td class="text-nowrap text-end">{{ $client->name }}</td>
+                                    <td class="text-nowrap text-end">{{ $client->email }}</td>
+                                    <td class="text-nowrap text-end">{{ $client->phone }}</td>
+                                    <td class="text-center" style="width: 12%;">
+                                        @if ($client->status instanceof ClientStatus)
+                                            <span class="badge bg-{{ $client->status->color() }}">
+                                                {{ $client->status->label() }}
+                                            </span>
+                                        @else
+                                            <span class="badge bg-secondary">غير محدد</span>
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-2">
-                                            <a href="{{ route('admin.clients.show', $client->id) }}" class="btn btn-sm btn-action btn-view" data-bs-toggle="tooltip" title="عرض العميل">
+                                            <a href="{{ route('admin.clients.show', $client->id) }}" class="btn btn-sm btn-action btn-view">
                                                 <i class="fas fa-eye"></i>
                                                 <span class="d-none d-md-inline">@lang('admin.COMMON.view')</span>
                                             </a>
                                             @can('edit-clients')
-                                            <a href="{{ route('admin.clients.edit', $client->id) }}" class="btn btn-sm btn-action btn-edit" data-bs-toggle="tooltip" title="تعديل العميل">
+                                            <a href="{{ route('admin.clients.edit', $client->id) }}" class="btn btn-sm btn-action btn-edit">
                                                 <i class="fas fa-edit"></i>
                                                 <span class="d-none d-md-inline">@lang('admin.COMMON.edit')</span>
                                             </a>
@@ -81,7 +71,7 @@
                                             <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" class="d-inline" onsubmit="return confirm('هل أنت متأكد من حذف العميل؟');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-action btn-delete" data-bs-toggle="tooltip" title="حذف العميل">
+                                                <button type="submit" class="btn btn-sm btn-action btn-delete">
                                                     <i class="fas fa-trash-alt"></i>
                                                     <span class="d-none d-md-inline">@lang('admin.COMMON.delete')</span>
                                                 </button>
@@ -93,17 +83,15 @@
                             @empty
                                 <tr>
                                     <td colspan="6" class="text-center py-5">
-                                        <div class="py-5">
-                                            <div class="empty-state">
-                                                <div class="empty-state-icon">
-                                                    <i class="fas fa-users"></i>
-                                                </div>
-                                                <h4 class="mt-4 mb-3">لا يوجد عملاء</h4>
-                                                <p class="text-muted mb-4">لم يتم العثور على أي عملاء. يمكنك إضافة عميل جديد بالنقر على الزر أدناه</p>
-                                                <a href="{{ route('admin.clients.create') }}" class="btn btn-primary btn-lg">
-                                                    <i class="fas fa-plus-circle me-2"></i> إضافة عميل جديد
-                                                </a>
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">
+                                                <i class="fas fa-users"></i>
                                             </div>
+                                            <h4 class="mt-4 mb-3">لا يوجد عملاء</h4>
+                                            <p class="text-muted mb-4">لم يتم العثور على أي عملاء. يمكنك إضافة عميل جديد بالنقر على الزر أدناه</p>
+                                            <a href="{{ route('admin.clients.create') }}" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-plus-circle me-2"></i> إضافة عميل جديد
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -131,7 +119,6 @@
 </div>
 
 <style>
-/* Payment Method Styles */
 .payment-method {
     transition: all 0.2s ease;
     min-width: 100px;
@@ -140,8 +127,6 @@
 .payment-method i {
     font-size: 1rem;
 }
-
-/* Action Buttons */
 .btn-action {
     border-radius: 6px;
     padding: 0.35rem 0.75rem;
@@ -151,7 +136,6 @@
     gap: 0.35rem;
     transition: all 0.2s;
 }
-
 .btn-view {
     background-color: rgba(13, 110, 253, 0.1);
     color: #0d6efd;
@@ -161,7 +145,6 @@
     background-color: #0d6efd;
     color: white;
 }
-
 .btn-edit {
     background-color: rgba(255, 193, 7, 0.1);
     color: #ffc107;
@@ -171,7 +154,6 @@
     background-color: #ffc107;
     color: white;
 }
-
 .btn-delete {
     background-color: rgba(220, 53, 69, 0.1);
     color: #dc3545;
@@ -182,10 +164,11 @@
     color: white;
 }
 
-.bg-success-light { background-color: rgba(40, 167, 69, 0.1) !important; }
-.bg-danger-light { background-color: rgba(220, 53, 69, 0.1) !important; }
+/* لون الكلام داخل الشارات */
+.badge {
+    color: black !important;
+}
 
-/* Empty State */
 .empty-state {
     text-align: center;
 }

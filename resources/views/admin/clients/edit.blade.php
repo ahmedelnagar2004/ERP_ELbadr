@@ -49,19 +49,15 @@
             </div>
 
             <div>
-                <label class="label" for="status">الحالة</label>
+                <label class="label" for="status">مصدر العميل</label>
                 <select id="status" name="status" class="input" required>
-                    <option value="active" {{ $client->status == 1 ? 'selected' : '' }}>نشط</option>
-                    <option value="inactive" {{ $client->status == 0 ? 'selected' : '' }}>غير نشط</option>
+                    <option value="website" {{ old('status', $client->status_enum->value == 1 ? 'website' : 'local') == 'website' ? 'selected' : '' }}>موقع إلكتروني</option>
+                    <option value="local" {{ old('status', $client->status_enum->value == 1 ? 'website' : 'local') == 'local' ? 'selected' : '' }}>عميل داخل المحل</option>
                 </select>
                 @error('status')<div class="error">{{ $message }}</div>@enderror
             </div>
-
-            <div>
-                <label class="label" for="balance">الرصيد</label>
-                <input id="balance" name="balance" type="number" step="0.01" class="input" value="{{ old('balance', $client->balance) }}">
-                @error('balance')<div class="error">{{ $message }}</div>@enderror
-            </div>
+            <button type="submit" class="btn btn-primary">@lang('admin.COMMON.edit')</button>
+            <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">@lang('admin.COMMON.cancel')</a>
         </form>
     </div>
 </div>

@@ -2,57 +2,51 @@
 
 namespace App\Models;
 
-use App\ClientStatus;
+use App\Enums\ClientStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-    protected $table = 'clients';
-
-    public $timestamps = true;
-
     use SoftDeletes;
+
+    protected $table = 'clients';
+    public $timestamps = true;
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['name', 'email', 'phone', 'address', 'balance', 'status'];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'address',
+        'balance',
+        'status',
+    ];
 
-    protected $appends = ['name'];
+    // ✅ تحويل تلقائي لحقل status إلى Enum
+    protected $casts = [
+        'status' => ClientStatus::class,
+    ];
 
-    /**
-     * Get the client's name.
-     *
-     * @return string
-     */
-    public function getNameAttribute($value = null)
+    // ✅ الاسم الكامل
+    public function getDisplayNameAttribute(): string
     {
-        return $value ?? $this->attributes['name'] ?? null;
+        return $this->name . ($this->phone ? ' - ' . $this->phone : '');
     }
 
-    /**
-     * Get the client's name for display.
-     *
-     * @return string
-     */
-    public function getDisplayNameAttribute()
+    // ✅ getter لاسم العميل (اختياري)
+    public function getNameAttribute($value): ?string
     {
-        return $this->name.($this->phone ? ' - '.$this->phone : '');
+        return $value ?? null;
     }
+    
 
-    /**
-     * Get the status as enum
-     */
-    public function getStatusEnumAttribute(): ClientStatus
+    // (اختياري) اسم واضح للوصول السهل من الـ view
+    public function getStatusEnumAttribute()
     {
-        return $this->status == 1 ? ClientStatus::Active : ClientStatus::Inactive;
-    }
-
-    /**
-     * Set the status from enum
-     */
-    public function setStatusEnumAttribute(ClientStatus $status): void
-    {
-        $this->status = $status->value;
+        return $this->status instanceof ClientStatus
+            ? $this->status
+            : ClientStatus::tryFrom((int) $this->status);
     }
 }

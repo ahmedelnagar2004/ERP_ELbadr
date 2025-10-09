@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\StoreUnitRequest;
 use App\Http\Requests\Admin\UpdateUnitRequest;
+use App\Models\Item;
 use App\Models\Unit;
 
 class UnitController extends Controller
@@ -21,6 +22,7 @@ class UnitController extends Controller
      */
     public function index()
     {
+
         $units = Unit::paginate(15);
 
         return view('admin.units.index', compact('units'));
@@ -50,7 +52,7 @@ class UnitController extends Controller
      */
     public function show(Unit $unit)
     {
-        $unit->load('items');
+        $unit->load('items')->paginate(15);
 
         return view('admin.units.show', compact('unit'));
     }

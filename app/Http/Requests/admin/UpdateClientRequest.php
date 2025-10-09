@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\ClientStatus;
+use App\Enums\ClientStatus;
 use App\Models\Client;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -32,7 +32,7 @@ class UpdateClientRequest extends FormRequest
             ],
             'address' => ['required', 'string'],
             'balance' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['required', 'in:active,inactive'],
+            'status' => ['required', 'in:website,local'],
         ];
     }
 
@@ -42,7 +42,7 @@ class UpdateClientRequest extends FormRequest
     public function persist(Client $client): Client
     {
         // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? ClientStatus::Active : ClientStatus::Inactive;
+        $statusEnum = ($this->status === 'website') ? ClientStatus::WEBSITE : ClientStatus::LOCAL;
 
         $client->update([
             'name' => $this->name,
@@ -50,7 +50,7 @@ class UpdateClientRequest extends FormRequest
             'phone' => $this->phone,
             'address' => $this->address,
             'balance' => $this->balance ?? 0,
-            'status' => $statusEnum->value(),
+            'status' => $statusEnum->value,
         ]);
 
         return $client;

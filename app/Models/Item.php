@@ -18,6 +18,7 @@ class Item extends Model
 
     protected $fillable = ['name', 'item_code', 'description', 'price', 'quantity', 'is_shown_in_store', 'minimum_stock', 'category_id', 'unit_id', 'allow_decimal'];
 
+
     public function unit()
     {
         return $this->belongsTo('App\Models\Unit');
@@ -73,4 +74,6 @@ class Item extends Model
     {
         $this->is_shown_in_store = $status->value;
     }
+
+    
 }

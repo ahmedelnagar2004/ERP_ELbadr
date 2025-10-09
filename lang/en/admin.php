@@ -100,7 +100,7 @@ return [
         'error_occurred' => 'An error occurred while processing your request',
     ],
 
-    
+
     // Dashboard
     'welcome_back' => 'Welcome back',
     'system_overview' => 'System Overview',
@@ -130,6 +130,9 @@ return [
     'view_all_transactions' => 'View All Transactions',
 
     'COMMON' => [
+        'enter_safe_name' => 'Enter Safe Name',
+        'create_new_safe' => 'Create New Safe',
+        'safe_list' => 'Safe List',
         'edit_item' => 'Edit Item',
         'unit' => 'Unit',
         'is_shown_in_store' => 'Is Shown In Store',

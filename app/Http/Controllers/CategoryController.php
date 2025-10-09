@@ -50,7 +50,7 @@ class CategoryController extends Controller
     {
 
         $category->load('photo');
-        $items = $category->items()->with('photo')->paginate(15);
+        $items = $category->items()->paginate(15);
 
         return view('admin.categories.show', compact('category', 'items'));
     }

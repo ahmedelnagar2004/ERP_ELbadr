@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Requests\Admin;
-
-use App\ClientStatus;
+use App\Enums\ClientStatus;
 use App\Models\Client;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,7 +20,7 @@ class StoreClientRequest extends FormRequest
             'phone' => ['required', 'string', 'max:255', 'unique:clients,phone'],
             'address' => ['required', 'string'],
             'balance' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['required', 'in:active,inactive'],
+            'status' => ['required', 'in:website,local'],
         ];
     }
 
@@ -31,15 +30,14 @@ class StoreClientRequest extends FormRequest
     public function persist(): Client
     {
         // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? ClientStatus::Active : ClientStatus::Inactive;
-
+        $statusEnum = ($this->status === 'website') ? ClientStatus::WEBSITE : ClientStatus::LOCAL;
         return Client::create([
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
             'address' => $this->address,
             'balance' => $this->balance ?? 0,
-            'status' => $statusEnum->value(),
+            'status' => $statusEnum->value,
         ]);
     }
 }

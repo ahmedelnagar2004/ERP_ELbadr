@@ -33,12 +33,17 @@
             <div class="value">{{ $client->phone }}</div>
         </div>
         <div class="row">
-            <div class="label">العنوان</div>
-            <div class="value">{{ $client->address }}</div>
+            <div class="label">مصدر العميل</div>
+            <div class="value">
+                @if ($client->status_enum)
+                    {{ $client->status_enum->label() }}
+                
+                @endif
+            </div>
         </div>
         <div class="row">
-            <div class="label">تاريخ الإنشاء</div>
-            <div class="value">{{ optional($client->created_at)->format('Y-m-d H:i') }}</div>
+            <div class="label">الرصيد</div>
+            <div class="value">{{ $client->balance ?? 0 }}</div>
         </div>
         <div class="row">
             <div class="label">آخر تحديث</div>
