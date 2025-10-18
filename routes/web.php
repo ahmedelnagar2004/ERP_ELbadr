@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlertQuantityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
@@ -61,6 +62,11 @@ Route::middleware(['web'])->group(function () {
                 // Role Management Routes
                 Route::middleware(['permission:manage-roles'])->group(function () {
                     Route::resource('roles', RoleController::class);
+                });
+
+                // Inventory Alert Routes
+                Route::middleware(['permission:view-items'])->group(function () {
+                    Route::get('/alerts', [AlertQuantityController::class, 'index'])->name('alerts.index');
                 });
 
                 // Items Management

@@ -21,17 +21,4 @@ class StoreUnitRequest extends FormRequest
         ];
     }
 
-    /**
-     * إنشاء الوحدة الجديدة
-     */
-    public function persist(): Unit
-    {
-        // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? UnitStatus::Active : UnitStatus::Inactive;
-
-        return Unit::create([
-            'name' => $this->name,
-            'status' => $statusEnum->value(),
-        ]);
-    }
 }

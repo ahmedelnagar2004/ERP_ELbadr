@@ -9,7 +9,7 @@
     <div class="widget-header mb-6">
         <h3 class="widget-title">@lang('admin.COMMON.edit_item') </h3>
     </div>
-    
+
     <form action="{{ route('admin.items.update', $item) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -71,7 +71,7 @@
                 </select>
             </div>
             <div class="md:col-span-2">
-                <label class="block text-sm font-medium mb-2">@lang('admin.COMMON.photos') </label>
+                <label class="block text-sm font-medium mb-2">@lang('admin.COMMON.photo') </label>
                 <input type="file" name="photos[]" id="photos" multiple accept="image/*" class="form-input w-full" />
                 @error('photos.*')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -80,7 +80,7 @@
                 <!-- عرض الصور الحالية -->
                 @if($item->gallery && $item->gallery->count() > 0)
                     <div class="mt-3">
-                        <p class="text-sm text-gray-600 mb-2">@lang('admin.COMMON.photos'):</p>
+                        <p class="text-sm text-gray-600 mb-2">@lang('admin.COMMON.photo'):</p>
                         <div class="flex flex-wrap gap-3">
                             @foreach($item->gallery as $photo)
                                 <div class="relative">

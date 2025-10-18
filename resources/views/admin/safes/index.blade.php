@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center gap-4">
                 <a href="{{ route('admin.safes.create') }}" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i> {{ __('admin.add_new_safe') }}
+                    <i class="fas fa-plus me-1"></i> {{ __('admin.COMMON.add_new') }}
                 </a>
                 <div>
                     <h3 class="h5 mb-0 text-gray-800 fw-bold">{{ __('admin.safes.list') }}</h3>
@@ -51,7 +51,9 @@
                                                     1 => ['text' => 'محفظة إلكترونية', 'icon' => 'mobile-alt', 'class' => 'info'],
                                                     2 => ['text' => 'حساب بنكي', 'icon' => 'university', 'class' => 'primary'],
                                                     3 => ['text' => 'إنستا باي', 'icon' => 'credit-card', 'class' => 'success'],
-                                                    4 => ['text' => 'خزنة كاشير', 'icon' => 'cash-register', 'class' => 'warning']
+                                                    4 => ['text' => 'شبكه', 'icon' => 'network-wired', 'class' => 'warning'],
+                                                    5 => ['text' => 'أجل', 'icon' => 'clock', 'class' => 'info'],
+                                                    6 => ['text' => 'خزنة داخل الكاشير', 'icon' => 'cash-register', 'class' => 'success']
                                                 ];
                                                 $typeInfo = $typeLabels[$safe->type] ?? ['text' => 'غير محدد', 'icon' => 'question-circle', 'class' => 'secondary'];
                                             @endphp

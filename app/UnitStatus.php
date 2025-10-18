@@ -30,4 +30,16 @@ enum UnitStatus
             self::Inactive => 'bg-red-500 text-white',
         };
     }
+
+    /**
+     * تحويل النص إلى enum
+     */
+    public static function fromString(string $status): self
+    {
+        return match (strtolower($status)) {
+            'active', '1' => self::Active,
+            'inactive', '0' => self::Inactive,
+            default => throw new \InvalidArgumentException("Invalid status value: $status"),
+        };
+    }
 }

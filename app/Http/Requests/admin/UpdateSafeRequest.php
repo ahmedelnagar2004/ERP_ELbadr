@@ -27,7 +27,7 @@ class UpdateSafeRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'type' => ['required', 'integer', 'in:1,2,3,4'], // 1 for محفظة إلكترونية, 2 for حساب بنكي, 3 for إنستا باي, 4 for خزنة داخل الكاشير
+            'type' => ['required', 'integer', 'in:1,2,3,4,5,6'], // 1 for محفظة إلكترونية, 2 for حساب بنكي, 3 for إنستا باي, 4 for شبكه, 5 for اجل, 6 for خزنة داخل الكاشير
             'status' => ['required', new Enum(SafeStatus::class)],
             'balance' => ['required', 'numeric'],
             'currency' => ['required', 'string', 'max:3'],

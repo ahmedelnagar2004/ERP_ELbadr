@@ -23,26 +23,25 @@
 
 <div class="page-header flex items-center justify-between mb-6">
     <div>
-        <h2 class="text-xl font-bold text-gray-900">قائمة المستخدمين</h2>
-        <p class="text-sm text-gray-500 mt-1">إدارة المستخدمين وتعيين الأدوار</p>
+        <h2 class="text-xl font-bold text-gray-900">@lang('admin.COMMON.lists')</h2>
     </div>
     @can('create-users')
-    <a href="{{ route('admin.users.create') }}" class="btn btn-success">إضافة مستخدم</a>
+    <a href="{{ route('admin.users.create') }}" class="btn btn-success"> @lang('admin.COMMON.create')</a>
     @endcan
 </div>
 
 <div class="table-card">
     <div class="table-toolbar">
         <div class="toolbar-left">
-            <input id="usersSearch" type="search" class="toolbar-input" placeholder="بحث بالاسم أو اسم المستخدم أو البريد...">
+            <input id="usersSearch" type="search" class="toolbar-input" placeholder="@lang('admin.COMMON.search')...">
         </div>
         <div class="flex items-center gap-2">
-            <label for="usersSortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
+            <label for="usersSortBy" class="text-sm text-slate-600"> @lang('admin.COMMON.arrangment'):</label>
             <select id="usersSortBy" class="toolbar-select">
-                <option value="full_name">الاسم الكامل (أ-ي)</option>
-                <option value="username">اسم المستخدم</option>
-                <option value="email">البريد</option>
-                <option value="status">الحالة</option>
+                <option value="full_name">@lang('admin.COMMON.fullname')</option>
+                <option value="username">@lang('admin.COMMON.username')</option>
+                <option value="email">@lang('admin.COMMON.email')</option>
+                <option value="status">@lang('admin.COMMON.status')</option>
             </select>
         </div>
     </div>
@@ -50,12 +49,12 @@
         <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الاسم الكامل</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">اسم المستخدم</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">البريد</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الأدوار</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحالة</th>
-                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">إجراءات</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.fullname') </th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.username')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.email')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.role')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.status')</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.actions')</th>
                 </tr>
             </thead>
             <tbody id="usersTableBody">
@@ -71,21 +70,21 @@
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                         @if($user->status == 1)
-                            <span class="text-green-600 font-bold">نشط</span>
+                            <span class="text-green-600 font-bold">@lang('admin.COMMON.active')</span>
                         @else
-                            <span class="text-red-600 font-bold">غير نشط</span>
+                            <span class="text-red-600 font-bold">@lang('admin.COMMON.inactive')</span>
                         @endif
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
                             @can('edit-users')
-                            <a href="{{ route('admin.users.edit', $user) }}" class="action-btn btn-edit">تعديل</a>
+                            <a href="{{ route('admin.users.edit', $user) }}" class="action-btn btn-edit">@lang('admin.COMMON.edit')</a>
                             @endcan
                             @can('delete-users')
                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف المستخدم؟')">حذف</button>
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف المستخدم؟')">@lang('admin.COMMON.delete')</button>
                             </form>
                             @endcan
                         </div>

@@ -7,6 +7,8 @@ enum ClientStatus: int
     case LOCAL = 0;
     case WEBSITE = 1;
 
+
+
     public function label(): string
     {
         return match ($this) {

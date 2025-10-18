@@ -24,23 +24,18 @@ class LanguageController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $locale = 'ar'; // Default to Arabic if validation fails
+            $locale = 'ar';
         }
 
-        // Store the locale in the session for future requests
         Session::put('locale', $locale);
-        
-        // Set RTL for Arabic
+
         $isRTL = $locale === 'ar';
         Session::put('rtl', $isRTL);
-        
-        // Set the application locale for the current request
+
         App::setLocale($locale);
-        
-        // Get the previous URL
+
         $previousUrl = url()->previous();
-        
-        // If this is an AJAX request, return a JSON response
+
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'status' => 'success',
@@ -49,7 +44,7 @@ class LanguageController extends Controller
                 'redirect' => $previousUrl
             ]);
         }
-        
+
         // For regular requests, redirect back with a success message
         return redirect()->back()->with('success', __('Language changed successfully'));
     }

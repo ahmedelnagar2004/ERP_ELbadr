@@ -110,7 +110,7 @@
                 <p class="text-lg opacity-90">@lang('admin.COMMON.invoice_number') : {{ $sale->invoice_number }}</p>
             </div>
             <div class="text-right">
-                
+
                 <p class="mt-2 text-sm opacity-90">
                     @lang('admin.COMMON.created_at') : {{ $sale->created_at->format('Y/m/d') }}
                 </p>
@@ -150,7 +150,7 @@
                     @endswitch
                 </div>
             </div>
-          
+
         </div>
     </div>
 
@@ -200,10 +200,17 @@
                 <span>{{ number_format($sale->shipping_cost, 2) }} ر.س</span>
             </div>
             @endif
+
             <div class="total-row final">
                 <span>@lang('admin.COMMON.final_amount')</span>
                 <span>{{ number_format($sale->net_amount, 2) }} ر.س</span>
             </div>
+            @if($sale->paid_amount > 0)
+            <div class="total-row">
+                <span>@lang('admin.COMMON.paid_amount')</span>
+                <span>{{ number_format($sale->paid_amount, 2) }} ر.س</span>
+            </div>
+            @endif
             @if($sale->remaining_amount > 0)
             <div class="total-row" style="color: #ef4444;">
                 <span>@lang('admin.COMMON.remaining_amount')</span>
@@ -220,7 +227,7 @@
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                @lang('admin.back') 
+                @lang('admin.back')
             </a>
 
         </div>

@@ -23,10 +23,9 @@
 
 <div class="page-header flex items-center justify-between mb-6">
     <div>
-        <h2 class="text-xl font-bold text-gray-900">قائمة الوحدات</h2>
-        <p class="text-sm text-gray-500 mt-1">إدارة الوحدات وتعريفاتها</p>
+        <h2 class="text-xl font-bold text-gray-900"> @lang('admin.units')</h2>
     </div>
-    <a href="{{ route('admin.units.create') }}" class="btn btn-success">إضافة وحدة جديدة</a>
+    <a href="{{ route('admin.units.create') }}" class="btn btn-success"> @lang('admin.COMMON.create')</a>
 
 </div>
 
@@ -36,12 +35,12 @@
             <input id="unitsSearch" type="search" class="toolbar-input" placeholder="بحث باسم الوحدة...">
         </div>
         <div class="flex items-center gap-2">
-            <label for="unitsSortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
+            <label for="unitsSortBy" class="text-sm text-slate-600"> @lang('admin.COMMON.arrangment'):</label>
             <select id="unitsSortBy" class="toolbar-select">
-                <option value="name">اسم الوحدة (أ-ي)</option>
-                <option value="products_count">عدد المنتجات</option>
-                <option value="created_at">تاريخ الإنشاء</option>
-                <option value="status">الحالة</option>
+                <option value="name">@lang('admin.COMMON.name')</option>
+                <option value="products_count">@lang('admin.COMMON.count') </option>
+                <option value="created_at"> @lang('admin.COMMON.create_at')</option>
+                <option value="status">@lang('admin.COMMON.status')</option>
             </select>
         </div>
     </div>
@@ -49,11 +48,11 @@
         <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">اسم الوحدة</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحالة</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">عدد المنتجات</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">تاريخ الإنشاء</th>
-                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">إجراءات</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.name')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.status')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.count')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider"> @lang('admin.COMMON.create_at')</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.actions')</th>
                 </tr>
             </thead>
             <tbody id="unitsTableBody">
@@ -62,9 +61,9 @@
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $unit->name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                         @if($unit->status == 1)
-                            <span class="text-green-600 font-bold">نشط</span>
+                            <span class="text-green-600 font-bold">@lang('admin.COMMON.active')</span>
                         @else
-                            <span class="text-red-600 font-bold">غير نشط</span>
+                            <span class="text-red-600 font-bold">@lang('admin.COMMON.inactive') </span>
                         @endif
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
@@ -75,12 +74,12 @@
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
-                            <a href="{{ route('admin.units.show', $unit) }}" class="action-btn btn-view">عرض</a>
-                            <a href="{{ route('admin.units.edit', $unit) }}" class="action-btn btn-edit">تعديل</a>
+                            <a href="{{ route('admin.units.show', $unit) }}" class="action-btn btn-view">@lang('admin.COMMON.show')</a>
+                            <a href="{{ route('admin.units.edit', $unit) }}" class="action-btn btn-edit">@lang('admin.COMMON.edit')</a>
                             <form action="{{ route('admin.units.destroy', $unit) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف الوحدة؟')">حذف</button>
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف الوحدة؟')">@lang('admin.COMMON.delete')</button>
                             </form>
                         </div>
                     </td>

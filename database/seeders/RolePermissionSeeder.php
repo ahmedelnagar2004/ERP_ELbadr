@@ -59,6 +59,7 @@ class RolePermissionSeeder extends Seeder
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
             // Dashboard
             'view-dashboard',
+            'view-alerts',
 
         ];
 
@@ -87,6 +88,7 @@ class RolePermissionSeeder extends Seeder
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
 
             'view-dashboard',
+            'view-alerts',
         ];
         $admin->syncPermissions($adminPermissions);
 
@@ -99,6 +101,7 @@ class RolePermissionSeeder extends Seeder
             'view-sales', 'create-sales', 'edit-sales', 'approve-sales',
             'view-reports',
             'view-dashboard',
+            'view-alerts',
         ];
         $salesManager->syncPermissions($salesManagerPermissions);
 
@@ -110,6 +113,7 @@ class RolePermissionSeeder extends Seeder
             'view-orders', 'create-orders', 'edit-orders',
             'view-sales', 'create-sales', 'edit-sales',
             'view-dashboard',
+            'view-alerts',
         ];
         $salesRep->syncPermissions($salesRepPermissions);
 
@@ -122,6 +126,7 @@ class RolePermissionSeeder extends Seeder
             'view-files', 'upload-files', 'edit-files',
             'view-reports',
             'view-dashboard',
+            'view-alerts',
         ];
         $inventoryManager->syncPermissions($inventoryManagerPermissions);
 
@@ -136,6 +141,7 @@ class RolePermissionSeeder extends Seeder
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes',
 
             'view-dashboard',
+            'view-alerts',
         ];
         $accountant->syncPermissions($accountantPermissions);
 
@@ -146,6 +152,7 @@ class RolePermissionSeeder extends Seeder
             'view-items',
             'view-orders',
             'view-dashboard',
+            'view-alerts',
         ];
         $employee->syncPermissions($employeePermissions);
 

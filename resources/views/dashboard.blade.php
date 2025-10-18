@@ -179,7 +179,7 @@
             <div class="flex-1">
                 <div class="stat-label">@lang('admin.users')</div>
                 <div class="stat-number">{{ number_format($total_users) }}</div>
-                
+
                 <x-stat-action href="{{ route('admin.users.index') }}" color="indigo" permission="view-users">@lang('admin.manage') @lang('admin.users')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
@@ -212,7 +212,7 @@
             <div class="flex-1">
                 <div class="stat-label">@lang('admin.orders')</div>
                 <div class="stat-number">{{ number_format($total_orders) }}</div>
-                
+
                 <x-stat-action href="{{ route('admin.orders.index') }}" color="blue" permission="view-orders">@lang('admin.manage') @lang('admin.orders')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
@@ -338,8 +338,12 @@
             </div>
         </div>
     </div>
+    <!-- End Earning Reports Chart -->
 
-<!-- Additional Statistics -->
+<!-- alert of item stock -->
+
+
+
 
 
 @endsection

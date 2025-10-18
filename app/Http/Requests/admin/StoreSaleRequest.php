@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 
 class StoreSaleRequest extends FormRequest
 {
+    // private mixed $payment_type;
+
     public function authorize(): bool
     {
         return true;
@@ -53,60 +55,5 @@ class StoreSaleRequest extends FormRequest
     /**
      * حفظ الفاتورة والمنتجات المرتبطة بها داخل transaction آمنة.
      */
-    public function persist(): Sale
-    {
-        return DB::transaction(function () {
-            $subtotal = collect($this->items)->sum(function ($item) {
-                return $item['quantity'] * $item['price'];
-            });
-            $discount = $this->discount ?? 0;
-            if (($this->discount_type ?? '') === 'percentage') {
-                $discount = ($subtotal * $discount) / 100;
-            }
 
-            $netAmount = $subtotal - $discount + ($this->shipping_cost ?? 0);
-
-            $sale = Sale::create([
-                'client_id' => $this->client_id,
-                'user_id' => Auth::id(),
-                'safe_id' => $this->safe_id,
-                'invoice_number' => 'INV-'.strtoupper(Str::random(8)),
-                'total' => $subtotal,
-                'discount' => $discount,
-                'discount_type' => $this->discount_type ?? 'fixed',
-                'shipping_cost' => $this->shipping_cost ?? 0,
-                'net_amount' => $netAmount,
-                'paid_amount' => $this->payment_type === 'credit' ? 0 : $netAmount,
-                'remaining_amount' => $this->payment_type === 'credit' ? $netAmount : 0,
-                'payment_type' => $this->payment_type,
-                'order_date' => $this->order_date ?? now()->toDateString(),
-                'notes' => $this->notes,
-            ]);
-            $paidAmount = $this->paid_amount ?? 0;
-            if ($this->payment_type !== 'credit') {
-                $paidAmount = $netAmount; 
-            }
-            $remainingAmount = max(0, $netAmount - $paidAmount);
-
-          
-            $sale->update([
-                'paid_amount' => $paidAmount,
-                'remaining_amount' => $remainingAmount,
-            ]);
-
-            
-            foreach ($this->items as $item) {
-                $sale->items()->attach($item['item_id'], [
-                    'quantity' => $item['quantity'],
-                    'unit_price' => $item['price'],
-                    'total_price' => $item['quantity'] * $item['price'],
-                ]);
-
-           
-                Item::where('id', $item['item_id'])->decrement('quantity', $item['quantity']);
-            }
-
-            return $sale;
-        });
-    }
 }

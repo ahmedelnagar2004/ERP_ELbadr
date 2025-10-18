@@ -45,7 +45,7 @@
         <div class="flex items-center gap-2">
             <label for="sortCats" class="text-sm text-slate-600">ترتيب حسب:</label>
             <select id="sortCats" class="toolbar-select">
-                <option value="name">@lang('admin.name')</option>
+                <option value="name">@lang('admin.COMMON.name')</option>
                 <option value="status">@lang('admin.status')</option>
                 <option value="created_at">@lang('admin.created_at')</option>
             </select>
@@ -56,7 +56,7 @@
         <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.name')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.name')</th>
                     <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.status')</th>
                     <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.created_at')</th>
                     <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.actions')</th>

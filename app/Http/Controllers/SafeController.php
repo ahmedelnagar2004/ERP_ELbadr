@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ClientStatus;
+use App\SafeStatus;
 use App\Http\Requests\Admin\StoreSafeRequest;
 use App\Http\Requests\Admin\UpdateSafeRequest;
 use App\Models\Safe;
@@ -35,7 +37,19 @@ class SafeController extends Controller
 
     public function store(StoreSafeRequest $request)
     {
-        $request->persist();
+        $statusEnum = $request->status === 'active'
+            ?SafeStatus :: ACTIVE
+            : SafeStatus:: INACTIVE;
+
+      Safe::Create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'account_number' => $request->account_number,
+            'currency' => $request->currency,
+            'status' => $statusEnum->value,
+            'balance' => $request->balance,
+        ]);
 
         return redirect()->route('admin.safes.index')->with('success', 'Safe created successfully');
     }

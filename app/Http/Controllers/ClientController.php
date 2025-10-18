@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\StoreClientRequest;
+use App\enums\clientStatus;
 use App\Http\Requests\Admin\UpdateClientRequest;
 use App\Models\Client;
 
@@ -30,7 +31,19 @@ class ClientController extends Controller
 
     public function store(StoreClientRequest $request)
     {
-        $request->persist();
+        // 1️⃣ تحويل حالة العرض من string إلى enum
+        $statusEnum = $request->status === 'active'
+            ? clientStatus::LOCAL
+            : clientStatus:: WEBSITE;
+        // 2️⃣ إنشاء العميل
+        Client::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'status' => $statusEnum->value,
+            'balance' => $request->balance,
+        ]);
 
         return redirect()->route('admin.clients.index')
             ->with('success', 'تم إنشاء العميل بنجاح');

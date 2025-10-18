@@ -33,26 +33,5 @@ class StoreUserRequest extends FormRequest
         ];
     }
 
-    /**
-     * إنشاء المستخدم الجديد
-     */
-    public function persist(): User
-    {
-        // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? UserStatus::Active : UserStatus::Inactive;
 
-        $user = User::create([
-            'username' => $this->username,
-            'email' => $this->email,
-            'full_name' => $this->full_name,
-            'password' => Hash::make($this->password),
-            'status' => $this->status,
-        ]);
-
-        if ($this->has('roles') && ! empty($this->roles)) {
-            $user->assignRole($this->roles);
-        }
-
-        return $user;
-    }
 }

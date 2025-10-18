@@ -31,15 +31,5 @@ class StoreRoleRequest extends FormRequest
     /**
      * إنشاء الدور الجديد
      */
-    public function persist(): Role
-    {
-        $role = Role::create(['name' => $this->name]);
 
-        if ($this->has('permissions') && ! empty($this->permissions)) {
-            $permissions = Permission::whereIn('id', $this->permissions)->get();
-            $role->syncPermissions($permissions);
-        }
-
-        return $role;
-    }
 }

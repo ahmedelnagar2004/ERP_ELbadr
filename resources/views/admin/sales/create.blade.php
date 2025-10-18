@@ -31,9 +31,9 @@
 
         <!-- اختيار العميل -->
         <div class="mb-3">
-            <label class="form-label fw-bold">بحث عن العميل</label>
+            <label class="form-label fw-bold">@lang('admin.COMMON.search')</label>
             <select name="client_id" id="client-search" class="form-control" required>
-                <option value="">-- ابحث عن العميل --</option>
+                <option value="">-- @lang('admin.COMMON.search') --</option>
                 @foreach($clients as $client)
                     <option value="{{ $client->id }}">{{ $client->display_name }} - {{ $client->phone ?? '' }}</option>
                 @endforeach
@@ -42,9 +42,9 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label class="form-label fw-bold">الخزنة</label>
+                <label class="form-label fw-bold">@lang('admin.COMMON.safe')</label>
                 <select name="safe_id" id="safe_id" class="form-control" required>
-                    <option value="">-- اختر الخزنة --</option>
+                    <option value="">-- @lang('admin.COMMON.safe') --</option>
                     @foreach($safes as $safe)
                         <option value="{{ $safe->id }}">{{ $safe->name }}</option>
                     @endforeach
@@ -55,37 +55,35 @@
         <!-- طريقة الدفع -->
         <div class="row mb-3">
             <div class="col-md-6">
-                <label class="form-label fw-bold">طريقة الدفع</label>
+                <label class="form-label fw-bold">@lang('admin.COMMON.payment_type')</label>
                 <select name="payment_type" id="payment_type" class="form-control" required>
-                    <option value="cash">كاش</option>
-                    <option value="card">بطاقة</option>
-                    <option value="bank">تحويل بنكي</option>
-                    <option value="credit">آجل</option>
-                    <option value="net">شبكه</option>
+                    <option value="cash">@lang('admin.COMMON.cash')</option>
+                    <option value="card">@lang('admin.COMMON.credit_card')</option>
+                    <option value="credit">@lang('admin.COMMON.credit')</option>
                 </select>
             </div>
             <div class="col-md-6">
-                <label class="form-label fw-bold">المبلغ المدفوع</label>
+                <label class="form-label fw-bold">@lang('admin.COMMON.paid_amount')</label>
                 <div class="input-group">
                     <input type="number" name="paid_amount" id="paid_amount" class="form-control" value="0" min="0" step="0.01" disabled>
                     <span class="input-group-text">ج.م</span>
                 </div>
-                <small class="text-muted" id="remaining-amount-hint">المبلغ المتبقي: <span id="remaining-amount">0.00</span> ج.م</small>
+                <small class="text-muted" id="remaining-amount-hint">@lang('admin.COMMON.remaining_amount') : <span id="remaining-amount">0.00</span> ج.م</small>
             </div>
         </div>
         <!-- العناصر -->
         <div class="mb-3">
-            <label class="form-label fw-bold">المنتجات</label>
+            <label class="form-label fw-bold">@lang('admin.COMMON.items')</label>
             <table class="table table-bordered" id="items-table">
                 <thead class="table-light">
                     <tr>
-                        <th>المنتج</th>
-                        <th>الكمية</th>
-                        <th>السعر</th>
-                        <th>الإجمالي</th>
+                        <th>@lang('admin.COMMON.item')</th>
+                        <th>@lang('admin.COMMON.quantity')</th>
+                        <th>@lang('admin.COMMON.price')</th>
+                        <th>@lang('admin.COMMON.total')</th>
                         <th>
                             <button type="button" class="btn btn-success btn-sm" id="add-item">
-                                + إضافة
+                                + @lang('admin.COMMON.add')
                             </button>
                         </th>
                     </tr>
@@ -100,7 +98,7 @@
                                             data-price="{{ $item->price }}"
                                             data-quantity="{{ $item->quantity }}"
                                             data-code="{{ $item->code ?? '' }}">
-                                        {{ $item->name }} ({{ $item->code ?? 'بدون كود' }}) - متاح: {{ $item->quantity }}
+                                        {{ $item->name }}  - متاح: {{ $item->quantity }}
                                     </option>
                                 @endforeach
                             </select>
@@ -117,15 +115,15 @@
         <!-- الخصم والشحن -->
         <div class="row">
             <div class="col-md-4 mb-3">
-                <label class="form-label fw-bold">نوع الخصم</label>
+                <label class="form-label fw-bold">@lang('admin.COMMON.discount_type')</label>
                 <select name="discount_type" id="discount_type" class="form-control">
-                    <option value="">بدون خصم</option>
-                    <option value="fixed">مبلغ ثابت</option>
-                    <option value="percentage">نسبة مئوية</option>
+                    <option value="">@lang('admin.COMMON.discount_type')</option>
+                    <option value="fixed">@lang('admin.COMMON.fixed')</option>
+                    <option value="percentage">@lang('admin.COMMON.percentage')</option>
                 </select>
             </div>
             <div class="col-md-4 mb-3">
-                <label class="form-label fw-bold">قيمة الخصم</label>
+                <label class="form-label fw-bold">@lang('admin.COMMON.discount_value')</label>
                 <div class="input-group">
                     <input type="number" name="discount" id="discount" class="form-control discount-field" value="0" min="0" step="0.01" disabled>
                     <span class="input-group-text discount-percentage" style="display: none;">%</span>
@@ -133,7 +131,7 @@
                 <small class="text-muted" id="discount-hint"></small>
             </div>
             <div class="col-md-4 mb-3">
-                <label class="form-label fw-bold">تكلفة الشحن</label>
+                <label class="form-label fw-bold">@lang('admin.COMMON.shipping_cost')</label>
                 <input type="number" name="shipping_cost" id="shipping_cost" class="form-control" value="0" min="0" step="0.01">
             </div>
         </div>
@@ -143,18 +141,18 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <h5>الإجمالي: <span id="subtotal">0.00</span> ج.م</h5>
+                        <h5>@lang('admin.COMMON.subtotal'): <span id="subtotal">0.00</span> ج.م</h5>
                     </div>
                     <div class="col-md-4">
-                        <h5>الخصم: <span id="discount-amount">0.00</span> ج.م</h5>
+                        <h5>@lang('admin.COMMON.discount_value'): <span id="discount-amount">0.00</span> ج.م</h5>
                     </div>
                     <div class="col-md-4">
-                        <h5>الشحن: <span id="shipping-amount">0.00</span> ج.م</h5>
+                        <h5>@lang('admin.COMMON.shipping_cost'): <span id="shipping-amount">0.00</span> ج.م</h5>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <h4 class="border-top pt-2">الصافي: <span id="net_total">0.00</span> ج.م</h4>
+                        <h4 class="border-top pt-2">@lang('admin.COMMON.net_total'): <span id="net_total">0.00</span> ج.م</h4>
                         <div id="payment-summary" class="mt-2" style="display: none;">
                             <div class="d-flex justify-content-between">
                                 <span>المبلغ المدفوع:</span>
@@ -172,7 +170,7 @@
 
         <!-- ملاحظات -->
         <div class="mb-3">
-            <label class="form-label fw-bold">ملاحظات</label>
+            <label class="form-label fw-bold">@lang('admin.COMMON.notes')</label>
             <textarea name="notes" class="form-control" rows="3"></textarea>
         </div>
 

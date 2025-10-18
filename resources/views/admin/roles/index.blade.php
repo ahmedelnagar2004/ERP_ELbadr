@@ -23,24 +23,23 @@
 
 <div class="page-header flex items-center justify-between mb-6">
     <div>
-        <h2 class="text-xl font-bold text-gray-900">قائمة الأدوار</h2>
-        <p class="text-sm text-gray-500 mt-1">إدارة الأدوار والصلاحيات</p>
+        <h2 class="text-xl font-bold text-gray-900">@lang('admin.COMMON.role') </h2>
     </div>
     @can('manage-roles')
-    <a href="{{ route('admin.roles.create') }}" class="btn btn-success">إضافة دور جديد</a>
+    <a href="{{ route('admin.roles.create') }}" class="btn btn-success">@lang('admin.COMMON.create') </a>
     @endcan
 </div>
 
 <div class="table-card">
     <div class="table-toolbar">
         <div class="toolbar-left">
-            <input id="rolesSearch" type="search" class="toolbar-input" placeholder="بحث باسم الدور...">
+            <input id="rolesSearch" type="search" class="toolbar-input" placeholder="@lang('admin.COMMON.search')">
         </div>
         <div class="flex items-center gap-2">
-            <label for="sortRoles" class="text-sm text-slate-600">ترتيب حسب:</label>
+            <label for="sortRoles" class="text-sm text-slate-600">@lang('admin.COMMON.sort_by'):</label>
             <select id="sortRoles" class="toolbar-select">
-                <option value="name">اسم الدور (أ-ي)</option>
-                <option value="permissions">عدد الصلاحيات</option>
+                <option value="name">@lang('admin.COMMON.name')</option>
+                <option value="permissions">@lang('admin.COMMON.count') </option>
             </select>
         </div>
     </div>
@@ -48,9 +47,9 @@
         <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">اسم الدور</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الصلاحيات</th>
-                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">إجراءات</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.name') </th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.permissions') </th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.actions') </th>
                 </tr>
             </thead>
             <tbody id="rolesTableBody">
@@ -61,16 +60,16 @@
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
                             @can('manage-roles')
-                            <a href="{{ route('admin.roles.show', $role) }}" class="action-btn btn-view">عرض</a>
+                            <a href="{{ route('admin.roles.show', $role) }}" class="action-btn btn-view">@lang('admin.COMMON.view') </a>
                             @endcan
                             @can('manage-roles')
-                            <a href="{{ route('admin.roles.edit', $role) }}" class="action-btn btn-edit">تعديل</a>
+                            <a href="{{ route('admin.roles.edit', $role) }}" class="action-btn btn-edit">@lang('admin.COMMON.edit') </a>
                             @endcan
                             @can('manage-roles')
                             <form action="{{ route('admin.roles.destroy', $role) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد؟')">حذف</button>
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد؟')">@lang('admin.COMMON.delete') </button>
                             </form>
                             @endcan
                         </div>

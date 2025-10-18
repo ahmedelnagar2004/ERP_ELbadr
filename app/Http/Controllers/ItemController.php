@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\UpdateItemRequest;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Unit;
+use App\ItemStatus;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
@@ -45,7 +46,41 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        $request->persist();
+        // 1️⃣ تحويل حالة العرض من string إلى enum
+        $statusEnum = $request->is_shown_in_store === 'shown'
+            ? ItemStatus::Shown
+            : ItemStatus::Hidden;
+
+        // 2️⃣ إنشاء المنتج
+        $item = Item::create([
+            'name' => $request->name,
+            'item_code' => $request->item_code,
+            'description' => $request->description,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'is_shown_in_store' => $statusEnum->value(),
+            'minimum_stock' => $request->minimum_stock,
+            'category_id' => $request->category_id,
+            'unit_id' => $request->unit_id,
+            'allow_decimal' => $request->allow_decimal ?? false,
+        ]);
+
+        // 3️⃣ رفع الصور المرتبطة بالمنتج
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $filename = time().'_'.$file->getClientOriginalName();
+                $path = $file->storeAs('items', $filename, 'public');
+
+                $item->gallery()->create([
+                    'filename' => $filename,
+                    'path' => $path,
+                    'ext' => $file->getClientOriginalExtension(),
+                    'size' => $file->getSize(),
+                    'mime_type' => $file->getMimeType(),
+                    'usage' => 'item_gallery',
+                ]);
+            }
+        }
 
         return redirect()->route('admin.items.index')
             ->with('success', 'تم إنشاء المنتج بنجاح');
@@ -80,7 +115,41 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        $request->persist($item);
+        // 1️⃣ تحويل حالة العرض من string إلى enum
+        $statusEnum = $request->is_shown_in_store === 'shown'
+            ? ItemStatus::Shown
+            : ItemStatus::Hidden;
+
+        // 2️⃣ تحديث المنتج
+        $item->update([
+            'name' => $request->name,
+            'item_code' => $request->item_code,
+            'description' => $request->description,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'is_shown_in_store' => $statusEnum->value(),
+            'minimum_stock' => $request->minimum_stock,
+            'category_id' => $request->category_id,
+            'unit_id' => $request->unit_id,
+            'allow_decimal' => $request->allow_decimal ?? false,
+        ]);
+
+        // 3️⃣ رفع الصور الجديدة إن وجدت
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $filename = time().'_'.$file->getClientOriginalName();
+                $path = $file->storeAs('items', $filename, 'public');
+
+                $item->gallery()->create([
+                    'filename' => $filename,
+                    'path' => $path,
+                    'ext' => $file->getClientOriginalExtension(),
+                    'size' => $file->getSize(),
+                    'mime_type' => $file->getMimeType(),
+                    'usage' => 'item_gallery',
+                ]);
+            }
+        }
 
         return redirect()->route('admin.items.index')
             ->with('success', 'تم تحديث المنتج بنجاح');

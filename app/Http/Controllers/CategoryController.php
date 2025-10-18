@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
+use App\CategoryStatus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,8 +21,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-
-        $categories = Cache::remember('categories_page_'.request('page', 1), 60, function () {
+        $categories = Cache::remember('categories_page_' . request('page', 1), 60, function () {
             return Category::with('photo')->paginate(15);
         });
 
@@ -38,7 +38,32 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $request->persist();
+        // تحويل الحالة إلى enum
+        $statusEnum = ($request->status === 'active')
+            ? CategoryStatus::Active
+            : CategoryStatus::Inactive;
+
+        // إنشاء الفئة
+        $category = Category::create([
+            'name' => $request->name,
+            'status' => $statusEnum->value(),
+        ]);
+
+        // في حالة وجود صورة
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('categories', $filename, 'public');
+
+            $category->photo()->create([
+                'filename' => $filename,
+                'path' => $path,
+                'ext' => $file->getClientOriginalExtension(),
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'usage' => 'category_photo',
+            ]);
+        }
 
         Cache::flush();
 
@@ -48,7 +73,6 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-
         $category->load('photo');
         $items = $category->items()->paginate(15);
 
@@ -60,9 +84,40 @@ class CategoryController extends Controller
         return view('admin.categories.edit', compact('category'));
     }
 
+    /**
+     * تحديث الفئة
+     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $request->persist($category);
+        $statusEnum = ($request->status === 'active')
+            ? CategoryStatus::Active
+            : CategoryStatus::Inactive;
+
+        $category->update([
+            'name' => $request->name,
+            'status' => $statusEnum->value(),
+        ]);
+
+        if ($request->hasFile('photo')) {
+            // حذف الصورة القديمة
+            if ($category->photo) {
+                Storage::disk('public')->delete($category->photo->path);
+                $category->photo->delete();
+            }
+
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('categories', $filename, 'public');
+
+            $category->photo()->create([
+                'filename' => $filename,
+                'path' => $path,
+                'ext' => $file->getClientOriginalExtension(),
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'usage' => 'category_photo',
+            ]);
+        }
 
         Cache::flush();
 
@@ -72,7 +127,6 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-
         if ($category->items()->exists()) {
             return redirect()->route('admin.categories.index')
                 ->with('error', 'لا يمكن حذف الفئة لأنها تحتوي على منتجات');
