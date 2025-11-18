@@ -2,24 +2,16 @@
 
 namespace App;
 
-enum CategoryStatus
+enum CategoryStatus: int
 {
-    case Active;
-    case Inactive;
+    case Active = 1;
+    case Inactive = 0;
 
     public function label(): string
     {
         return match ($this) {
-            self::Active => 'Active',
-            self::Inactive => 'Inactive',
-        };
-    }
-
-    public function value(): int
-    {
-        return match ($this) {
-            self::Active => 1,
-            self::Inactive => 0,
+            self::Active => 'نشط',
+            self::Inactive => 'غير نشط',
         };
     }
 
@@ -31,3 +23,5 @@ enum CategoryStatus
         };
     }
 }
+
+

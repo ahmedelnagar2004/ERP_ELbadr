@@ -4,185 +4,135 @@
 @section('page-title', 'إدارة العملاء')
 @section('page-subtitle', 'عرض وإدارة بيانات العملاء')
 
-@php
-    use App\Enums\ClientStatus;
-@endphp
-
 @section('content')
-<div class="container-fluid px-4">
-    <div class="space-y-6">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex align-items-center gap-4">
-                <a href="{{ route('admin.clients.create') }}" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i> إضافة عميل جديد
-                </a>
-                <div>
-                    <h3 class="h5 mb-0 text-gray-800 fw-bold">قائمة العملاء</h3>
-                    <p class="text-muted mb-0">إدارة بيانات العملاء</p>
-                </div>
-            </div>
-        </div>
+<style>
+    .table-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; box-shadow:0 2px 12px rgba(15,23,42,.04); }
+    .table-toolbar { display:flex; gap:12px; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #e2e8f0; flex-wrap: wrap; }
+    .toolbar-left { display:flex; gap:10px; align-items:center; }
+    .toolbar-input { border:1px solid #e2e8f0; border-radius:12px; padding:.5rem .75rem; min-width:260px; background:#f8fafc; }
+    .toolbar-select { border:1px solid #e2e8f0; border-radius:12px; padding:.5rem .75rem; background:#fff; }
+    .table-wrap { max-height: calc(100vh - 320px); overflow:auto; }
+    thead.sticky th { position: sticky; top: 0; background:#f8fafc; z-index: 1; }
+    tbody tr:nth-child(even) { background:#fafafa; }
+    tbody tr:hover { background:#f1f5f9; }
+    .action-btn { padding:.25rem .5rem; border-radius:.5rem; font-weight:600; }
+    .btn-view { color:#2563eb; }
+    .btn-edit { color:#7c3aed; }
+    .btn-delete { color:#dc2626; }
+</style>
 
-        <!-- Clients Table -->
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="text-nowrap text-end" style="width: 8%;">#</th>
-                                <th class="text-nowrap text-end" style="width: 25%;">الاسم</th>
-                                <th class="text-nowrap text-end" style="width: 20%;">البريد الإلكتروني</th>
-                                <th class="text-nowrap text-end" style="width: 15%;">رقم الهاتف</th>
-                                <th class="text-nowrap text-center" style="width: 12%;">الحالة</th>
-                                <th class="text-nowrap text-center" style="width: 20%;">إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($clients as $client)
-                                <tr>
-                                    <td class="text-nowrap text-end">{{ $loop->iteration }}</td>
-                                    <td class="text-nowrap text-end">{{ $client->name }}</td>
-                                    <td class="text-nowrap text-end">{{ $client->email }}</td>
-                                    <td class="text-nowrap text-end">{{ $client->phone }}</td>
-                                    <td class="text-center" style="width: 12%;">
-                                        @if ($client->status instanceof ClientStatus)
-                                            <span class="badge bg-{{ $client->status->color() }}">
-                                                {{ $client->status->label() }}
-                                            </span>
-                                        @else
-                                            <span class="badge bg-secondary">غير محدد</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a href="{{ route('admin.clients.show', $client->id) }}" class="btn btn-sm btn-action btn-view">
-                                                <i class="fas fa-eye"></i>
-                                                <span class="d-none d-md-inline">@lang('admin.COMMON.view')</span>
-                                            </a>
-                                            @can('edit-clients')
-                                            <a href="{{ route('admin.clients.edit', $client->id) }}" class="btn btn-sm btn-action btn-edit">
-                                                <i class="fas fa-edit"></i>
-                                                <span class="d-none d-md-inline">@lang('admin.COMMON.edit')</span>
-                                            </a>
-                                            @endcan
-                                            @can('delete-clients')
-                                            <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" class="d-inline" onsubmit="return confirm('هل أنت متأكد من حذف العميل؟');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-action btn-delete">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                    <span class="d-none d-md-inline">@lang('admin.COMMON.delete')</span>
-                                                </button>
-                                            </form>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center py-5">
-                                        <div class="empty-state">
-                                            <div class="empty-state-icon">
-                                                <i class="fas fa-users"></i>
-                                            </div>
-                                            <h4 class="mt-4 mb-3">لا يوجد عملاء</h4>
-                                            <p class="text-muted mb-4">لم يتم العثور على أي عملاء. يمكنك إضافة عميل جديد بالنقر على الزر أدناه</p>
-                                            <a href="{{ route('admin.clients.create') }}" class="btn btn-primary btn-lg">
-                                                <i class="fas fa-plus-circle me-2"></i> إضافة عميل جديد
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+<div class="page-header flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-gray-900">قائمة العملاء</h2>
+        <p class="text-sm text-gray-500 mt-1">إدارة بيانات العملاء</p>
+    </div>
+    @can('create-clients')
+    <a href="{{ route('admin.clients.create') }}" class="btn btn-success">إضافة عميل جديد</a>
+    @endcan
+</div>
 
-                @if($clients->hasPages())
-                <div class="card-footer d-flex flex-column flex-md-row justify-content-between align-items-center py-3 px-4 border-top">
-                    <div class="text-muted small mb-2 mb-md-0">
-                        <i class="fas fa-database me-1"></i>
-                        عرض <span class="fw-bold">{{ $clients->firstItem() }}</span> إلى
-                        <span class="fw-bold">{{ $clients->lastItem() }}</span> من إجمالي
-                        <span class="fw-bold">{{ $clients->total() }}</span> عميل
-                    </div>
-                    <div class="pagination-wrap mt-3 mt-md-0">
-                        {{ $clients->onEachSide(1)->withQueryString()->links() }}
-                    </div>
-                </div>
-                @endif
-            </div>
+<div class="table-card">
+    <div class="table-toolbar">
+        <div class="toolbar-left">
+            <input id="clientsSearch" type="search" class="toolbar-input" placeholder="بحث بالاسم أو البريد أو الهاتف...">
         </div>
+        <div class="flex items-center gap-2">
+            <label for="clientsSortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
+            <select id="clientsSortBy" class="toolbar-select">
+                <option value="name">الاسم</option>
+                <option value="email">البريد</option>
+                <option value="phone">الهاتف</option>
+                <option value="created_at">تاريخ الإنشاء</option>
+            </select>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table class="min-w-full w-full">
+            <thead class="sticky">
+                <tr>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الاسم</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">البريد</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الهاتف</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحالة</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الرصيد</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">تاريخ الإنشاء</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="clientsTableBody">
+                @forelse($clients as $client)
+                <tr data-name="{{ Str::lower($client->name) }}" data-email="{{ Str::lower($client->email) }}" data-phone="{{ Str::lower($client->phone) }}" data-created_at="{{ optional($client->created_at)->timestamp ?? 0 }}">
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $client->name }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->email }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->phone }}</td>
+                    
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->status->label() }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->balance }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->created_at ? $client->created_at->format('Y-m-d') : '-' }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                        <div class="flex gap-3 justify-center">
+                            <a href="{{ route('admin.clients.show', $client->id) }}" class="action-btn btn-view">عرض</a>
+                            @can('edit-clients')
+                            <a href="{{ route('admin.clients.edit', $client->id) }}" class="action-btn btn-edit">تعديل</a>
+                            @endcan
+                            @can('delete-clients')
+                            <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف العميل؟')">حذف</button>
+                            </form>
+                            @endcan
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">لا توجد بيانات عملاء</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 
-<style>
-.payment-method {
-    transition: all 0.2s ease;
-    min-width: 100px;
-    justify-content: center;
-}
-.payment-method i {
-    font-size: 1rem;
-}
-.btn-action {
-    border-radius: 6px;
-    padding: 0.35rem 0.75rem;
-    font-size: 0.8rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    transition: all 0.2s;
-}
-.btn-view {
-    background-color: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
-    border: 1px solid rgba(13, 110, 253, 0.2);
-}
-.btn-view:hover {
-    background-color: #0d6efd;
-    color: white;
-}
-.btn-edit {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
-    border: 1px solid rgba(255, 193, 7, 0.2);
-}
-.btn-edit:hover {
-    background-color: #ffc107;
-    color: white;
-}
-.btn-delete {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    border: 1px solid rgba(220, 53, 69, 0.2);
-}
-.btn-delete:hover {
-    background-color: #dc3545;
-    color: white;
-}
-
-/* لون الكلام داخل الشارات */
-.badge {
-    color: black !important;
-}
-
-.empty-state {
-    text-align: center;
-}
-.empty-state-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 2rem;
-}
-</style>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const $search = document.getElementById('clientsSearch');
+        const $sort = document.getElementById('clientsSortBy');
+        const $tbody = document.getElementById('clientsTableBody');
+
+        const filterRows = () => {
+            const q = ($search.value || '').toLowerCase().trim();
+            [...$tbody.rows].forEach(tr => {
+                const name = tr.getAttribute('data-name') || '';
+                const email = tr.getAttribute('data-email') || '';
+                const phone = tr.getAttribute('data-phone') || '';
+                tr.style.display = (name.includes(q) || email.includes(q) || phone.includes(q)) ? '' : 'none';
+            });
+        };
+
+        const sortRows = () => {
+            const key = $sort.value;
+            const rows = [...$tbody.rows].filter(r => r.style.display !== 'none');
+            rows.sort((a,b) => {
+                const va = a.getAttribute('data-' + key) || '';
+                const vb = b.getAttribute('data-' + key) || '';
+                const na = parseFloat(va);
+                const nb = parseFloat(vb);
+                if (!isNaN(na) && !isNaN(nb)) return na - nb; // numeric asc (for timestamp)
+                return va.localeCompare(vb, 'ar'); // textual asc
+            });
+            rows.forEach(r => $tbody.appendChild(r));
+        };
+
+        if ($search) $search.addEventListener('input', () => { filterRows(); sortRows(); });
+        if ($sort) $sort.addEventListener('change', sortRows);
+
+        filterRows();
+        sortRows();
+    });
+</script>
+@endpush

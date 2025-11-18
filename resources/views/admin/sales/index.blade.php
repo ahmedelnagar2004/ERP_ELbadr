@@ -6,136 +6,172 @@
 
 @push('styles')
 <style>
+    .table-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; box-shadow:0 2px 12px rgba(15,23,42,.04); }
+    .table-toolbar { display:flex; gap:12px; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #e2e8f0; flex-wrap: wrap; }
+    .toolbar-left { display:flex; gap:10px; align-items:center; }
+    .toolbar-input { border:1px solid #e2e8f0; border-radius:12px; padding:.5rem .75rem; min-width:240px; background:#f8fafc; }
+    .toolbar-select { border:1px solid #e2e8f0; border-radius:12px; padding:.5rem .75rem; background:#fff; }
+    .table-wrap { max-height: calc(100vh - 320px); overflow:auto; }
+    thead.sticky th { position: sticky; top: 0; background:#f8fafc; z-index: 1; }
+    tbody tr:nth-child(even) { background:#fafafa; }
+    tbody tr:hover { background:#f1f5f9; }
+    
     /* Payment Method Styles */
     .payment-method {
         transition: all 0.2s ease;
         min-width: 100px;
         justify-content: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 500;
     }
-    .payment-method i {
-        font-size: 1rem;
-    }
-    .bg-success-light { background-color: rgba(40, 167, 69, 0.1) !important; }
-    .bg-info-light { background-color: rgba(23, 162, 184, 0.1) !important; }
-    .bg-primary-light { background-color: rgba(13, 110, 253, 0.1) !important; }
-    .bg-warning-light { background-color: rgba(255, 193, 7, 0.1) !important; }
-    .bg-secondary-light { background-color: rgba(108, 117, 125, 0.1) !important; }
+    
+    .bg-success-light { background-color: rgba(40, 167, 69, 0.1) !important; color: #28a745; }
+    .bg-info-light { background-color: rgba(23, 162, 184, 0.1) !important; color: #17a2b8; }
+    .bg-primary-light { background-color: rgba(13, 110, 253, 0.1) !important; color: #0d6efd; }
+    .bg-warning-light { background-color: rgba(255, 193, 7, 0.1) !important; color: #ffc107; }
+    .bg-secondary-light { background-color: rgba(108, 117, 125, 0.1) !important; color: #6c757d; }
     
     /* Action Buttons */
     .btn-action {
-        border-radius: 6px;
-        padding: 0.35rem 0.75rem;
+        border-radius: 8px;
+        padding: 0.35rem 0.6rem;
         font-size: 0.8rem;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 0.35rem;
         transition: all 0.2s;
+        min-width: 80px;
     }
     
-    .btn-view {
-        background-color: rgba(13, 110, 253, 0.1);
-        color: #0d6efd;
-        border: 1px solid rgba(13, 110, 253, 0.2);
-    }
-    .btn-view:hover {
-        background-color: #0d6efd;
-        color: white;
+    .btn-view { background-color: rgba(13, 110, 253, 0.1); color: #0d6efd; }
+    .btn-view:hover { background-color: #0d6efd; color: white; }
+    
+    .btn-edit { background-color: rgba(255, 193, 7, 0.1); color: #ffc107; }
+    .btn-edit:hover { background-color: #ffc107; color: #000; }
+    
+    .btn-delete { background-color: rgba(220, 53, 69, 0.1); color: #dc3545; }
+    .btn-delete:hover { background-color: #dc3545; color: white; }
+    
+    .btn-print { background-color: rgba(111, 66, 193, 0.1); color: #6f42c1; }
+    .btn-print:hover { background-color: #6f42c1; color: white; }
+    
+    /* Status Badges */
+    .status-badge {
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
-    .btn-edit {
-        background-color: rgba(255, 193, 7, 0.1);
-        color: #ffc107;
-        border: 1px solid rgba(255, 193, 7, 0.2);
-    }
-    .btn-edit:hover {
-        background-color: #ffc107;
-        color: #000;
-    }
-    
-    .btn-delete {
-        background-color: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-        border: 1px solid rgba(220, 53, 69, 0.2);
-    }
-    .btn-delete:hover {
-        background-color: #dc3545;
-        color: white;
-    }
-    
-    .btn-print {
-        background-color: rgba(111, 66, 193, 0.1);
-        color: #6f42c1;
-        border: 1px solid rgba(111, 66, 193, 0.2);
-    }
-    .btn-print:hover {
-        background-color: #6f42c1;
-        color: white;
+    .status-badge i {
+        font-size: 0.6rem;
     }
     
     /* Table Styling */
     .table {
         --bs-table-bg: transparent;
+        margin-bottom: 0;
     }
-    .table > :not(:first-child) {
-        border-top: none;
-    }
+    
     .table > thead > tr > th {
         font-weight: 600;
         text-transform: uppercase;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         letter-spacing: 0.5px;
-        color: #6c757d;
-        border-bottom-width: 1px;
-        padding: 1rem 1.5rem;
+        color: #64748b;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #e2e8f0;
+        white-space: nowrap;
     }
+    
     .table > tbody > tr > td {
-        padding: 1rem 1.5rem;
+        padding: 1rem 1.25rem;
         vertical-align: middle;
-        border-color: #f1f1f1;
+        border-color: #f1f5f9;
+        color: #334155;
     }
-    .table-hover > tbody > tr:hover {
-        --bs-table-accent-bg: rgba(0, 0, 0, 0.015);
+    
+    .table > tbody > tr:last-child > td {
+        border-bottom: none;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .table-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+        
+        .toolbar-left {
+            width: 100%;
+        }
+        
+        .toolbar-input {
+            width: 100%;
+            min-width: auto;
+        }
     }
 </style>
 @endpush
 
 @section('content')
-<div class="container-fluid px-4">
-    <div class="space-y-6">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex align-items-center gap-4">
-                <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i> @lang('admin.COMMON.add_new_sale')
-                </a>
-                <div>
-                    <h3 class="h5 mb-0 text-gray-800 fw-bold">@lang('admin.COMMON.sales')</h3>
-                    <p class="text-muted mb-0">@lang('admin.COMMON.sales_description')</p>
-                </div>
+<div class="container-fluid d-flex flex-column min-vh-100">
+    <div class="page-header flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-xl font-bold text-gray-900">قائمة المبيعات</h2>
+            <p class="text-sm text-gray-500 mt-1">إدارة ومتابعة جميع عمليات البيع</p>
+        </div>
+        <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
+            <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
+        </a>
+    </div>
+
+    <div class="table-card">
+        <div class="table-toolbar">
+            <div class="toolbar-left">
+                <input id="salesSearch" type="search" class="toolbar-input" placeholder="ابحث برقم الفاتورة أو اسم العميل..." value="{{ request('search') }}">
+            </div>
+            <div class="flex items-center gap-2">
+                <label for="salesSortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
+                <select id="salesSortBy" class="toolbar-select">
+                    <option value="date_desc">الأحدث أولاً</option>
+                    <option value="date_asc">الأقدم أولاً</option>
+                    <option value="amount_desc">الأعلى مبيعاً</option>
+                    <option value="amount_asc">الأقل مبيعاً</option>
+                    <option value="customer">اسم العميل (أ-ي)</option>
+                </select>
             </div>
         </div>
-    <!-- Sales Table -->
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="text-nowrap text-end" style="width: 10%;">@lang('admin.COMMON.invoice_number')</th>
-                            <th class="text-nowrap text-end" style="width: 20%;">@lang('admin.COMMON.client')</th>
-                            <th class="text-nowrap text-end" style="width: 15%;">@lang('admin.COMMON.created_at')</th>
-                            <th class="text-nowrap text-end" style="width: 15%;">@lang('admin.COMMON.total')</th>
-                            <th class="text-nowrap text-center" style="width: 15%;">@lang('admin.COMMON.payment_type')</th>
-                            <th class="text-nowrap text-center" style="width: 15%;">@lang('admin.COMMON.actions')</th>
-                        </tr>
+        
+        <div class="table-wrap">
+            <table class="min-w-full w-full">
+                <thead class="sticky">
+                    <tr>
+                        <th class="text-end py-3 px-4">رقم الفاتورة</th>
+                        <th class="text-end py-3 px-4">العميل</th>
+                        <th class="text-end py-3 px-4">التاريخ</th>
+                        <th class="text-end py-3 px-4">الإجمالي</th>
+                        <th class="text-center py-3 px-4">حالة الدفع</th>                  
+                        <th class="text-center py-3 px-4">الإجراءات</th>
+                    </tr>
                 </thead>
-                    <tbody>
-                        @forelse($sales ?? [] as $sale)
-                            <tr>
-                                <td class="text-nowrap text-end">
-                                    <div class="fw-semibold">
-                                        {{ $sale->invoice_number }}
-                                    </div>
+                <tbody id="salesTableBody">
+                    @forelse($sales ?? [] as $sale)
+                        <tr data-invoice="{{ $sale->invoice_number }}" data-customer="{{ $sale->client->name }}" data-date="{{ $sale->created_at->format('Y-m-d') }}" data-amount="{{ $sale->total_amount }}">
+                            <td class="py-3 px-4">
+                                <div class="font-semibold text-gray-900">
+                                            {{ $sale->invoice_number }}
+                                        </div>
                                 </td>
                                 <td class="text-nowrap text-end">
                                     <div class="fw-medium">{{ $sale->client->name ?? 'عميل غير محدد' }}</div>
@@ -202,17 +238,17 @@
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('admin.sales.show', $sale->id) }}" class="btn btn-sm btn-action btn-view" data-bs-toggle="tooltip" title="عرض التفاصيل">
                                             <i class="fas fa-eye"></i>
-                                            <span class="d-none d-md-inline">@lang('admin.COMMON.view')</span>
+                                            <span class="d-none d-md-inline">عرض</span>
                                         </a>
                                         @can('delete-sales')
                                         <button onclick="confirmDelete({{ $sale->id }}, '{{ $sale->invoice_number }}')" class="btn btn-sm btn-action btn-delete" data-bs-toggle="tooltip" title="حذف الفاتورة">
                                             <i class="fas fa-trash-alt"></i>
-                                            <span class="d-none d-md-inline">@lang('admin.COMMON.delete')</span>
+                                            <span class="d-none d-md-inline">حذف</span>
                                         </button>
                                         @endcan
                                         <a href="{{ route('admin.sales.print', $sale->id) }}" target="_blank" class="btn btn-sm btn-action btn-print" data-bs-toggle="tooltip" title="طباعة الفاتورة">
                                             <i class="fas fa-print"></i>
-                                            <span class="d-none d-md-inline">@lang('admin.COMMON.print')</span>
+                                            <span class="d-none d-md-inline">طباعة</span>
                                         </a>
                                     </div>
                                 </td>
@@ -254,6 +290,31 @@
             @endif
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="mt-auto py-4 border-t border-gray-200 bg-white">
+        <div class="container-fluid">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="mb-3 mb-md-0">
+                    <span class="text-muted">
+                        &copy; {{ date('Y') }} نظام إدارة المبيعات - جميع الحقوق محفوظة
+                    </span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="text-muted me-3">
+                        <i class="fas fa-info-circle me-1"></i> 
+                        إصدار {{ config('app.version', '1.0.0') }}
+                    </span>
+                    <div class="vr mx-2 d-none d-md-block"></div>
+                    <a href="#" class="text-decoration-none text-muted me-3">
+                        <i class="fas fa-question-circle me-1"></i> المساعدة
+                    </a>
+                    <a href="#" class="text-decoration-none text-muted">
+                        <i class="fas fa-cog me-1"></i> الإعدادات
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!-- Delete Confirmation Modal -->
@@ -297,13 +358,109 @@
 </div>
 
 @push('scripts')
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    // Initialize tooltips
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
+
+        // Search and sort functionality
+        const searchInput = document.getElementById('salesSearch');
+        const sortSelect = document.getElementById('salesSortBy');
+        const tableBody = document.getElementById('salesTableBody');
+        
+        if (searchInput && sortSelect && tableBody) {
+            // Initialize search from URL parameter if exists
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('search')) {
+                searchInput.value = urlParams.get('search');
+            }
+            
+            // Debounce function to limit how often the search runs
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+            
+            // Add event listeners with debounce
+            searchInput.addEventListener('input', debounce(filterAndSort, 300));
+            sortSelect.addEventListener('change', filterAndSort);
+            
+            function filterAndSort() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                const sortValue = sortSelect.value;
+                const rows = Array.from(tableBody.querySelectorAll('tr[data-invoice]'));
+                let hasResults = false;
+                
+                // Filter rows
+                rows.forEach(row => {
+                    const invoice = row.getAttribute('data-invoice').toLowerCase();
+                    const customer = row.getAttribute('data-customer').toLowerCase();
+                    
+                    if (searchTerm === '' || invoice.includes(searchTerm) || customer.includes(searchTerm)) {
+                        row.style.display = '';
+                        hasResults = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                const noResults = tableBody.querySelector('tr:not([data-invoice])');
+                if (noResults) {
+                    noResults.style.display = hasResults ? 'none' : '';
+                }
+                
+                // Sort visible rows
+                const visibleRows = rows.filter(row => row.style.display !== 'none');
+                
+                visibleRows.sort((a, b) => {
+                    switch(sortValue) {
+                        case 'date_desc':
+                            return b.getAttribute('data-date') - a.getAttribute('data-date');
+                        case 'date_asc':
+                            return a.getAttribute('data-date') - b.getAttribute('data-date');
+                        case 'amount_desc':
+                            return parseFloat(b.getAttribute('data-amount')) - parseFloat(a.getAttribute('data-amount'));
+                        case 'amount_asc':
+                            return parseFloat(a.getAttribute('data-amount')) - parseFloat(b.getAttribute('data-amount'));
+                        case 'customer':
+                            return a.getAttribute('data-customer').localeCompare(b.getAttribute('data-customer'));
+                        default:
+                            return 0;
+                    }
+                });
+                
+                // Re-append sorted rows
+                visibleRows.forEach(row => tableBody.appendChild(row));
+                
+                // Update URL with search parameter (without page reload)
+                const url = new URL(window.location);
+                if (searchTerm) {
+                    url.searchParams.set('search', searchTerm);
+                } else {
+                    url.searchParams.delete('search');
+                }
+                window.history.replaceState({}, '', url);
+            }
+            
+            // Initial sort and filter
+            filterAndSort();
+        }
     });
 
     function confirmDelete(saleId, invoiceNumber) {

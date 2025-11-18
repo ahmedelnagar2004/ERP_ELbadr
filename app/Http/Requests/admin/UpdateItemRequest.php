@@ -28,7 +28,7 @@ class UpdateItemRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'quantity' => ['required', 'numeric', 'min:0'],
-            'is_shown_in_store' => ['required', 'in:shown,hidden'],
+            'is_shown_in_store' => ['required', 'in:0,1'],
             'minimum_stock' => ['required', 'numeric', 'min:0'],
             'category_id' => ['required', 'exists:categories,id'],
             'unit_id' => ['required', 'exists:units,id'],

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ClientStatus;
-use App\SafeStatus;
-use App\Http\Requests\Admin\StoreSafeRequest;
-use App\Http\Requests\Admin\UpdateSafeRequest;
 use App\Models\Safe;
+use App\SafeStatus;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\admin\StoreSafeRequest;
+use App\Enums\safeTransactionTypeStatus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SafeController extends Controller
 {
@@ -26,7 +29,6 @@ class SafeController extends Controller
     public function index()
     {
         $safes = Safe::latest()->paginate(10);
-
         return view('admin.safes.index', compact('safes'));
     }
 
@@ -37,51 +39,39 @@ class SafeController extends Controller
 
     public function store(StoreSafeRequest $request)
     {
-        $statusEnum = $request->status === 'active'
-            ?SafeStatus :: ACTIVE
-            : SafeStatus:: INACTIVE;
-
-      Safe::Create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'type' => $request->type,
-            'account_number' => $request->account_number,
-            'currency' => $request->currency,
-            'status' => $statusEnum->value,
-            'balance' => $request->balance,
-        ]);
-
+        $validated = $request->validated();
+        $safe = Safe::create($validated);
+       
         return redirect()->route('admin.safes.index')->with('success', 'Safe created successfully');
+        
     }
 
-    /**
-     * Display the specified safe.
-     */
+
+
     public function show(Safe $safe)
     {
-        $safe->load(['transactions' => function ($query) {
-            $query->latest()->limit(10);
-        }]);
-
-        return view('admin.safes.show', compact('safe'));
+        $transactions = $safe->transactions()->with(['user', 'reference'])->latest()->paginate(20);
+        return view('admin.safes.show', compact('safe', 'transactions'));
     }
 
     public function edit(Safe $safe)
     {
         return view('admin.safes.edit', compact('safe'));
     }
-
-    public function update(UpdateSafeRequest $request, Safe $safe)
+    public function update(StoreSafeRequest $request, Safe $safe)
     {
-        $request->persist($safe);
-
+        $safe->update($request->validated());
         return redirect()->route('admin.safes.index')->with('success', 'Safe updated successfully');
     }
-
     public function destroy(Safe $safe)
     {
         $safe->delete();
-
         return redirect()->route('admin.safes.index')->with('success', 'Safe deleted successfully');
     }
 }
+    
+
+
+
+
+

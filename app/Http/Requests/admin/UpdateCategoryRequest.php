@@ -32,7 +32,7 @@ class UpdateCategoryRequest extends FormRequest
                 'max:255',
                 Rule::unique(Category::class)->ignore($this->route('category')->id),
             ],
-            'status' => ['required', 'in:active,inactive'],
+            'status' => ['required', 'integer', 'in:0,1'],
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ];
     }
@@ -44,7 +44,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'اسم الفئة مطلوب',
-            'name.string' => 'اسم الفئة يجب أن يكون نصاً',
+            'name.string' => 'اسم الفئة يجب أن يكون نص',
             'name.max' => 'اسم الفئة يجب ألا يزيد عن 255 حرف',
             'name.unique' => 'اسم الفئة موجود بالفعل',
             'status.required' => 'حالة الفئة مطلوبة',
@@ -58,37 +58,7 @@ class UpdateCategoryRequest extends FormRequest
     /**
      * هنا بنعمل العملية كاملة (تحديث الفئة + رفع الصورة)
      */
-    public function persist(Category $category): Category
-    {
-        // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? CategoryStatus::Active : CategoryStatus::Inactive;
-
-        $category->update([
-            'name' => $this->name,
-            'status' => $statusEnum->value(), // استخدام قيمة الـ enum (1 أو 0)
-        ]);
-
-        if ($this->hasFile('photo')) {
-            // Delete old photo if exists
-            if ($category->photo) {
-                Storage::disk('public')->delete($category->photo->path);
-                $category->photo->delete();
-            }
-
-            $file = $this->file('photo');
-            $filename = time().'_'.$file->getClientOriginalName();
-            $path = $file->storeAs('categories', $filename, 'public');
-
-            $category->photo()->create([
-                'filename' => $filename,
-                'path' => $path,
-                'ext' => $file->getClientOriginalExtension(),
-                'size' => $file->getSize(),
-                'mime_type' => $file->getMimeType(),
-                'usage' => 'category_photo',
-            ]);
-        }
-
-        return $category;
-    }
+    
 }
+
+

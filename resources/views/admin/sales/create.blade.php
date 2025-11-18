@@ -31,22 +31,34 @@
 
         <!-- اختيار العميل -->
         <div class="mb-3">
-            <label class="form-label fw-bold">@lang('admin.COMMON.search')</label>
+            <label class="form-label fw-bold">بحث عن العميل</label>
             <select name="client_id" id="client-search" class="form-control" required>
-                <option value="">-- @lang('admin.COMMON.search') --</option>
+                <option value="">-- ابحث عن العميل --</option>
                 @foreach($clients as $client)
                     <option value="{{ $client->id }}">{{ $client->display_name }} - {{ $client->phone ?? '' }}</option>
                 @endforeach
             </select>
         </div>
-
         <div class="row mb-3">
             <div class="col-md-6">
-                <label class="form-label fw-bold">@lang('admin.COMMON.safe')</label>
+                <label class="form-label fw-bold">الخزنة</label>
                 <select name="safe_id" id="safe_id" class="form-control" required>
-                    <option value="">-- @lang('admin.COMMON.safe') --</option>
+                    <option value="">-- اختر الخزنة --</option>
                     @foreach($safes as $safe)
                         <option value="{{ $safe->id }}">{{ $safe->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <!-- اختيار المخزن -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">المخزن</label>
+                <select name="warehouse_id" id="warehouse_id" class="form-control" required>
+                    <option value="">-- اختر المخزن --</option>
+                    @foreach($warehouses as $warehouse)
+                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -55,35 +67,38 @@
         <!-- طريقة الدفع -->
         <div class="row mb-3">
             <div class="col-md-6">
-                <label class="form-label fw-bold">@lang('admin.COMMON.payment_type')</label>
+                <label class="form-label fw-bold">طريقة الدفع</label>
                 <select name="payment_type" id="payment_type" class="form-control" required>
-                    <option value="cash">@lang('admin.COMMON.cash')</option>
-                    <option value="card">@lang('admin.COMMON.credit_card')</option>
-                    <option value="credit">@lang('admin.COMMON.credit')</option>
+                    <option value="cash">كاش</option>
+                    <option value="card">بطاقة</option>
+                    <option value="bank">تحويل بنكي</option>
+                    <option value="credit">آجل</option>
                 </select>
             </div>
             <div class="col-md-6">
-                <label class="form-label fw-bold">@lang('admin.COMMON.paid_amount')</label>
+                <label class="form-label fw-bold">المبلغ المدفوع</label>
                 <div class="input-group">
-                    <input type="number" name="paid_amount" id="paid_amount" class="form-control" value="0" min="0" step="0.01" disabled>
+                    <input type="number" name="paid_amount" id="paid_amount" class="form-control" value="0" min="0" step="0.01" readonly>
                     <span class="input-group-text">ج.م</span>
                 </div>
-                <small class="text-muted" id="remaining-amount-hint">@lang('admin.COMMON.remaining_amount') : <span id="remaining-amount">0.00</span> ج.م</small>
+                <small class="text-muted" id="remaining-amount-hint">المبلغ المتبقي: <span id="remaining-amount">0.00</span> ج.م</small>
             </div>
         </div>
+        <!-- Safe -->
+        
         <!-- العناصر -->
         <div class="mb-3">
-            <label class="form-label fw-bold">@lang('admin.COMMON.items')</label>
+            <label class="form-label fw-bold">المنتجات</label>
             <table class="table table-bordered" id="items-table">
                 <thead class="table-light">
                     <tr>
-                        <th>@lang('admin.COMMON.item')</th>
-                        <th>@lang('admin.COMMON.quantity')</th>
-                        <th>@lang('admin.COMMON.price')</th>
-                        <th>@lang('admin.COMMON.total')</th>
+                        <th>المنتج</th>
+                        <th>الكمية</th>
+                        <th>السعر</th>
+                        <th>الإجمالي</th>
                         <th>
                             <button type="button" class="btn btn-success btn-sm" id="add-item">
-                                + @lang('admin.COMMON.add')
+                                + إضافة
                             </button>
                         </th>
                     </tr>
@@ -94,11 +109,11 @@
                             <select name="items[0][item_id]" class="form-control item-select" required>
                                 <option value="">-- اختر المنتج --</option>
                                 @foreach($items as $item)
-                                    <option value="{{ $item->id }}"
+                                    <option value="{{ $item->id }}" 
                                             data-price="{{ $item->price }}"
                                             data-quantity="{{ $item->quantity }}"
                                             data-code="{{ $item->code ?? '' }}">
-                                        {{ $item->name }}  - متاح: {{ $item->quantity }}
+                                        {{ $item->name }} ({{ $item->code ?? 'بدون كود' }}) - متاح: {{ $item->quantity }}
                                     </option>
                                 @endforeach
                             </select>
@@ -115,15 +130,15 @@
         <!-- الخصم والشحن -->
         <div class="row">
             <div class="col-md-4 mb-3">
-                <label class="form-label fw-bold">@lang('admin.COMMON.discount_type')</label>
+                <label class="form-label fw-bold">نوع الخصم</label>
                 <select name="discount_type" id="discount_type" class="form-control">
-                    <option value="">@lang('admin.COMMON.discount_type')</option>
-                    <option value="fixed">@lang('admin.COMMON.fixed')</option>
-                    <option value="percentage">@lang('admin.COMMON.percentage')</option>
+                    <option value="">بدون خصم</option>
+                    <option value="fixed">مبلغ ثابت</option>
+                    <option value="percentage">نسبة مئوية</option>
                 </select>
             </div>
             <div class="col-md-4 mb-3">
-                <label class="form-label fw-bold">@lang('admin.COMMON.discount_value')</label>
+                <label class="form-label fw-bold">قيمة الخصم</label>
                 <div class="input-group">
                     <input type="number" name="discount" id="discount" class="form-control discount-field" value="0" min="0" step="0.01" disabled>
                     <span class="input-group-text discount-percentage" style="display: none;">%</span>
@@ -131,7 +146,7 @@
                 <small class="text-muted" id="discount-hint"></small>
             </div>
             <div class="col-md-4 mb-3">
-                <label class="form-label fw-bold">@lang('admin.COMMON.shipping_cost')</label>
+                <label class="form-label fw-bold">تكلفة الشحن</label>
                 <input type="number" name="shipping_cost" id="shipping_cost" class="form-control" value="0" min="0" step="0.01">
             </div>
         </div>
@@ -141,18 +156,18 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <h5>@lang('admin.COMMON.subtotal'): <span id="subtotal">0.00</span> ج.م</h5>
+                        <h5>الإجمالي: <span id="subtotal">0.00</span> ج.م</h5>
                     </div>
                     <div class="col-md-4">
-                        <h5>@lang('admin.COMMON.discount_value'): <span id="discount-amount">0.00</span> ج.م</h5>
+                        <h5>الخصم: <span id="discount-amount">0.00</span> ج.م</h5>
                     </div>
                     <div class="col-md-4">
-                        <h5>@lang('admin.COMMON.shipping_cost'): <span id="shipping-amount">0.00</span> ج.م</h5>
+                        <h5>الشحن: <span id="shipping-amount">0.00</span> ج.م</h5>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <h4 class="border-top pt-2">@lang('admin.COMMON.net_total'): <span id="net_total">0.00</span> ج.م</h4>
+                        <h4 class="border-top pt-2">الصافي: <span id="net_total">0.00</span> ج.م</h4>
                         <div id="payment-summary" class="mt-2" style="display: none;">
                             <div class="d-flex justify-content-between">
                                 <span>المبلغ المدفوع:</span>
@@ -170,11 +185,11 @@
 
         <!-- ملاحظات -->
         <div class="mb-3">
-            <label class="form-label fw-bold">@lang('admin.COMMON.notes')</label>
+            <label class="form-label fw-bold">ملاحظات</label>
             <textarea name="notes" class="form-control" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">@lang('admin.COMMON.save_invoice')</button>
+        <button type="submit" class="btn btn-primary">حفظ الفاتورة</button>
     </form>
 </div>
 @endsection
@@ -230,7 +245,7 @@ $(document).ready(function() {
 
         let discount = parseFloat($('#discount').val()) || 0;
         const discountType = $('#discount_type').val();
-
+        
         if (discountType === 'percentage') {
             discount = (subtotal * discount) / 100;
             $('.discount-percentage').show();
@@ -252,7 +267,7 @@ $(document).ready(function() {
         $('#discount-amount').text(discount.toFixed(2));
         $('#shipping-amount').text(shipping.toFixed(2));
         $('#net_total').text(net.toFixed(2));
-
+        
         // Update paid amount if not credit
         if ($('#payment_type').val() !== 'credit') {
             $('#paid_amount').val(net.toFixed(2));
@@ -263,7 +278,7 @@ $(document).ready(function() {
                 $('#paid_amount').val(net.toFixed(2));
             }
         }
-
+        
         // Update payment summary
         updatePaymentSummary();
     }
@@ -276,7 +291,7 @@ $(document).ready(function() {
                     <select name="items[${rowIndex}][item_id]" class="form-control item-select" required>
                         <option value="">-- اختر المنتج --</option>
                         @foreach($items as $item)
-                            <option value="{{ $item->id }}"
+                            <option value="{{ $item->id }}" 
                                     data-price="{{ $item->price }}"
                                     data-quantity="{{ $item->quantity }}"
                                     data-code="{{ $item->code ?? '' }}">
@@ -291,9 +306,9 @@ $(document).ready(function() {
                 <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>
             </tr>
         `;
-
+        
         $('#items-table tbody').append(newRow);
-
+        
         // Initialize Select2 for the new row
         $('.item-select').last().select2({
             placeholder: 'ابحث عن منتج...',
@@ -308,31 +323,31 @@ $(document).ready(function() {
             },
             width: '100%'
         });
-
+        
         rowIndex++;
     });
 
     // Product search functionality
     $('#product-search').on('input', function() {
         const searchTerm = $(this).val().toLowerCase();
-
+        
         if (searchTerm.length > 0) {
             $('.item-select').each(function() {
                 const $select = $(this);
                 let found = false;
-
+                
                 $('option', $select).each(function() {
                     const text = $(this).text().toLowerCase();
                     const code = $(this).data('code') || '';
                     const isMatch = text.includes(searchTerm) || code.toString().includes(searchTerm);
-
+                    
                     if (isMatch) {
                         found = true;
                         $select.val($(this).val()).trigger('change');
                         return false; // Exit the loop once a match is found
                     }
                 });
-
+                
                 if (found) {
                     $select.trigger('change');
                     return false; // Exit the loop if a match is found in any select
@@ -346,10 +361,10 @@ $(document).ready(function() {
         const selectedOption = $(this).find('option:selected');
         const price = selectedOption.data('price') || 0;
         const availableQty = selectedOption.data('quantity') || 0;
-
+        
         $(this).closest('tr').find('.price').val(price);
         $(this).closest('tr').find('.quantity').attr('max', availableQty);
-
+        
         calculateTotals();
     });
 
@@ -359,12 +374,12 @@ $(document).ready(function() {
         const selectedOption = $row.find('.item-select option:selected');
         const availableQty = selectedOption.data('quantity') || 0;
         const enteredQty = parseInt($(this).val()) || 0;
-
+        
         if (enteredQty > availableQty) {
             $(this).val(availableQty);
             alert('الكمية المطلوبة غير متوفرة. الحد الأقصى المتاح: ' + availableQty);
         }
-
+        
         calculateTotals();
     });
 
@@ -372,14 +387,14 @@ $(document).ready(function() {
     $('#discount_type').on('change', function() {
         const discountType = $(this).val();
         const $discountField = $('#discount');
-
+        
         if (discountType === '') {
             $discountField.prop('disabled', true).val(0);
             $('.discount-field').hide();
         } else {
             $discountField.prop('disabled', false).val('');
             $('.discount-field').show();
-
+            
             if (discountType === 'percentage') {
                 $('.discount-percentage').show();
                 $discountField.attr('max', '100');
@@ -388,7 +403,7 @@ $(document).ready(function() {
                 $discountField.removeAttr('max');
             }
         }
-
+        
         calculateTotals();
     });
 
@@ -401,32 +416,32 @@ $(document).ready(function() {
     $('#payment_type').on('change', function() {
         const paymentType = $(this).val();
         const $paidAmountInput = $('#paid_amount');
-
+        
         if (paymentType === 'credit') {
-            $paidAmountInput.prop('disabled', false).val('0').css('background-color', '#fff');
+            $paidAmountInput.prop('readonly', false).val('0').css('background-color', '#fff');
             $paidAmountInput.trigger('focus');
         } else {
-            $paidAmountInput.prop('disabled', true).val($('#net_total').text()).css('background-color', '#f8f9fa');
+            $paidAmountInput.prop('readonly', true).val($('#net_total').text()).css('background-color', '#f8f9fa');
         }
-
+        
         calculateTotals();
     });
-
+    
     // Handle paid amount changes
     $(document).on('input', '#paid_amount', function() {
         updatePaymentSummary();
     });
-
+    
     // Update payment summary
     function updatePaymentSummary() {
         const netTotal = parseFloat($('#net_total').text()) || 0;
         const paidAmount = parseFloat($('#paid_amount').val()) || 0;
         const remainingAmount = Math.max(0, netTotal - paidAmount).toFixed(2);
-
+        
         $('#remaining-amount').text(remainingAmount);
         $('#paid-amount-display').text(paidAmount.toFixed(2) + ' ج.م');
         $('#remaining-amount-display').text(remainingAmount + ' ج.م');
-
+        
         // Show/hide payment summary based on payment type
         if ($('#payment_type').val() === 'credit') {
             $('#payment-summary').show();
@@ -448,9 +463,9 @@ $(document).ready(function() {
     // Initialize field states
     $('#discount_type').trigger('change');
     $('#payment_type').trigger('change');
-
-    // Style disabled inputs
-    $('input:disabled').css('background-color', '#f8f9fa');
+    
+    // Style readonly inputs
+    $('input[readonly]').css('background-color', '#f8f9fa');
 });
 </script>
 @endpush

@@ -40,7 +40,7 @@ class UpdateUserRequest extends FormRequest
             ],
             'full_name' => ['required', 'string', 'max:255'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
-            'status' => ['required', 'in:active,inactive'],
+            'status' => ['required', 'in:1,0'],
             'roles' => ['nullable', 'array'],
             'roles.*' => ['string', 'exists:roles,name'],
         ];
@@ -51,9 +51,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function persist(User $user): User
     {
-        // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? UserStatus::Active : UserStatus::Inactive;
-
+        // Use numeric status values directly (1 for active, 0 for inactive)
         $userData = [
             'username' => $this->username,
             'email' => $this->email,

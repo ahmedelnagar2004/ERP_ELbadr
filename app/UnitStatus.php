@@ -2,10 +2,10 @@
 
 namespace App;
 
-enum UnitStatus
+enum UnitStatus: int
 {
-    case Active;
-    case Inactive;
+    case Active = 1;
+    case Inactive = 0;
 
     public function label(): string
     {
@@ -17,10 +17,7 @@ enum UnitStatus
 
     public function value(): int
     {
-        return match ($this) {
-            self::Active => 1,
-            self::Inactive => 0,
-        };
+        return $this->value;
     }
 
     public function style(): string
@@ -31,9 +28,6 @@ enum UnitStatus
         };
     }
 
-    /**
-     * تحويل النص إلى enum
-     */
     public static function fromString(string $status): self
     {
         return match (strtolower($status)) {
@@ -43,3 +37,4 @@ enum UnitStatus
         };
     }
 }
+

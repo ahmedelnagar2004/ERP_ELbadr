@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SafeTransaction extends Model
+class SafeTransaction extends Model 
 {
+
     protected $table = 'safe_transactions';
-
     public $timestamps = true;
-
-    protected $fillable = ['type', 'amount', 'description', 'balance_after', 'reference_type','reference_id','safe_id', 'user_id'];
+    protected $fillable = array('type', 'amount', 'description', 'balance_after','user_id','safe_id','reference_id','reference_type');
 
     public function safe()
     {
@@ -22,8 +21,9 @@ class SafeTransaction extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function reference(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public function reference()
     {
         return $this->morphTo();
     }
+
 }

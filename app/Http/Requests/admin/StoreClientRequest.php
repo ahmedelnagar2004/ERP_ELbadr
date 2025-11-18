@@ -20,7 +20,7 @@ class StoreClientRequest extends FormRequest
             'phone' => ['required', 'string', 'max:255', 'unique:clients,phone'],
             'address' => ['required', 'string'],
             'balance' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['required', 'in:website,local'],
+            'status' => ['required', 'in:0,1'],
         ];
     }
 
@@ -29,15 +29,13 @@ class StoreClientRequest extends FormRequest
      */
     public function persist(): Client
     {
-        // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'website') ? ClientStatus::WEBSITE : ClientStatus::LOCAL;
         return Client::create([
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
             'address' => $this->address,
             'balance' => $this->balance ?? 0,
-            'status' => $statusEnum->value,
+            'status' => (int)$this->status, // Cast to integer to match enum values
         ]);
     }
 }

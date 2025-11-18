@@ -47,16 +47,15 @@
                 @error('address')<div class="error">{{ $message }}</div>@enderror
             </div>
             <div>
-                <label class="label" for="status">مصدر العميل</label>
+                <label class="label" for="notes">الحاله</label>
                 <select id="status" name="status" class="input" required>
-                    <option value="website" {{ old('status', 'website') == 'website' ? 'selected' : '' }}>موقع إلكتروني</option>
-                    <option value="local" {{ old('status') == 'local' ? 'selected' : '' }}>عميل داخل المحل</option>
+                    <option value="0" {{ old('status', '0')=='0' ? 'selected' : '' }}>محلي </option>
+                    <option value="1" {{ old('status')=='1' ? 'selected' : '' }}>موقع إلكتروني</option>
                 </select>
                 @error('status')<div class="error">{{ $message }}</div>@enderror
             </div>
-
-
-
+            
+        
             <div>
                 <label class="label" for="balance">balance</label>
                 <textarea id="balance" name="balance" rows="3" class="input">{{ old('balance') }}</textarea>

@@ -25,12 +25,11 @@ class StoreSafeRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'type' => ['required', 'integer', 'in:1,2,3,4,5,6'], // 1 for محفظة إلكترونية, 2 for حساب بنكي, 3 for إنستا باي, 4 for شبكه, 5 for اجل, 6 for خزنة داخل الكاشير
-            'status' => ['required', new Enum(SafeStatus::class)],
-            'balance' => ['required', 'numeric'],
-            'currency' => ['required', 'string', 'max:3'],
-            'account_number' => ['required', 'string', 'max:255'],
-            //  'branch_id' => ['nullable', 'exists:branches,id'],
+            'type' => ['required', 'integer', 'in:1,2,3,4,5,6'], // 1: محفظة إلكترونية, 2: حساب بنكي, 3: إنستا باي, 4: شبكة, 5: أجل, 6: خزنة داخل الكاشير
+            'status' => ['required', 'boolean'], // Checkbox value
+            'balance' => ['required', 'numeric', 'min:0'],
+            'currency' => ['required', 'string', 'in:EGP,USD,SAR'],
+            'account_number' => ['nullable', 'string', 'max:255'], // Made optional to match form
         ];
     }
 

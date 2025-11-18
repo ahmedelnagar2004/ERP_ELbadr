@@ -20,7 +20,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-
+        
         // Dashboard data
         $total_users = User::count();
         $total_items = Item::count();
@@ -29,9 +29,6 @@ class DashboardController extends Controller
         $total_clients = Client::count();
         $total_categories = Category::count();
         $total_units = Unit::count();
-
-
-
 
         // Get dashboard statistics based on user permissions
         $stats = [
@@ -124,11 +121,11 @@ class DashboardController extends Controller
         $monthsLabels = $months->map(fn($m) => $m->format('M'));
 
         return view('dashboard', compact(
-            'user',
+            'user', 
             'stats',
             'total_users',
             'total_items',
-            'total_orders',
+            'total_orders', 
             'total_sales',
             'total_clients',
             'total_categories',

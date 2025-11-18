@@ -22,6 +22,7 @@ class StoreSaleRequest extends FormRequest
     {
         return [
             'client_id' => 'required|exists:clients,id',
+            'warehouse_id' => 'required|exists:warehouses,id',
             'payment_type' => 'required|in:cash,card,bank,credit',
             'safe_id' => 'required_unless:payment_type,credit|exists:safes,id',
             'items' => 'required|array|min:1',
@@ -34,6 +35,7 @@ class StoreSaleRequest extends FormRequest
             'order_date' => 'nullable|date',
             'notes' => 'nullable|string|max:1000',
             'paid_amount' => 'nullable|numeric|min:0',
+            
         ];
     }
 

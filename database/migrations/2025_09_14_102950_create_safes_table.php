@@ -18,8 +18,6 @@ class CreateSafesTable extends Migration {
 			$table->text('description')->nullable();
 			$table->unsignedBigInteger('branch_id')->nullable();
 			$table->string('account_number')->nullable();
-
-
 		});
 	}
 

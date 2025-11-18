@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\StoreRoleRequest;
-use App\Http\Requests\Admin\UpdateRoleRequest;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -26,13 +25,16 @@ class RoleController extends Controller
         return view('admin.roles.create', compact('permissions'));
     }
 
-    public function store(StoreRoleRequest $request)
+    public function store(Request $request)
     {
-        // إنشاء الدور الجديد
-        $role = Role::create(['name' => $request->name]);
+        $request->validate([
+            'name' => 'required|unique:roles,name',
+            'permissions' => 'array'
+        ]);
 
-        // لو في صلاحيات مضافة
-        if ($request->has('permissions') && !empty($request->permissions)) {
+        $role = Role::create(['name' => $request->name]);
+        
+        if ($request->has('permissions')) {
             $permissions = Permission::whereIn('id', $request->permissions)->get();
             $role->syncPermissions($permissions);
         }
@@ -50,28 +52,30 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::all();
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
-
+        $rolePermissions = $role->permissions->pluck('id')->toArray(); // IDs بدل names
+        
         return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(Request $request, Role $role)
     {
-        // تحديث الاسم
-        $role->update(['name' => $request->name]);
+        $request->validate([
+            'name' => 'required|unique:roles,name,' . $role->id,
+            'permissions' => 'array'
+        ]);
 
-        // جلب الصلاحيات بالـ IDs وتحديثها
+        $role->update(['name' => $request->name]);
+        
         if ($request->has('permissions')) {
             $permissions = Permission::whereIn('id', $request->permissions)->get();
             $role->syncPermissions($permissions);
         } else {
             $role->syncPermissions([]);
         }
+
         return redirect()->route('admin.roles.index')
             ->with('success', 'Role updated successfully.');
-
     }
-
 
     public function destroy(Role $role)
     {

@@ -23,11 +23,11 @@
 
 <div class="page-header flex items-center justify-between mb-6">
     <div>
-        <h2 class="text-xl font-bold text-gray-900">@lang('admin.COMMON.items')</h2>
-        <p class="text-sm text-gray-500 mt-1">@lang('admin.COMMON.items_description')</p>
+        <h2 class="text-xl font-bold text-gray-900">قائمة المنتجات</h2>
+        <p class="text-sm text-gray-500 mt-1">إدارة المنتجات والمخزون</p>
     </div>
     @can('create-items')
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('admin.items.create') }}'">@lang('admin.COMMON.add_new_item')</button>
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('admin.items.create') }}'">إضافة منتج جديد</button>
     @endcan
 </div>
 
@@ -37,12 +37,12 @@
             <input id="itemsSearch" type="search" class="toolbar-input" placeholder="بحث باسم المنتج أو الكود...">
         </div>
         <div class="flex items-center gap-2">
-            <label for="sortBy" class="text-sm text-slate-600"> @lang('admin.COMMON.sort_by'):</label>
+            <label for="sortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
             <select id="sortBy" class="toolbar-select">
-                <option value="name">@lang('admin.COMMON.name')</option>
-                <option value="price">@lang('admin.COMMON.price')</option>
-                <option value="quantity">@lang('admin.COMMON.quantity')</option>
-                <option value="minimum_stock">@lang('admin.COMMON.minimum_stock')</option>
+                <option value="name">اسم المنتج (أ-ي)</option>
+                <option value="price">السعر</option>
+                <option value="quantity">الكمية</option>
+                <option value="minimum_stock">الحد الأدنى</option>
             </select>
         </div>
     </div>
@@ -50,15 +50,15 @@
         <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.image')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.name')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.category')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.price')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.quantity')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.minimum_stock')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.item_code')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.status')</th>
-                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.actions')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الصورة</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">اسم المنتج</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الفئة</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">السعر</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الكمية</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحد الأدنى</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">كود المنتج</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحالة</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">إجراءات</th>
                 </tr>
             </thead>
             <tbody id="itemsTableBody">
@@ -76,22 +76,22 @@
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $item->price }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $item->quantity }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $item->minimum_stock }}</td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600"> {{ $item->item_code }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $item->item_code }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                         @if($item->is_shown_in_store == 1)
-                            <span class="text-green-600 font-bold">@lang('admin.COMMON.active')</span>
+                            <span class="text-green-600 font-bold">نشط</span>
                         @else
-                            <span class="text-red-600 font-bold">@lang('admin.COMMON.inactive')</span>
+                            <span class="text-red-600 font-bold">غير نشط</span>
                         @endif
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
-                            <a href="{{ route('admin.items.show', $item) }}" class="action-btn btn-view">@lang('admin.COMMON.view')</a>
-                            <a href="{{ route('admin.items.edit', $item) }}" class="action-btn btn-edit">@lang('admin.COMMON.edit')</a>
+                            <a href="{{ route('admin.items.show', $item) }}" class="action-btn btn-view">عرض</a>
+                            <a href="{{ route('admin.items.edit', $item) }}" class="action-btn btn-edit">تعديل</a>
                             <form action="{{ route('admin.items.destroy', $item) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف المنتج؟')">@lang('admin.COMMON.delete')</button>
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف المنتج؟')">حذف</button>
                             </form>
                         </div>
                     </td>

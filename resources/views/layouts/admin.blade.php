@@ -6,26 +6,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'ERP') }} - @yield('title', __('admin.dashboard'))</title>
 
-
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    @vite(['resources/css/app.css','resources/js/app.js'])
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-
 
     <style>
         * { font-family: 'Cairo', sans-serif; }
@@ -87,7 +78,7 @@
                 </div>
             </div>
 
-            <p class="text-xs uppercase tracking-wider text-slate-400 mb-2" style="color: white; text-align: center; font-weight: bold; ">@lang('admin.COMMON.menu')</p>
+            <p class="text-xs uppercase tracking-wider text-slate-400 mb-2" style="color: white; text-align: center; font-weight: bold; ">القائمة</p>
             <nav class="space-y-2">
                 <a href="{{ route('dashboard') }}" class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
@@ -107,11 +98,16 @@
                     <span>@lang('admin.menu.products')</span>
                 </a>
                 @endcan
-
-                @can('view-items')
+                @can('alert-quantity')
                 <a href="{{ route('admin.alerts.index') }}" class="sidebar-link {{ request()->routeIs('admin.alerts.*') ? 'active' : '' }}">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                    <span>@lang('admin.COMMON.alert_storage')</span>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                    <span>@lang('admin.menu.alerts')</span>
+                </a>
+                @endcan
+                @can('view-warehouses')
+                <a href="{{ route('admin.warehouses.index') }}" class="sidebar-link {{ request()->routeIs('admin.warehouses.*') ? 'active' : '' }}">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 01.707.293l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4A1 1 0 013 8V4zm4-1v4.586L9.586 7 7 4.414V3zm7 14a1 1 0 01-1 1H5a1 1 0 01-1-1v-4a1 1 0 011-1h4a1 1 0 01.707.293l4 4a1 1 0 01-1.414 1.414L9 11.414V17h1z" clip-rule="evenodd"/></svg>
+                    <span>@lang('admin.COMMON.warehouse')</span>
                 </a>
                 @endcan
 
@@ -155,16 +151,16 @@
                 </a>
                 @endcan
             </nav>
-
+            
             <div class="mt-8 pt-5 border-t border-slate-700/40">
                 <div class="flex items-center">
-                    <div >
+                    <div class="w-9 h-9 rounded-full bg-indigo-600/30 flex items-center justify-center">
                     </div>
                     <div class="mr-3">
                         <form method="POST" action="{{ route('logout') }}" class="mt-1">
                             @csrf
                             <button class="text-xs text-white inline-flex items-center gap-1">
-                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><svg> d="M12.293 7.293a1 1 0 011.414 0L16 9.586V9.5a1 1 0 112 0v1a1 1 0 01-.293.707l-2.293 2.293a1 1 0 11-1.414-1.414L14.586 11H8a1 1 0 110-2h6.586l-1.293-1.293a1 1 0 010-1.414z"/></svg>
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h5a1.5 1.5 0 011.5 1.5V7a1 1 0 102 0V4.5A3.5 3.5 0 009.5 1h-5A3.5 3.5 0 001 4.5v11A3.5 3.5 0 004.5 19h5a3.5 3.5 0 003.5-3.5V13a1 1 0 10-2 0v2.5A1.5 1.5 0 019.5 17h-5A1.5 1.5 0 013 15.5v-11z" clip-rule="evenodd"/><path d="M12.293 7.293a1 1 0 011.414 0L16 9.586V9.5a1 1 0 112 0v1a1 1 0 01-.293.707l-2.293 2.293a1 1 0 11-1.414-1.414L14.586 11H8a1 1 0 110-2h6.586l-1.293-1.293a1 1 0 010-1.414z"/></svg>
                                 <span>@lang('admin.logout')</span>
                             </button>
                         </form>
@@ -182,8 +178,8 @@
                             <h1 class="text-2xl font-bold text-slate-800">@yield('page-title','لوحة التحكم')</h1>
                             <p class="text-slate-500 mt-1">@yield('page-subtitle', 'مرحباً بك في نظام إدارة الموارد')</p>
                         </div>
+                    
                         <div class="flex items-center gap-3">
-                            <!-- Language Switcher -->
                             <!-- Language Switcher -->
                             <div class="hidden sm:flex sm:items-center sm:ms-6">
                                 <form action="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" method="POST" class="inline">
@@ -193,11 +189,9 @@
                                         {{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}
                                     </button>
                                 </form>
-                            </div>
-
-
-
-                            <!-- Reports Button -->
+            </div>
+                            
+                           
                             @if (Route::has('admin.reports.index'))
                             <a href="{{ route('admin.reports.index') }}" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
                                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14a1 1 0 011 1v3H2V4a1 1 0 011-1zm-1 7h16v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6z"/></svg>
@@ -210,7 +204,6 @@
                                 </svg>
                                 @lang('admin.menu.sales')
                             </a>
-
                         </div>
                     </div>
                 </div>
@@ -218,7 +211,7 @@
             <main class="p-6">
                 @yield('content')
             </main>
-
+            
         </div>
     </div>
     @stack('scripts')

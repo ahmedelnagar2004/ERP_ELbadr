@@ -48,16 +48,10 @@
                 @error('address')<div class="error">{{ $message }}</div>@enderror
             </div>
 
-            <div>
-                <label class="label" for="status">مصدر العميل</label>
-                <select id="status" name="status" class="input" required>
-                    <option value="website" {{ old('status', $client->status_enum->value == 1 ? 'website' : 'local') == 'website' ? 'selected' : '' }}>موقع إلكتروني</option>
-                    <option value="local" {{ old('status', $client->status_enum->value == 1 ? 'website' : 'local') == 'local' ? 'selected' : '' }}>عميل داخل المحل</option>
-                </select>
-                @error('status')<div class="error">{{ $message }}</div>@enderror
+            <div class="pt-2 flex gap-3">
+                <button type="submit" class="btn-primary">حفظ التعديلات</button>
+                <a href="{{ route('admin.clients.show', $client->id) }}" class="btn-secondary">إلغاء</a>
             </div>
-            <button type="submit" class="btn btn-primary">@lang('admin.COMMON.edit')</button>
-            <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">@lang('admin.COMMON.cancel')</a>
         </form>
     </div>
 </div>

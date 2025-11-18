@@ -20,6 +20,7 @@ class CreateItemsTable extends Migration {
 			$table->bigInteger('unit_id')->unsigned();
 			$table->boolean('is_shown_in_store');
 			$table->decimal('minimum_stock');
+			$table->bigInteger('warehouse_id')->unsigned();
 		});
 	}
 

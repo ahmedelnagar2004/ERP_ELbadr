@@ -19,7 +19,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         // Logic for storing order
-
         return redirect()->route('admin.orders.index');
     }
 

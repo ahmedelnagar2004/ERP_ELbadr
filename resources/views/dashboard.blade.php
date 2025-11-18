@@ -179,7 +179,7 @@
             <div class="flex-1">
                 <div class="stat-label">@lang('admin.users')</div>
                 <div class="stat-number">{{ number_format($total_users) }}</div>
-
+                
                 <x-stat-action href="{{ route('admin.users.index') }}" color="indigo" permission="view-users">@lang('admin.manage') @lang('admin.users')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
@@ -212,7 +212,7 @@
             <div class="flex-1">
                 <div class="stat-label">@lang('admin.orders')</div>
                 <div class="stat-number">{{ number_format($total_orders) }}</div>
-
+                
                 <x-stat-action href="{{ route('admin.orders.index') }}" color="blue" permission="view-orders">@lang('admin.manage') @lang('admin.orders')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
@@ -305,45 +305,37 @@
         </div>
 
 
-    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden mt-8 w-full">
-        <div class="p-6 border-b border-slate-100">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div class="space-y-1">
-                    <h3 class="text-2xl font-bold text-slate-800">@lang('admin.COMMON.earning_reports')</h3>
-                    <p class="text-slate-500 text-base">@lang('admin.COMMON.yearly_earnings_overview')</p>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                    <button class="earnings-tab flex items-center gap-2 px-5 py-2.5 rounded-lg text-base font-medium transition-all duration-200 active" data-series="orders" type="button">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222.01.042 1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/></svg>
-                        @lang('admin.orders')
-                    </button>
-                    <button class="earnings-tab flex items-center gap-2 px-5 py-2.5 rounded-lg text-base font-medium transition-all duration-200" data-series="sales" type="button">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14a1 1 0 011 1v3H2V4a1 1 0 011-1zm-1 7h16v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6z"/></svg>
-                        @lang('admin.sales')
-                    </button>
-                    <button class="earnings-tab flex items-center gap-2 px-5 py-2.5 rounded-lg text-base font-medium transition-all duration-200" data-series="profit" type="button">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a2.25 2.25 0 011.5 4.031v.219a.75.75 0 01-1.5 0v-.219a.75.75 0 10-1.5 0v.219a2.25 2.25 0 101.5-4.031z"/></svg>
-                        @lang('admin.profit')
-                    </button>
-                    <button class="earnings-tab flex items-center gap-2 px-5 py-2.5 rounded-lg text-base font-medium transition-all duration-200" data-series="income" type="button">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1H6.5a.5.5 0 000 1H9v9H6.5a.5.5 0 000 1H9v1a1 1 0 102 0v-1h2.5a.5.5 0 000-1H11V5h2.5a.5.5 0 000-1H11V3z"/></svg>
-                        @lang('admin.income')
-                    </button>
-                </div>
-            </div>
+    <div class="earnings-card mt-8 -mx-6">
+    <div class="p-5 border-b border-slate-100 flex items-start justify-between gap-4">
+        <div>
+            <div class="earnings-title text-lg">@lang('admin.menu.reports')</div>
+            <div class="earnings-sub">@lang('admin.yearly_earnings_overview')</div>
         </div>
-        <div class="p-4 md:p-6">
-            <div class="relative w-full" style="min-height: 500px;">
-                <div id="earningsChart" class="w-full h-[500px] md:h-[600px] lg:h-[700px]"></div>
-            </div>
+        <div class="earnings-toolbar">
+            <button class="earnings-tab active" data-series="orders" type="button">
+                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222.01.042 1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/></svg>
+                @lang('admin.orders')
+            </button>
+            <button class="earnings-tab" data-series="sales" type="button">
+                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14a1 1 0 011 1v3H2V4a1 1 0 011-1zm-1 7h16v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6z"/></svg>
+                @lang('admin.sales')
+            </button>
+            <button class="earnings-tab" data-series="profit" type="button">
+                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a2.25 2.25 0 011.5 4.031v.219a.75.75 0 01-1.5 0v-.219a.75.75 0 10-1.5 0v.219a2.25 2.25 0 101.5-4.031z"/></svg>
+                @lang('admin.profit')
+            </button>
+            <button class="earnings-tab" data-series="income" type="button">
+                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1H6.5a.5.5 0 000 1H9v9H6.5a.5.5 0 000 1H9v1a1 1 0 102 0v-1h2.5a.5.5 0 000-1H11V5h2.5a.5.5 0 000-1H11V3z"/></svg>
+                @lang('admin.income')
+            </button>
         </div>
     </div>
-    <!-- End Earning Reports Chart -->
+    <div class="earnings-body">
+        <div id="earningsChart" style="width:100%; height:360px;"></div>
+    </div>
+</div>
 
-<!-- alert of item stock -->
-
-
-
+<!-- Additional Statistics -->
 
 
 @endsection

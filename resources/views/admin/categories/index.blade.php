@@ -25,9 +25,9 @@
 <div class="page-header flex items-center justify-between mb-6">
     <div>
         <h2 class="text-xl font-bold text-gray-900">@lang('admin.categories')</h2>
-        <p class="text-sm text-gray-500 mt-1">@lang('admin.COMMON.management')</p>
+        <p class="text-sm text-gray-500 mt-1">@lang('admin.categories.management')</p>
     </div>
-    <a href="{{ route('admin.categories.create') }}" class="btn btn-success">@lang('admin.COMMON.create')</a>
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-success">@lang('admin.categories.create')</a>
     </div>
 
 <div class="table-card">
@@ -45,9 +45,9 @@
         <div class="flex items-center gap-2">
             <label for="sortCats" class="text-sm text-slate-600">ترتيب حسب:</label>
             <select id="sortCats" class="toolbar-select">
-                <option value="name">@lang('admin.COMMON.name')</option>
-                <option value="status">@lang('admin.status')</option>
-                <option value="created_at">@lang('admin.created_at')</option>
+                <option value="name">اسم الفئة (أ-ي)</option>
+                <option value="status">الحالة</option>
+                <option value="created_at">تاريخ الإنشاء</option>
             </select>
         </div>
     </div>
@@ -56,39 +56,37 @@
         <table class="min-w-full w-full">
             <thead class="sticky">
                 <tr>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.COMMON.name')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.status')</th>
-                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.created_at')</th>
-                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">@lang('admin.actions')</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">اسم الفئة</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">الحالة</th>
+                    <th class="px-4 py-3 text-right text-xs font-bold text-slate-700 uppercase tracking-wider">تاريخ الإنشاء</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider">الإجراءات</th>
                 </tr>
             </thead>
             <tbody id="categoriesTableBody">
                 @forelse($categories as $category)
-                <tr data-name="{{ Str::lower($category->name) }}" data-status="{{ $category->status }}" data-created_at="{{ $category->created_at ? $category->created_at->timestamp : 0 }}">
+                <tr data-name="{{ Str::lower($category->name) }}" data-status="{{ $category->status->value }}" data-created_at="{{ $category->created_at ? $category->created_at->timestamp : 0 }}">
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $category->name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">
-                        @if($category->status == 1)
-                            <span class="text-green-600 font-bold">@lang('admin.COMMON.active')</span>
-                        @else
-                            <span class="text-red-600 font-bold">@lang('admin.COMMON.inactive')</span>
-                        @endif
+                        <span class="px-2 py-1 rounded-full text-xs font-medium {{ $category->status->style() }}">
+                            {{ $category->status->label() }}
+                        </span>
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $category->created_at->format('Y-m-d') }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
-                            <a href="{{ route('admin.categories.show', $category) }}" class="action-btn btn-view">@lang('admin.COMMON.view')</a>
-                            <a href="{{ route('admin.categories.edit', $category) }}" class="action-btn btn-edit">@lang('admin.COMMON.edit')</a>
+                            <a href="{{ route('admin.categories.show', $category) }}" class="action-btn btn-view">عرض</a>
+                            <a href="{{ route('admin.categories.edit', $category) }}" class="action-btn btn-edit">تعديل</a>
                             <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف الفئة؟')">@lang('admin.COMMON.delete')</button>
+                                <button type="submit" class="action-btn btn-delete" onclick="return confirm('هل أنت متأكد من حذف الفئة؟')">حذف</button>
                             </form>
                         </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="px-4 py-6 text-center text-gray-500">@lang('admin.COMMON.no_records_found') </td>
+                    <td colspan="4" class="px-4 py-6 text-center text-gray-500">لا توجد فئات</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -134,3 +132,5 @@
     });
 </script>
 @endpush
+
+

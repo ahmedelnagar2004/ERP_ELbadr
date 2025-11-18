@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\Admin\StoreClientRequest;
-use App\enums\clientStatus;
-use App\Http\Requests\Admin\UpdateClientRequest;
+use App\Http\Requests\admin\StoreClientRequest;
+use App\Enums\ClientStatus;
+use Illuminate\Http\Request;
 use App\Models\Client;
 
 class ClientController extends Controller
@@ -19,8 +18,7 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::paginate(25);
-
+        $clients = Client::latest()->get();
         return view('admin.clients.index', compact('clients'));
     }
 
@@ -31,47 +29,45 @@ class ClientController extends Controller
 
     public function store(StoreClientRequest $request)
     {
-        // 1️⃣ تحويل حالة العرض من string إلى enum
-        $statusEnum = $request->status === 'active'
-            ? clientStatus::LOCAL
-            : clientStatus:: WEBSITE;
-        // 2️⃣ إنشاء العميل
-        Client::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'address' => $request->address,
-            'status' => $statusEnum->value,
-            'balance' => $request->balance,
-        ]);
-
-        return redirect()->route('admin.clients.index')
-            ->with('success', 'تم إنشاء العميل بنجاح');
+        $validated = $request->validated();
+        $validated['status'] = ClientStatus::from($validated['status']);
+        $validated['balance'] = $validated['balance'] ?? 0;
+        Client::create($validated);
+        return redirect()->route('admin.clients.index');
     }
 
-    public function show(Client $client)
+    public function show($id)
     {
+        $client = Client::with(['transactions' => function($query) {
+            $query->latest()->limit(50);
+        }])->findOrFail($id);
         return view('admin.clients.show', compact('client'));
     }
 
-    public function edit(Client $client)
+    public function edit($id)
     {
+        $client = Client::findOrFail($id);
         return view('admin.clients.edit', compact('client'));
     }
 
-    public function update(UpdateClientRequest $request, Client $client)
+    public function update(Request $request, $id)
     {
-        $request->persist($client);
-
-        return redirect()->route('admin.clients.index')
-            ->with('success', 'تم تحديث العميل بنجاح');
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string',
+        ]);
+        $client = Client::findOrFail($id);
+        $client->update($validated);
+        
+        return redirect()->route('admin.clients.index');
     }
 
-    public function destroy(Client $client)
+    public function destroy($id)
     {
-        $client->delete();
-
-        return redirect()->route('admin.clients.index')
-            ->with('success', 'تم حذف العميل بنجاح');
+        // Logic for deleting client
+        Client::destroy($id);
+        return redirect()->route('admin.clients.index');
     }
 }
