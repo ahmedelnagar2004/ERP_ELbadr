@@ -63,20 +63,15 @@
                 <!-- Balance -->
                 <div>
                     <label for="balance" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        الرصيد الافتتاحي <span class="text-red-500">*</span>
+                         <span class="text-red-500">*</span>
                     </label>
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span id="currency-symbol" class="text-slate-500 dark:text-slate-300 sm:text-sm">
-                                @switch($safe->currency)
-                                    @case('EGP') ج.م @break
-                                    @case('USD') $ @break
-                                    @case('SAR') ريال @break
-                                    @default ج.م @break
-                                @endswitch
+                               
                             </span>
                         </div>
-                        <input type="number" name="balance" id="balance" 
+                        <input type="hidden" name="balance" id="balance" 
                             value="{{ old('balance', $safe->balance) }}" step="0.01" min="0" required
                             placeholder="0.00"
                             class="pl-16 block w-full rounded-md border-slate-300 dark:border-slate-600 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">

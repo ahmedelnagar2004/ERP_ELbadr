@@ -71,7 +71,7 @@
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $client->created_at ? $client->created_at->format('Y-m-d') : '-' }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                         <div class="flex gap-3 justify-center">
-                            <a href="{{ route('admin.clients.show', $client->id) }}" class="action-btn btn-view">عرض</a>
+                            <a href="{{ route('admin.clients.show', ['client' => $client->id]) }}" class="action-btn btn-view">عرض</a>
                             @can('edit-clients')
                             <a href="{{ route('admin.clients.edit', $client->id) }}" class="action-btn btn-edit">تعديل</a>
                             @endcan

@@ -50,7 +50,7 @@
 
             <div class="pt-2 flex gap-3">
                 <button type="submit" class="btn-primary">حفظ التعديلات</button>
-                <a href="{{ route('admin.clients.show', $client->id) }}" class="btn-secondary">إلغاء</a>
+                <a href="{{ route('admin.clients.show', ['client' => $client->id]) }}" class="btn-secondary">إلغاء</a>
             </div>
         </form>
     </div>

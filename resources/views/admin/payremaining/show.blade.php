@@ -146,7 +146,7 @@
 
             <!-- Form Actions -->
             <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-                <a href="{{ route('admin.clients.show', $client->id) }}" 
+                <a href="{{ route('admin.clients.show', ['client' => $client->id]) }}" 
                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-md transition duration-200">
                     رجوع
                 </a>

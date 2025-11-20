@@ -59,6 +59,18 @@
     </div>
 </div>
 
+<!-- Pay Remaining Section -->
+<div class="detail-card mt-6">
+    <div class="detail-header">
+        <h3 class="text-lg font-bold text-gray-900">سداد متبقي للعميل</h3>
+    </div>
+    <div class="detail-body">
+        <a href="{{ route('admin.payremaining.create', ['client_id' => $client->id]) }}" class="btn-primary">سداد متبقي</a>
+        <a href="{{ route('admin.payremaining.index') }}" class="btn-secondary">رجوع</a>
+    </div>
+</div>
+
+
 <!-- Transactions Section -->
 @if($client->transactions->count() > 0)
 <div class="detail-card mt-6">

@@ -4,26 +4,28 @@ namespace App\Models;
 
 use App\Enums\ClientStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model 
+class Client extends Model
 {
-
     protected $table = 'clients';
+
     public $timestamps = true;
 
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('name', 'email', 'phone', 'address', 'balance', 'status');
-    
+
+    protected $fillable = ['name', 'email', 'phone', 'address', 'balance', 'status'];
+
     protected function casts(): array
     {
         return [
             'status' => ClientStatus::class,
         ];
     }
-    
+
     protected $appends = ['name'];
 
     /**
@@ -35,7 +37,7 @@ class Client extends Model
     {
         return $value ?? $this->attributes['name'] ?? null;
     }
-    
+
     /**
      * Get the client's name for display.
      *
@@ -43,14 +45,22 @@ class Client extends Model
      */
     public function getDisplayNameAttribute()
     {
-        return $this->name . ($this->phone ? ' - ' . $this->phone : '');
+        return $this->name.($this->phone ? ' - '.$this->phone : '');
     }
 
     /**
      * Get the client's account transactions.
      */
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(ClientAccountTransaction::class)->latest();
+    }
+
+    /**
+     * Get the sales associated with the client.
+     */
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class)->latest();
     }
 }

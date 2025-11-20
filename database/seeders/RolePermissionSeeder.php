@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -21,50 +21,53 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             // User Management
             'view-users', 'create-users', 'edit-users', 'delete-users', 'manage-users',
-            
+
             // Client Management
             'view-clients', 'create-clients', 'edit-clients', 'delete-clients',
-            
+
             // Category Management
             'view-categories', 'create-categories', 'edit-categories', 'delete-categories',
-            
+
+            // Pay Remaining Management
+            'view-payremaining', 'create-payremaining', 'edit-payremaining', 'delete-payremaining',
+
             // Item Management
             'view-items', 'create-items', 'edit-items', 'delete-items',
-            
+
             // Order Management
             'view-orders', 'create-orders', 'edit-orders', 'delete-orders', 'approve-orders',
-            
+
             // Sales Management
             'view-sales', 'create-sales', 'edit-sales', 'delete-sales', 'approve-sales',
-            
+
             // Unit Management
             'view-units', 'create-units', 'edit-units', 'delete-units',
 
             // Safe Management
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
-            
+
             // File Management
             'view-files', 'upload-files', 'edit-files', 'delete-files',
-            
+
             // Reports
             'view-reports', 'export-reports',
             //
             'alert-quantity',
-            //warehouse
+            // warehouse
             'view-warehouses', 'create-warehouses', 'edit-warehouses', 'delete-warehouses',
-            
+
             // System Settings
             'manage-settings',
             'manage-roles',
             'manage-permissions',
-            
+
             // Dashboard
             'view-dashboard',
             'view-safes', 'create-safes', 'edit-safes', 'delete-safes', 'manage-safes',
-            
+
             // Dashboard
             'view-dashboard',
-            //safe
+            // safe
         ];
 
         foreach ($permissions as $permission) {
@@ -72,7 +75,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         // Create roles and assign permissions
-        
+
         // Super Admin - has all permissions
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $superAdmin->syncPermissions(Permission::all());
@@ -162,7 +165,7 @@ class RolePermissionSeeder extends Seeder
                 'status' => 1, // 1 for active, 0 for inactive
             ]
         );
-        
+
         $superAdminUser->assignRole('super-admin');
 
         $this->command->info('Roles and permissions seeded successfully!');
@@ -171,4 +174,3 @@ class RolePermissionSeeder extends Seeder
         $this->command->info('Password: password');
     }
 }
-

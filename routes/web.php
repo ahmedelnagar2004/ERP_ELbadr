@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\WarehouseController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AlertQuantityController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PayRemainingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarehouseController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ use App\Http\Controllers\NotificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//route for notfication
+// route for notfication
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 // Language switcher route
 Route::post('lang/{locale}', [LanguageController::class, 'switchLang'])
@@ -58,12 +59,16 @@ Route::middleware(['web'])->group(function () {
                 Route::middleware(['permission:view-users'])->group(function () {
                     Route::resource('users', UserController::class);
                 });
+                // payremaining routes
+                Route::middleware(['permission:view-payremaining'])->group(function () {
+                    Route::resource('payremaining', PayRemainingController::class);
+                });
 
                 // Role Management Routes
                 Route::middleware(['permission:manage-roles'])->group(function () {
                     Route::resource('roles', RoleController::class);
                 });
-                
+
                 // Alerts Management
                 Route::middleware(['permission:alert-quantity'])->group(function () {
                     Route::get('alerts', [AlertQuantityController::class, 'index'])->name('alerts.index');
@@ -74,7 +79,7 @@ Route::middleware(['web'])->group(function () {
                     Route::resource('items', ItemController::class);
                 });
 
-                // Categories Management  
+                // Categories Management
                 Route::middleware(['permission:view-categories'])->group(function () {
                     Route::resource('categories', CategoryController::class);
                 });
@@ -93,7 +98,7 @@ Route::middleware(['web'])->group(function () {
                 Route::middleware(['permission:manage-orders'])->group(function () {
                     Route::resource('orders', OrderController::class);
                 });
-                //warehouses management routes
+                // warehouses management routes
                 Route::middleware(['permission:view-warehouses'])->group(function () {
                     Route::resource('warehouses', WarehouseController::class);
                 });
@@ -108,7 +113,7 @@ Route::middleware(['web'])->group(function () {
                 // Safes Management
                 Route::middleware(['permission:view-safes'])->group(function () {
                     Route::resource('safes', \App\Http\Controllers\SafeController::class);
-                    
+
                     // Additional safe routes can be added here
                     // Example: Route::get('safes/{safe}/transactions', [\App\Http\Controllers\SafeController::class, 'transactions'])->name('safes.transactions');
                 });
