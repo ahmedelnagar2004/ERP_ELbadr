@@ -154,9 +154,10 @@ Route::middleware(['web'])->group(function () {
 
                 // Reports
                 Route::middleware('permission:view-reports')->group(function () {
-                    Route::get('/reports', function () {
-                        return view('admin.reports.index');
-                    })->name('reports.index');
+                    Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+                    Route::get('/reports/sales', [\App\Http\Controllers\ReportController::class, 'sales'])->name('reports.sales');
+                    Route::get('/reports/clients', [\App\Http\Controllers\ReportController::class, 'clients'])->name('reports.clients');
+                    Route::get('/reports/item-transactions', [\App\Http\Controllers\ReportController::class, 'itemTransactions'])->name('reports.item_transactions');
                 });
             }); // End of admin prefix group
         }); // End of auth middleware group
@@ -165,3 +166,4 @@ Route::middleware(['web'])->group(function () {
 
 // Authentication routes
 require __DIR__.'/auth.php';
+require __DIR__.'/api.php';

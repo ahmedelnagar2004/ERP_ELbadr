@@ -15,27 +15,27 @@
         <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
             <h4 class="text-xl font-bold mb-2">تقرير المبيعات</h4>
             <p class="text-blue-100 mb-4">عرض إحصائيات المبيعات الشهرية والسنوية</p>
-            <button class="bg-white text-blue-600 px-4 py-2 rounded font-medium hover:bg-blue-50">
+            <a href="{{ route('admin.reports.sales') }}" class="inline-block bg-white text-blue-600 px-4 py-2 rounded font-medium hover:bg-blue-50">
                 عرض التقرير
-            </button>
+            </a>
         </div>
 
-        <!-- تقرير المخزون -->
+        <!-- تقرير حركة صنف -->
         <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white">
-            <h4 class="text-xl font-bold mb-2">تقرير المخزون</h4>
-            <p class="text-green-100 mb-4">حالة المخزون والمنتجات المنخفضة</p>
-            <button class="bg-white text-green-600 px-4 py-2 rounded font-medium hover:bg-green-50">
+            <h4 class="text-xl font-bold mb-2">تقرير حركة صنف</h4>
+            <p class="text-green-100 mb-4">حالة المخزون وحركة الأصناف</p>
+            <a href="{{ route('admin.reports.item_transactions') }}" class="inline-block bg-white text-green-600 px-4 py-2 rounded font-medium hover:bg-green-50">
                 عرض التقرير
-            </button>
+            </a>
         </div>
 
         <!-- تقرير العملاء -->
         <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-6 text-white">
             <h4 class="text-xl font-bold mb-2">تقرير العملاء</h4>
             <p class="text-purple-100 mb-4">إحصائيات العملاء والطلبات</p>
-            <button class="bg-white text-purple-600 px-4 py-2 rounded font-medium hover:bg-purple-50">
+            <a href="{{ route('admin.reports.clients') }}" class="inline-block bg-white text-purple-600 px-4 py-2 rounded font-medium hover:bg-purple-50">
                 عرض التقرير
-            </button>
+            </a>
         </div>
     </div>
 

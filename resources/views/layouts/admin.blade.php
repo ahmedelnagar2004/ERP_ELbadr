@@ -141,6 +141,12 @@
                     <span>@lang('admin.menu.sales')</span>
                 </a>
                 @endcan
+                @can('view-reports')
+                <a href="{{ route('admin.reports.index') }}" class="sidebar-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"/><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"/></svg>
+                    <span>@lang('admin.menu.reports')</span>
+                </a>
+                @endcan
                 @can('view-clients')
                 <a href="{{ route('admin.clients.index') }}" class="sidebar-link {{ request()->routeIs('admin.sales.clients.*') ? 'active' : '' }}">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/></svg>
