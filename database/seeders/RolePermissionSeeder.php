@@ -31,6 +31,9 @@ class RolePermissionSeeder extends Seeder
             // Pay Remaining Management
             'view-payremaining', 'create-payremaining', 'edit-payremaining', 'delete-payremaining',
 
+            //setting mangment
+            'edit-settings',
+
             // Item Management
             'view-items', 'create-items', 'edit-items', 'delete-items',
 
@@ -83,6 +86,7 @@ class RolePermissionSeeder extends Seeder
         // Admin - has most permissions except system management
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $adminPermissions = [
+            'edit-settings',
             'view-users', 'create-users', 'edit-users',
             'view-clients', 'create-clients', 'edit-clients', 'delete-clients',
             'view-categories', 'create-categories', 'edit-categories', 'delete-categories',
@@ -100,6 +104,7 @@ class RolePermissionSeeder extends Seeder
         // Sales Manager - focused on sales and orders
         $salesManager = Role::firstOrCreate(['name' => 'sales-manager']);
         $salesManagerPermissions = [
+            'edit-settings',
             'view-clients', 'create-clients', 'edit-clients',
             'view-items',
             'view-orders', 'create-orders', 'edit-orders', 'approve-orders',
@@ -112,6 +117,7 @@ class RolePermissionSeeder extends Seeder
         // Sales Representative - basic sales operations
         $salesRep = Role::firstOrCreate(['name' => 'sales-representative']);
         $salesRepPermissions = [
+            'edit-settings',
             'view-clients', 'create-clients', 'edit-clients',
             'view-items',
             'view-orders', 'create-orders', 'edit-orders',
@@ -123,6 +129,7 @@ class RolePermissionSeeder extends Seeder
         // Inventory Manager - focused on items and categories
         $inventoryManager = Role::firstOrCreate(['name' => 'inventory-manager']);
         $inventoryManagerPermissions = [
+            'edit-settings',
             'view-categories', 'create-categories', 'edit-categories', 'delete-categories',
             'view-items', 'create-items', 'edit-items', 'delete-items',
             'view-orders',
@@ -135,6 +142,7 @@ class RolePermissionSeeder extends Seeder
         // Accountant - focused on financial data and reports
         $accountant = Role::firstOrCreate(['name' => 'accountant']);
         $accountantPermissions = [
+            'edit-settings',
             'view-clients',
             'view-orders',
             'view-sales',
@@ -148,6 +156,7 @@ class RolePermissionSeeder extends Seeder
         // Employee - basic view permissions
         $employee = Role::firstOrCreate(['name' => 'employee']);
         $employeePermissions = [
+            'edit-settings',
             'view-clients',
             'view-items',
             'view-orders',

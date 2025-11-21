@@ -9,6 +9,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PayRemainingController;
+use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
@@ -64,6 +65,8 @@ Route::middleware(['web'])->group(function () {
                     Route::resource('payremaining', PayRemainingController::class);
                 });
 
+                
+
                 // Role Management Routes
                 Route::middleware(['permission:manage-roles'])->group(function () {
                     Route::resource('roles', RoleController::class);
@@ -105,9 +108,8 @@ Route::middleware(['web'])->group(function () {
 
                 // Settings routes
                 Route::middleware(['permission:manage-settings'])->group(function () {
-                    Route::get('/settings', function () {
-                        return view('admin.settings.index');
-                    })->name('settings.index');
+                    Route::get('settings', [GeneralSettingsController::class, 'edit'])->name('settings.edit');
+                    Route::put('settings', [GeneralSettingsController::class, 'update'])->name('settings.update');
                 });
 
                 // Safes Management

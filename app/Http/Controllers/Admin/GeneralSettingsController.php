@@ -12,7 +12,7 @@ class GeneralSettingsController extends Controller
 {
     public function edit(CompanySettings $settings): View
     {
-        return view('admin.general_settings.edit', ['setting' => $settings]);
+        return view('admin.settings.index', ['setting' => $settings]);
     }
 
     public function update(UpdateGeneralSettingsRequest $request, CompanySettings $settings): RedirectResponse
@@ -30,7 +30,7 @@ class GeneralSettingsController extends Controller
         $settings->logo = $logoPath;
         $settings->save();
 
-        return redirect()->route('admin.general_settings.edit')->with('success', 'تم حفظ الإعدادات بنجاح');
+        return redirect()->route('admin.settings.edit')->with('success', 'تم حفظ الإعدادات بنجاح');
     }
 }
 
