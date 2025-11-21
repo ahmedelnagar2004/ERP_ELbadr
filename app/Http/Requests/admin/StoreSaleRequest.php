@@ -23,11 +23,15 @@ class StoreSaleRequest extends FormRequest
         return [
             'client_id' => 'required|exists:clients,id',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'payment_type' => 'required|in:cash,card,bank,credit',
+            'payment_type' => ['required', \Illuminate\Validation\Rule::in(app(\App\Settings\SalesSettings::class)->enabled_payment_methods)],
             'safe_id' => 'required_unless:payment_type,credit|exists:safes,id',
             'items' => 'required|array|min:1',
             'items.*.item_id' => 'required|exists:items,id',
-            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.quantity' => ['required', 'numeric', 'min:0.01', function ($attribute, $value, $fail) {
+                if (!app(\App\Settings\SalesSettings::class)->allow_decimal_quantities && $value != (int) $value) {
+                    $fail('الكميات العشرية غير مسموح بها.');
+                }
+            }],
             'items.*.price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
             'discount_type' => 'nullable|in:fixed,percentage',

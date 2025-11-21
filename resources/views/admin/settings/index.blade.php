@@ -97,6 +97,57 @@
                 </div>
             </div>
 
+            <hr class="my-6 border-gray-200">
+
+            <h3 class="text-lg font-medium text-gray-900 mb-4">إعدادات المبيعات</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Decimal Quantities -->
+                <div class="col-span-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="allow_decimal_quantities" id="allow_decimal_quantities" value="1" 
+                               {{ $salesSettings->allow_decimal_quantities ? 'checked' : '' }}
+                               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="allow_decimal_quantities" class="mr-2 block text-sm text-gray-900">
+                            السماح بالكميات العشرية في البيع (مثلاً: 0.5 كجم)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Default Discount Type -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">طريقة تطبيق الخصم الافتراضية</label>
+                    <div class="mt-2 space-y-2">
+                        <div class="flex items-center">
+                            <input type="radio" name="default_discount_type" id="discount_percentage" value="percentage"
+                                   {{ $salesSettings->default_discount_type === 'percentage' ? 'checked' : '' }}
+                                   class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <label for="discount_percentage" class="mr-2 block text-sm text-gray-700">نسبة مئوية (%)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="default_discount_type" id="discount_fixed" value="fixed"
+                                   {{ $salesSettings->default_discount_type === 'fixed' ? 'checked' : '' }}
+                                   class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <label for="discount_fixed" class="mr-2 block text-sm text-gray-700">مبلغ ثابت</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">تفعيل طرق الدفع المتاحة</label>
+                    <div class="mt-2 space-y-2">
+                        @foreach(['cash' => 'نقدى', 'credit' => 'اجل', 'card' => 'بطاقة', 'bank' => 'تحويل بنكي'] as $key => $label)
+                            <div class="flex items-center">
+                                <input type="checkbox" name="enabled_payment_methods[]" id="payment_{{ $key }}" value="{{ $key }}"
+                                       {{ in_array($key, $salesSettings->enabled_payment_methods) ? 'checked' : '' }}
+                                       class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                <label for="payment_{{ $key }}" class="mr-2 block text-sm text-gray-700">{{ $label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
             <div class="flex justify-end pt-4">
                 <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     حفظ التغييرات

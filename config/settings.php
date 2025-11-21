@@ -27,6 +27,7 @@ return [
      */
     'settings' => [
         CompanySettings::class,
+        App\Settings\SalesSettings::class,
     ],
 
     /*

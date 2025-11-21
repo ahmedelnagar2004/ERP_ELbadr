@@ -69,10 +69,11 @@
             <div class="col-md-6">
                 <label class="form-label fw-bold">طريقة الدفع</label>
                 <select name="payment_type" id="payment_type" class="form-control" required>
-                    <option value="cash">كاش</option>
-                    <option value="card">بطاقة</option>
-                    <option value="bank">تحويل بنكي</option>
-                    <option value="credit">آجل</option>
+                    @foreach(['cash' => 'كاش', 'card' => 'بطاقة', 'bank' => 'تحويل بنكي', 'credit' => 'آجل'] as $key => $label)
+                        @if(in_array($key, $salesSettings->enabled_payment_methods))
+                            <option value="{{ $key }}">{{ $label }}</option>
+                        @endif
+                    @endforeach
                 </select>
             </div>
             <div class="col-md-6">
@@ -118,7 +119,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="number" name="items[0][quantity]" class="form-control quantity" min="1" value="1"></td>
+                        <td><input type="number" name="items[0][quantity]" class="form-control quantity" min="0.01" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
                         <td><input type="number" step="0.01" name="items[0][price]" class="form-control price" readonly></td>
                         <td class="total">0</td>
                         <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>
@@ -133,8 +134,8 @@
                 <label class="form-label fw-bold">نوع الخصم</label>
                 <select name="discount_type" id="discount_type" class="form-control">
                     <option value="">بدون خصم</option>
-                    <option value="fixed">مبلغ ثابت</option>
-                    <option value="percentage">نسبة مئوية</option>
+                    <option value="fixed" {{ $salesSettings->default_discount_type === 'fixed' ? 'selected' : '' }}>مبلغ ثابت</option>
+                    <option value="percentage" {{ $salesSettings->default_discount_type === 'percentage' ? 'selected' : '' }}>نسبة مئوية</option>
                 </select>
             </div>
             <div class="col-md-4 mb-3">
@@ -300,7 +301,7 @@ $(document).ready(function() {
                         @endforeach
                     </select>
                 </td>
-                <td><input type="number" name="items[${rowIndex}][quantity]" class="form-control quantity" min="1" value="1"></td>
+                <td><input type="number" name="items[${rowIndex}][quantity]" class="form-control quantity" min="0.01" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
                 <td><input type="number" step="0.01" name="items[${rowIndex}][price]" class="form-control price" readonly></td>
                 <td class="total">0</td>
                 <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>

@@ -58,7 +58,8 @@ class SaleController extends Controller
             'clients' => $clients,
             'items' => $items,
             'safes' => $safes,
-            'warehouses' => $warehouses
+            'warehouses' => $warehouses,
+            'salesSettings' => app(\App\Settings\SalesSettings::class),
         ]);
     }
 
