@@ -127,10 +127,7 @@ Route::middleware(['web'])->group(function () {
                     })->name('inventory.index');
                 });
 
-                // TEST ROUTE - Remove after testing
-                Route::get('/test', function () {
-                    return 'Route test successful';
-                })->name('test');
+                
 
                 // Example protected routes for different ERP modules
                 Route::middleware('permission:view-orders')->group(function () {
@@ -149,7 +146,11 @@ Route::middleware(['web'])->group(function () {
                     Route::put('/sales/{id}', [\App\Http\Controllers\SaleController::class, 'update'])->name('sales.update');
                     Route::delete('/sales/{id}', [\App\Http\Controllers\SaleController::class, 'destroy'])->name('sales.destroy');
                     Route::get('/sales/{id}/print', [\App\Http\Controllers\SaleController::class, 'print'])->name('sales.print');
-                    Route::post('/sales/{id}/complete', [\App\Http\Controllers\SaleController::class, 'complete'])->name('sales.complete');
+                    Route::get('/sales/{id}/complete', [\App\Http\Controllers\SaleController::class, 'complete'])->name('sales.complete');
+                    
+                    // Sales Returns
+                    Route::get('/returns/create', [\App\Http\Controllers\SaleReturnController::class, 'create'])->name('returns.create');
+                    Route::post('/returns', [\App\Http\Controllers\SaleReturnController::class, 'store'])->name('returns.store');
                 });
 
                 // Reports

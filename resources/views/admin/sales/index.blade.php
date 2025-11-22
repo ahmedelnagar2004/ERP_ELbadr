@@ -132,9 +132,14 @@
                 <h2 class="text-xl font-bold text-gray-900">قائمة المبيعات والمرتجعات</h2>
                 <p class="text-sm text-gray-500 mt-1">إدارة ومتابعة جميع عمليات البيع والمرتجعات</p>
             </div>
-            <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
-                <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
-            </a>
+            <div class="flex gap-2">
+                <a href="{{ route('admin.returns.create') }}" class="btn btn-danger">
+                    <i class="fas fa-undo me-1"></i> إضافة مرتجع
+                </a>
+                <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
+                    <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
+                </a>
+            </div>
         </div>
         
         <!-- Tabs Navigation -->
