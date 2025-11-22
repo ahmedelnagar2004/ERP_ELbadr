@@ -126,14 +126,43 @@
 
 @section('content')
 <div class="container-fluid d-flex flex-column min-vh-100">
-    <div class="page-header flex items-center justify-between mb-6">
-        <div>
-            <h2 class="text-xl font-bold text-gray-900">قائمة المبيعات</h2>
-            <p class="text-sm text-gray-500 mt-1">إدارة ومتابعة جميع عمليات البيع</p>
+    <div class="page-header mb-6">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">قائمة المبيعات والمرتجعات</h2>
+                <p class="text-sm text-gray-500 mt-1">إدارة ومتابعة جميع عمليات البيع والمرتجعات</p>
+            </div>
+            <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
+                <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
+            </a>
         </div>
-        <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
-            <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
-        </a>
+        
+        <!-- Tabs Navigation -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <a href="{{ route('admin.sales.index') }}" 
+                   class="{{ !request()->has('type') ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    الكل
+                    <span class="bg-gray-100 text-gray-900 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
+                        {{ \App\Models\Sale::count() }}
+                    </span>
+                </a>
+                <a href="{{ route('admin.sales.index', ['type' => \App\Enums\SaleStatusEnum::SALE->value]) }}" 
+                   class="{{ request('type') === \App\Enums\SaleStatusEnum::SALE->value ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    المبيعات
+                    <span class="bg-green-100 text-green-800 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
+                        {{ \App\Models\Sale::where('type', \App\Enums\SaleStatusEnum::SALE->value)->count() }}
+                    </span>
+                </a>
+                <a href="{{ route('admin.sales.index', ['type' => \App\Enums\SaleStatusEnum::RETURN->value]) }}" 
+                   class="{{ request('type') === \App\Enums\SaleStatusEnum::RETURN->value ? 'border-red-500 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    المرتجعات
+                    <span class="bg-red-100 text-red-800 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
+                        {{ \App\Models\Sale::where('type', \App\Enums\SaleStatusEnum::RETURN->value)->count() }}
+                    </span>
+                </a>
+            </nav>
+        </div>
     </div>
 
     <div class="table-card">
@@ -161,7 +190,8 @@
                         <th class="text-end py-3 px-4">العميل</th>
                         <th class="text-end py-3 px-4">التاريخ</th>
                         <th class="text-end py-3 px-4">الإجمالي</th>
-                        <th class="text-center py-3 px-4">حالة الدفع</th>                  
+                        <th class="text-center py-3 px-4">حالة الدفع</th>  
+                        <th class="text-center py-3 px-4">حالة المبيعة</th>
                         <th class="text-center py-3 px-4">الإجراءات</th>
                     </tr>
                 </thead>
@@ -231,6 +261,13 @@
                                         <div class="payment-method {{ $paymentInfo['bg'] }} {{ $paymentInfo['color'] }} d-flex align-items-center px-3 py-2 rounded-pill">
                                             <i class="fas fa-{{ $paymentInfo['icon'] }} me-2"></i>
                                             <span class="fw-medium">{{ $paymentInfo['text'] }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="status-badge {{ $sale->type === \App\Enums\SaleStatusEnum::SALE ? 'bg-success-light text-success' : 'bg-danger-light text-danger' }}">
+                                            {{ $sale->type === \App\Enums\SaleStatusEnum::SALE ? 'مبيعة' : 'مرتجع' }}
                                         </div>
                                     </div>
                                 </td>

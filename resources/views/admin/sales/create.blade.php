@@ -119,7 +119,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="number" name="items[0][quantity]" class="form-control quantity" min="0.01" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
+                        <td><input type="number" name="items[0][quantity]" class="form-control quantity" min="0" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
                         <td><input type="number" step="0.01" name="items[0][price]" class="form-control price" readonly></td>
                         <td class="total">0</td>
                         <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>
@@ -301,7 +301,7 @@ $(document).ready(function() {
                         @endforeach
                     </select>
                 </td>
-                <td><input type="number" name="items[${rowIndex}][quantity]" class="form-control quantity" min="0.01" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
+                <td><input type="number" name="items[${rowIndex}][quantity]" class="form-control quantity" min="0" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
                 <td><input type="number" step="0.01" name="items[${rowIndex}][price]" class="form-control price" readonly></td>
                 <td class="total">0</td>
                 <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>

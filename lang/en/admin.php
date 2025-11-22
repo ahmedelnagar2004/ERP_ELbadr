@@ -138,6 +138,7 @@ return [
         'inactive' => 'Inactive',
         'account_number' => 'Account Number',
         'cancel' => 'Cancel',
+        'warehouse' => 'Warehouse',
         'save' => 'Save',
         'create' => 'Create',
         'edit' => 'Edit',

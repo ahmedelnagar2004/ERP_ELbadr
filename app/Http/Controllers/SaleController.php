@@ -12,6 +12,7 @@ use App\Enums\ClientAccountTransactionTypeEnum;
 use App\Models\Item;
 use App\Models\Client;
 use App\Models\Safe;
+use App\Enums\SaleStatusEnum;
 use App\Models\Warehouse;
 use App\Enums\safeTransactionTypeStatus;
 use App\Enums\ClientStatus;
@@ -25,9 +26,9 @@ class SaleController extends Controller
     /**
      * Display a listing of sales with eager loading.
      */ 
-    public function index()
+    public function index(Request $request)
     {
-        $sales = Sale::with([
+        $query = Sale::with([
             'client:id,name,phone',
             'user:id,full_name as name',
             'items' => function($query) {
@@ -36,9 +37,14 @@ class SaleController extends Controller
                     'name'
                 ]);
             }
-        ])
-        ->latest()
-        ->paginate(15);
+        ]);
+
+        // Filter by sale type if specified
+        if ($request->has('type') && in_array($request->type, [SaleStatusEnum::SALE->value, SaleStatusEnum::RETURN->value])) {
+            $query->where('type', $request->type);
+        }
+
+        $sales = $query->latest()->paginate(15);
 
         return view('admin.sales.index', compact('sales'));
     }
@@ -102,6 +108,7 @@ class SaleController extends Controller
                 'safe_id' => $validated['safe_id'],
                 'invoice_number' => 'INV-' . strtoupper(Str::random(8)),
                 'total' => $subtotal,
+                'type' => SaleStatusEnum::SALE->value,
                 'discount' => $discount,
                 'discount_type' => $validated['discount_type'] ?? 'fixed', 
                 'shipping_cost' => $validated['shipping_cost'] ?? 0,

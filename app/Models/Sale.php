@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SaleStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model 
@@ -9,12 +10,15 @@ class Sale extends Model
 
     protected $table = 'sales';
     public $timestamps = true;
-    protected $fillable = array('client_id', 'user_id', 'safe_id', 'total', 'discount', 'discount_type', 'shipping_cost', 'net_amount', 'paid_amount', 'remaining_amount', 'invoice_number', 'payment_type', 'order_date', 'notes');
+    protected $fillable = array('client_id', 'user_id', 'safe_id', 'total', 'type', 'discount', 'discount_type', 'shipping_cost', 'net_amount', 'paid_amount', 'remaining_amount', 'invoice_number', 'payment_type', 'order_date', 'notes');
 
     public function safeTransactions()
     {
         return $this->morphMany('App\Models\SafeTransaction', 'reference');
     }
+    protected $casts = [
+        'type' => SaleStatusEnum::class,
+    ];
 
     public function safe()
     {

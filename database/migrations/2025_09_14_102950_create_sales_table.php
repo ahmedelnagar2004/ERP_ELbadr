@@ -19,6 +19,7 @@ class CreateSalesTable extends Migration {
 			$table->decimal('net_amount', 10,2);
 			$table->enum('discount_type', ['fixed', 'percentage'])->default('fixed');
 			$table->string('invoice_number');
+			$table->tinyInteger('type');
 			$table->tinyInteger('payment_type');
 		});
 	}
