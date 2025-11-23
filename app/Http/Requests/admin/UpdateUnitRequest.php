@@ -23,23 +23,8 @@ class UpdateUnitRequest extends FormRequest
                 'max:255',
                 Rule::unique(Unit::class)->ignore($this->route('unit')->id),
             ],
-            'status' => ['required', 'in:active,inactive'],
+            'status' => ['required', 'boolean'],
         ];
     }
 
-    /**
-     * تحديث الوحدة
-     */
-    public function persist(Unit $unit): Unit
-    {
-        // تحويل status من string إلى enum ثم إلى قيمة integer
-        $statusEnum = ($this->status === 'active') ? UnitStatus::Active : UnitStatus::Inactive;
-
-        $unit->update([
-            'name' => $this->name,
-            'status' => $statusEnum->value(),
-        ]);
-
-        return $unit;
-    }
 }

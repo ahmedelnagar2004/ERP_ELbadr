@@ -110,16 +110,22 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Prevent deletion of self
+        if ($user->id === auth()->id()) {
+            return redirect()->route('admin.users.index')
+                ->with('error', 'لا يمكنك حذف حسابك الخاص');
+        }
+
         // Prevent deletion of super admin
         if ($user->hasRole('super-admin')) {
             return redirect()->route('admin.users.index')
-                ->with('error', 'Cannot delete super admin user.');
+                ->with('error', 'لا يمكن حذف المشرف العام');
         }
 
         $user->delete();
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User deleted successfully.');
+            ->with('success', 'تم حذف المستخدم بنجاح');
     }
 }
 

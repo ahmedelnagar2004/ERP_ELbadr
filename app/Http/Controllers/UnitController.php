@@ -73,17 +73,14 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Unit $unit)
+    public function update(UpdateUnitRequest $request, Unit $unit)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:units,name,' . $unit->id,
-            'status' => 'required|boolean'
-        ]);
-
-        $unit->update([
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
+        $validated = $request->validated();
+        
+        // Convert boolean status to UnitStatus enum
+        $validated['status'] = $validated['status'] ? \App\UnitStatus::Active : \App\UnitStatus::Inactive;
+        
+        $unit->update($validated);
 
         return redirect()->route('admin.units.index')
             ->with('success', 'تم تحديث الوحدة بنجاح');

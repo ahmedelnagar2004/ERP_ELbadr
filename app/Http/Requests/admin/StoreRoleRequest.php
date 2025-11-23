@@ -31,5 +31,17 @@ class StoreRoleRequest extends FormRequest
     /**
      * إنشاء الدور الجديد
      */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'اسم الدور مطلوب',
+            'name.string' => 'اسم الدور يجب أن يكون نص',
+            'name.max' => 'اسم الدور يجب ألا يزيد عن 255 حرف',
+            'name.unique' => 'اسم الدور موجود بالفعل',
+            'permissions.array' => 'الصلاحيات يجب أن تكون مصفوفة',
+            'permissions.*.integer' => 'معرف الصلاحية يجب أن يكون رقماً',
+            'permissions.*.exists' => 'إحدى الصلاحيات المختارة غير موجودة',
+        ];
+    }
 
 }

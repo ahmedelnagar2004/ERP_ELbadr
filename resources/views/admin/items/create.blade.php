@@ -139,8 +139,8 @@
                 </div>
 
                 <div class="flex justify-end gap-2 mt-6">
-                    <a href="{{ route('admin.items.index') }}" class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50">إلغاء</a>
-                    <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700" style="background-color: #4CAF50;">حفظ الصنف</button>
+                    <a href="{{ route('admin.items.index') }}" class="btn btn-outline">إلغاء</a>
+                    <button type="submit" class="btn btn-success text-white">حفظ الصنف</button>
                 </div>
             </form>
         </div>

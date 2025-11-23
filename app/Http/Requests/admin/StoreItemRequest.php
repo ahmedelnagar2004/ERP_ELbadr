@@ -15,9 +15,11 @@ class StoreItemRequest extends FormRequest
 
     public function rules(): array
     {
+        $item = $this->route('item');
+        
         return [
             'name' => ['required', 'string', 'max:255'],
-            'item_code' => ['nullable', 'string', 'max:255', 'unique:items,item_code'],
+            'item_code' => ['nullable', 'string', 'max:255', 'unique:items,item_code,' . ($item ? $item->id : null)],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'quantity' => ['required', 'numeric', 'min:0'],

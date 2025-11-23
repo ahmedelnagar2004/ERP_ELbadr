@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreRoleRequest;
+use App\Http\Requests\Admin\UpdateRoleRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -25,22 +27,19 @@ class RoleController extends Controller
         return view('admin.roles.create', compact('permissions'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'array'
-        ]);
-
-        $role = Role::create(['name' => $request->name]);
+        $validated = $request->validated();
         
-        if ($request->has('permissions')) {
-            $permissions = Permission::whereIn('id', $request->permissions)->get();
+        $role = Role::create(['name' => $validated['name']]);
+        
+        if (isset($validated['permissions'])) {
+            $permissions = Permission::whereIn('id', $validated['permissions'])->get();
             $role->syncPermissions($permissions);
         }
 
         return redirect()->route('admin.roles.index')
-            ->with('success', 'Role created successfully.');
+            ->with('success', 'تم إنشاء الدور بنجاح');
     }
 
     public function show(Role $role)
@@ -57,36 +56,33 @@ class RoleController extends Controller
         return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
-            'permissions' => 'array'
-        ]);
-
-        $role->update(['name' => $request->name]);
+        $validated = $request->validated();
         
-        if ($request->has('permissions')) {
-            $permissions = Permission::whereIn('id', $request->permissions)->get();
+        $role->update(['name' => $validated['name']]);
+        
+        if (isset($validated['permissions'])) {
+            $permissions = Permission::whereIn('id', $validated['permissions'])->get();
             $role->syncPermissions($permissions);
         } else {
             $role->syncPermissions([]);
         }
 
         return redirect()->route('admin.roles.index')
-            ->with('success', 'Role updated successfully.');
+            ->with('success', 'تم تحديث الدور بنجاح');
     }
 
     public function destroy(Role $role)
     {
         if ($role->name === 'super-admin') {
             return redirect()->route('admin.roles.index')
-                ->with('error', 'Cannot delete super-admin role.');
+                ->with('error', 'لا يمكن حذف دور المشرف العام');
         }
 
         $role->delete();
 
         return redirect()->route('admin.roles.index')
-            ->with('success', 'Role deleted successfully.');
+            ->with('success', 'تم حذف الدور بنجاح');
     }
 }

@@ -84,41 +84,21 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         $categories = Category::where('status', 1)->get();
+        
         $units = Unit::where('status', 1)->get();
-        return view('admin.items.edit', compact('item', 'categories', 'units'));
+        $warehouses = Warehouse::where('status', 1)->get();
+        return view('admin.items.edit', compact('item', 'categories', 'units', 'warehouses'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $item)
+    public function update(StoreItemRequest $request, Item $item)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'item_code' => 'required|string|max:100|unique:items,item_code,' . $item->id,
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|numeric|min:0',
-            'minimum_stock' => 'required|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'unit_id' => 'required|exists:units,id',
-            'is_shown_in_store' => 'required|boolean',
-            'allow_decimal' => 'required|boolean',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        $item->update([
-            'name' => $request->name,
-            'item_code' => $request->item_code,
-            'description' => $request->description,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'minimum_stock' => $request->minimum_stock,
-            'category_id' => $request->category_id,
-            'unit_id' => $request->unit_id,
-            'is_shown_in_store' => $request->is_shown_in_store,
-            'allow_decimal' => $request->allow_decimal
-        ]);
+       $data = $request->validated();
+       $data['is_shown_in_store'] = (int) $data['is_shown_in_store'];
+       
+       $item->update($data);
 
         // Handle photo upload
         if ($request->hasFile('photo')) {

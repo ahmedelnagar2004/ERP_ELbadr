@@ -19,7 +19,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-h-80 overflow-auto p-2 border rounded-lg">
                     @foreach($permissions as $permission)
                     <label class="flex items-center gap-2 text-sm">
-                        <input type="checkbox" name="permissions[]" value="{{ $permission->name }}" class="rounded" {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }} />
+                        <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" class="rounded" {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }} />
                         <span>{{ $permission->name }}</span>
                     </label>
                     @endforeach

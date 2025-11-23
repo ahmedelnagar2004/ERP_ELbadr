@@ -23,14 +23,14 @@
         
 
         <div class="mb-4">
-            <label for="image" class="block mb-2 font-bold">@lang('admin.categories.photo')</label>
-            <input type="file" name="image" id="image" class="form-input w-full">
-            @if($category->image)
+            <label for="photo" class="block mb-2 font-bold">@lang('admin.categories.photo')</label>
+            <input type="file" name="photo" id="photo" class="form-input w-full">
+            @if($category->photo)
                 <div class="mt-2">
-                    <img src="{{ asset('storage/' . $category->image) }}" alt="@lang('admin.categories.photo')" style="width:80px; height:80px; object-fit:cover;" class="rounded border">
+                    <img src="{{ asset('storage/' . $category->photo->path) }}" alt="@lang('admin.categories.photo')" style="width:80px; height:80px; object-fit:cover;" class="rounded border">
                 </div>
             @endif
-            @error('image')
+            @error('photo')
                 <span class="text-red-600 text-xs">{{ $message }}</span>
             @enderror
         </div>

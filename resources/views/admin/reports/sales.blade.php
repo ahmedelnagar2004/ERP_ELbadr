@@ -36,7 +36,7 @@
         </div>
         <div class="mt-4 flex justify-end gap-2">
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">بحث</button>
-            <a href="{{ request()->fullUrlWithQuery(['export' => 'excel']) }}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 inline-flex items-center gap-2">
+            <a href="{{ request()->fullUrlWithQuery(['export' => 'excel']) }}" class="btn btn-sucess" style = " background:green;">
                 <i class="fas fa-file-excel"></i>
                 تصدير Excel
             </a>

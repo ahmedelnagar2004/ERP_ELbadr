@@ -94,13 +94,12 @@ class CategoryController extends Controller
      */
     public function update(storeCategoryRequest $request, Category $category)
     {
-       
-
         $validated = $request->validated();
-        $category->update([
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
+        
+        // Convert boolean status to CategoryStatus enum
+        $validated['status'] = $validated['status'] ? \App\CategoryStatus::Active : \App\CategoryStatus::Inactive;
+        
+        $category->update($validated);
 
         // Handle photo upload
         if ($request->hasFile('photo')) {

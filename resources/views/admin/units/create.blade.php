@@ -53,8 +53,8 @@
             </div>
 
             <div class="pt-2 flex gap-3">
-                <button type="submit" class="btn-success" style="width:120px; height:40px;">حفظ الوحدة</button>
-                <a href="{{ route('admin.units.index') }}" class="btn-secondary" style="width:120px; height:40px; text-align:center; line-height:40px;">إلغاء</a>
+                <button type="submit" class="btn btn-success" style="width:120px; height:40px;">حفظ الوحدة</button>
+                <a href="{{ route('admin.units.index') }}" class="btn btn-secondary" style="width:120px; height:40px; text-align:center; line-height:40px;">إلغاء</a>
             </div>
         </form>
     </div>

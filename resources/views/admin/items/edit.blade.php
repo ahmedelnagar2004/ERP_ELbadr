@@ -32,6 +32,19 @@
                 <label class="block text-sm font-medium mb-1">السعر</label>
                 <input type="number" step="0.01" name="price" class="form-input w-full" value="{{ old('price', $item->price) }}" required />
             </div>
+              <!-- div warehouse  -->
+               <div>
+                <label class="block text-sm font-medium mb-1">المخزن</label>
+                <select name="warehouse_id" class="form-input w-full">
+                    <option value="">اختر المخزن</option>
+                    @foreach($warehouses as $warehouse)
+                        <option value="{{ $warehouse->id }}" {{ old('warehouse_id', $item->warehouse_id) == $warehouse->id ? 'selected' : '' }}>
+                            {{ $warehouse->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <div>
                 <label class="block text-sm font-medium mb-1">الكمية</label>
                 <input type="number" step="0.01" name="quantity" class="form-input w-full" value="{{ old('quantity', $item->quantity) }}" required />
@@ -76,8 +89,8 @@
             </div>
         </div>
         <div class="mt-6 flex gap-3">
-            <button type="submit" class="btn-primary">حفظ التغييرات</button>
-            <a href="{{ route('admin.items.index') }}" class="btn-secondary">إلغاء</a>
+            <button type="submit" class="btn btn-success text-white">حفظ التغييرات</button>
+            <a href="{{ route('admin.items.index') }}" class="btn btn-outline text-slate-700">إلغاء</a>
         </div>
     </form>
 </div>
