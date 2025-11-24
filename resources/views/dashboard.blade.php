@@ -273,6 +273,21 @@
             </div>
         </div>
     </div>
+     <!-- warehouses -->
+     <div class="stat-card">
+        <div class="flex items-center justify-between gap-4">
+            <div class="flex-1">
+                <div class="stat-label">@lang('admin.COMMON.warehouse')</div>
+                <div class="stat-number">{{ number_format($total_warehouses) }}</div>
+                <x-stat-action href="{{ route('admin.warehouses.index') }}" color="indigo" permission="view-warehouses"> @lang('admin.COMMON.warehouse')</x-stat-action>
+            </div>
+            <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
 
     <!-- Units -->
     <div class="stat-card">
@@ -303,6 +318,37 @@
                 </div>
             </div>
         </div>
+         <!-- reports -->
+
+         <div class="stat-card">
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1">
+                    <div class="stat-label">@lang('admin.reports')</div>
+                    <div class="stat-number">{{ number_format($total_reports ?? 0) }}</div>
+                    <x-stat-action href="{{ route('admin.reports.index') }}" color="green" permission="view-reports"> @lang('admin.COMMON.reports')</x-stat-action>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #68cc36bb, #45d906ff);">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.27 5.82 22 7 13.87 2 9l6.91-.74L12 2z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+         <!-- setting -->
+         
+        
+         <!-- alert -->
+         <div class="stat-card">
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1">
+                    <div class="stat-label">@lang('admin.COMMON.alert_quantity')</div>
+                    <div class="stat-number">{{ number_format($total_alerts ?? 0) }}</div>
+                    <x-stat-action href="{{ route('admin.alerts.index') }}" color="red" permission="alert-quantity"> @lang('admin.COMMON.alert_quantity')</x-stat-action>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="earnings-card mt-8 -mx-6">

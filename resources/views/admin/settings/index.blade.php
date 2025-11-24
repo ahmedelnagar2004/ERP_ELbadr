@@ -27,7 +27,7 @@
                     <input type="text" name="name" id="name" 
                            value="{{ old('name', $settings->name ?? config('app.name')) }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
+                            >
                     @error('name')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -39,7 +39,7 @@
                     <input type="email" name="email" id="email" 
                            value="{{ old('email', $settings->email ?? '') }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
+                           >
                     @error('email')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -51,7 +51,7 @@
                     <input type="text" name="phone" id="phone" 
                            value="{{ old('phone', $settings->phone ?? '') }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
+                           >
                     @error('phone')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -62,7 +62,7 @@
                     <label for="address" class="block text-sm font-medium text-gray-700 mb-1">العنوان</label>
                     <textarea name="address" id="address" rows="3"
                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                              required>{{ old('address', $settings->address ?? '') }}</textarea>
+                              >{{ old('address', $settings->address ?? '') }}</textarea>
                     @error('address')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror

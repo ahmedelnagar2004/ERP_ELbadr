@@ -14,10 +14,10 @@ class UpdateGeneralSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['required', 'string', 'max:50'],
-            'address' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string', 'max:255'],
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'allow_decimal_quantities' => 'nullable|boolean',
             'default_discount_type' => 'required|in:fixed,percentage',

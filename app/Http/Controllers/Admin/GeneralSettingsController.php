@@ -27,10 +27,18 @@ class GeneralSettingsController extends Controller
             $logoPath = $request->file('logo')->store('logos', 'public');
         }
 
-        $settings->name = $request->string('name');
-        $settings->email = $request->string('email');
-        $settings->phone = $request->string('phone');
-        $settings->address = $request->string('address');
+        if ($request->filled('name')) {
+            $settings->name = $request->string('name');
+        }
+        if ($request->filled('email')) {
+            $settings->email = $request->string('email');
+        }
+        if ($request->filled('phone')) {
+            $settings->phone = $request->string('phone');
+        }
+        if ($request->filled('address')) {
+            $settings->address = $request->string('address');
+        }
         $settings->logo = $logoPath;
         $settings->save();
 

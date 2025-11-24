@@ -9,7 +9,9 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Sale;
+use App\Models\Setting;
 use App\Models\Unit;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,6 +24,8 @@ class DashboardController extends Controller
         $user = Auth::user();
         
         // Dashboard data
+        $total_warehouses = Warehouse::count();
+        $total_alerts = Item::where('quantity', '<', 'alert_quantity')->count();
         $total_users = User::count();
         $total_items = Item::count();
         $total_orders = Order::count();
@@ -38,6 +42,8 @@ class DashboardController extends Controller
             'items' => Gate::allows('view-items') ? $total_items : null,
             'orders' => Gate::allows('view-orders') ? $total_orders : null,
             'sales' => Gate::allows('view-sales') ? $total_sales : null,
+            'warehouses' => Gate::allows('view-warehouses') ? $total_warehouses : null,
+            'alerts' => Gate::allows('view-alerts') ? $total_alerts : null,
         ];
 
         // Build real chart datasets
@@ -129,6 +135,7 @@ class DashboardController extends Controller
             'total_sales',
             'total_clients',
             'total_categories',
+            'total_warehouses',
             'total_units',
             'daysLabels',
             'salesDaily',
@@ -136,7 +143,8 @@ class DashboardController extends Controller
             'monthsLabels',
             'salesMonthly', // income
             'ordersMonthly',
-            'salesCountMonthly'
+            'salesCountMonthly',
+            'total_alerts'
         ));
     }
 }
