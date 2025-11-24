@@ -20,15 +20,22 @@ use App\Http\Requests\admin\StoreSaleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Services\TransactionService;
 
 class SaleController extends Controller
 {
+    protected $transactionService;
+
+    public function __construct(TransactionService $transactionService)
+    {
+        $this->transactionService = $transactionService;
+    }
     /**
      * Display a listing of sales with eager loading.
      */ 
-    public function index(Request $request)
+    public function index()
     {
-        $query = Sale::with([
+        $sales = Sale::with([
             'client:id,name,phone',
             'user:id,full_name as name',
             'items' => function($query) {
@@ -37,14 +44,9 @@ class SaleController extends Controller
                     'name'
                 ]);
             }
-        ]);
-
-        // Filter by sale type if specified
-        if ($request->has('type') && in_array($request->type, [SaleStatusEnum::SALE->value, SaleStatusEnum::RETURN->value])) {
-            $query->where('type', $request->type);
-        }
-
-        $sales = $query->latest()->paginate(15);
+        ])
+        ->latest()
+        ->paginate(15);
 
         return view('admin.sales.index', compact('sales'));
     }
@@ -131,49 +133,8 @@ class SaleController extends Controller
                 
                 
             }
-            //create safe transaction
-            SafeTransaction::create([
-               'type' => safeTransactionTypeStatus::in->value,
-               'amount' => $sale->paid_amount,
-               'description' => 'فاتوره رقم '.$sale->id,
-               'balance_after' => $sale->paid_amount,
-               'user_id' => Auth()->id(),
-               'safe_id' => $validated['safe_id'],
-               'reference_id' => $sale->id,
-               'reference_type' => Sale::class,
-            ]);
-            //update balance for safe
-             Safe::where('id', $validated['safe_id'])->increment('balance', $sale->paid_amount);
-
-          if($validated['payment_type'] === 'credit' || $validated['payment_type'] === 'cash' ){
-             ClientAccountTransaction::create([
-                'type' => ClientAccountTransactionTypeEnum::CREDIT->value,
-                'amount' => $netAmount,
-                'description' => 'فاتوره رقم '.$sale->id,
-                'balance_after' => $netAmount,
-                'user_id' => Auth()->id(),
-                'safe_id' => $validated['safe_id'],
-                'client_id' => $validated['client_id'],
-                'reference_id' => $sale->id,
-                'reference_type' => Sale::class,
-             ]);
-             //update client account balance
-                if($sale->remaining_amount > 0){
-                    Client::where('id', $validated['client_id'])->increment('balance', $sale->remaining_amount);
-                }
-                //create warehouse transaction 
-                WareHouseTransaction::create([
-                    'item_id' => $item['item_id'],
-                    'type' => WarehouseTransactionEnum::Remove->value,
-                    'warehouse_id' => $validated['warehouse_id'],
-                    'quantity' => $item['quantity'],
-                    'description' => 'فاتوره رقم '.$sale->id,
-                    'balance_after' => $item['quantity'],
-                    'user_id' => Auth()->id(),
-                    'reference_id' => $sale->id,
-                    'reference_type' => Sale::class,
-                ]);
-          }
+            // Record transactions via service
+            $this->transactionService->recordSaleTransaction($sale, $validated);
             return redirect()->route('admin.sales.show', $sale->id)
                 ->with('success', 'تم إنشاء الفاتورة بنجاح');
         });
@@ -222,6 +183,9 @@ class SaleController extends Controller
             
             // Detach items
             $sale->items()->detach();
+            
+            // Void transactions (reverse balances)
+            $this->transactionService->voidSaleTransaction($sale);
             
             // Delete safe transactions if the relationship exists
             if (method_exists($sale, 'safeTransactions') && $sale->safeTransactions) {
