@@ -45,10 +45,10 @@ class WareHouseController extends Controller
      */
     public function show(Warehouse $warehouse)
     {
-        // Load withdrawal transactions (type = Remove) with related item and user
+        // Load withdrawal transactions (type = Remove) with related item, user, and reference
         $withdrawalTransactions = $warehouse->wareHouseTransaction()
             ->where('type', \App\Enums\WareHouseTransactions::Remove->value)
-            ->with(['item', 'user'])
+            ->with(['item', 'user', 'reference'])
             ->latest()
             ->paginate(10);
 

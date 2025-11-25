@@ -141,7 +141,7 @@
                                     <th class="text-center">الرصيد</th>
                                     <th>المستخدم</th>
                                     <th class="text-center">التاريخ</th>
-                                    <th>الوصف</th>
+                                    <th>رقم الفاتورة</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">

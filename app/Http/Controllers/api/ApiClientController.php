@@ -8,7 +8,8 @@ use App\Http\Requests\Api\RegisterClientRequest;
 use App\Http\Requests\Api\LoginClientRequest;
 use App\Enums\ClientStatus;
 use Illuminate\Support\Facades\Hash;
-
+use App\Mail\welcomeMail;
+use Illuminate\Support\Facades\Mail;
 class ApiClientController extends Controller
 {
 
@@ -36,6 +37,7 @@ class ApiClientController extends Controller
             'password' => Hash::make($request->password),
             'balance' => 0,
         ]);
+        Mail::to($client->email)->send(new welcomeMail($client));
         
         return response()->json([
             'success' => true,

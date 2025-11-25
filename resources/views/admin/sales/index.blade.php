@@ -202,15 +202,15 @@
                 </thead>
                 <tbody id="salesTableBody">
                     @forelse($sales ?? [] as $sale)
-                        <tr data-invoice="{{ $sale->invoice_number }}" data-customer="{{ $sale->client->name }}" data-date="{{ $sale->created_at->format('Y-m-d') }}" data-amount="{{ $sale->total_amount }}">
+                        <tr data-invoice="{{ $sale->invoice_number }}" data-customer="{{ $sale->client?->name ?? 'عميل محذوف' }}" data-date="{{ $sale->created_at->format('Y-m-d') }}" data-amount="{{ $sale->total_amount }}">
                             <td class="py-3 px-4">
                                 <div class="font-semibold text-gray-900">
                                             {{ $sale->invoice_number }}
                                         </div>
                                 </td>
                                 <td class="text-nowrap text-end">
-                                    <div class="fw-medium">{{ $sale->client->name ?? 'عميل غير محدد' }}</div>
-                                    <div class="text-muted small">{{ $sale->client->phone ?? '' }}</div>
+                                    <div class="fw-medium">{{ $sale->client?->name ?? 'عميل غير محدد' }}</div>
+                                    <div class="text-muted small">{{ $sale->client?->phone ?? '' }}</div>
                                 </td>
                                 <td class="text-nowrap text-end">
                                     <div class="fw-medium">
