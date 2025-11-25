@@ -131,7 +131,7 @@ return [
     'orders' => 'الطلبات',
     'clients' => 'العملاء',
     'sales' => 'المبيعات',
-    'categories' => 'الفئات',
+    // 'categories' => 'الفئات', // Removed to avoid conflict with array
     'units' => 'الوحدات',
     'roles' => 'الأدوار',
     'recent_transactions' => 'المعاملات الحديثة',

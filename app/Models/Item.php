@@ -59,4 +59,9 @@ class Item extends Model
         return $this->belongsToMany('App\Models\Warehouse','warehouse');
     }
 
+    public function warehouseTransactions()
+    {
+        return $this->hasMany('App\Models\WarehouseTransaction');
+    }
+
 }

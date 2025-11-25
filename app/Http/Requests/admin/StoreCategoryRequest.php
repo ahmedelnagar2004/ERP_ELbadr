@@ -15,7 +15,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', 'unique:categories,name,' . ($this->route('category') ? $this->route('category')->id : null)],
-            'status' => ['required', 'boolean'],
+            'status' => ['required', 'in:active,inactive'],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ];
     }
@@ -28,7 +28,7 @@ class StoreCategoryRequest extends FormRequest
             'name.max' => 'اسم الفئة يجب ألا يزيد عن 255 حرف',
             'name.unique' => 'اسم الفئة موجود بالفعل',
             'status.required' => 'حالة الفئة مطلوبة',
-            'status.boolean' => 'حالة الفئة يجب أن تكون نشط أو غير نشط',
+            'status.in' => 'حالة الفئة يجب أن تكون نشط أو غير نشط',
             'photo.image' => 'الملف يجب أن يكون صورة',
             'photo.mimes' => 'الصورة يجب أن تكون من نوع: jpeg, png, jpg, gif, webp',
             'photo.max' => 'حجم الصورة يجب ألا يزيد عن 2 ميجابايت',

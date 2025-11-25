@@ -262,9 +262,9 @@
     <div class="stat-card">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-1">
-                <div class="stat-label">@lang('admin.categories')</div>
+                <div class="stat-label">@lang('admin.menu.categories')</div>
                 <div class="stat-number">{{ number_format($total_categories) }}</div>
-                <x-stat-action href="{{ route('admin.categories.index') }}" color="purple" permission="view-categories">@lang('admin.manage') @lang('admin.categories')</x-stat-action>
+                <x-stat-action href="{{ route('admin.categories.index') }}" color="purple" permission="view-categories">@lang('admin.manage') @lang('admin.menu.categories')</x-stat-action>
             </div>
             <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">

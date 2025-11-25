@@ -24,7 +24,7 @@
 
 <div class="page-header flex items-center justify-between mb-6">
     <div>
-        <h2 class="text-xl font-bold text-gray-900">@lang('admin.categories')</h2>
+        <h2 class="text-xl font-bold text-gray-900">@lang('admin.menu.categories')</h2>
         <p class="text-sm text-gray-500 mt-1">@lang('admin.categories.management')</p>
     </div>
     <a href="{{ route('admin.categories.create') }}" class="btn btn-success">@lang('admin.categories.create')</a>

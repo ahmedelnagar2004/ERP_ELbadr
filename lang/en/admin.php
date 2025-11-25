@@ -112,7 +112,7 @@ return [
     'orders' => 'Orders',
     'clients' => 'Clients',
     'sales' => 'Sales',
-    'categories' => 'Categories',
+    // 'categories' => 'Categories', // Removed to avoid conflict with array
     'units' => 'Units',
     'roles' => 'Roles',
     'recent_transactions' => 'Recent Transactions',

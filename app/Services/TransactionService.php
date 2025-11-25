@@ -34,7 +34,7 @@ class TransactionService
                 'balance_after' => $sale->paid_amount, // Note: This seems to be just the amount in the original code, but usually should be running balance. Keeping original logic for now but might need fix.
                 'user_id' => Auth::id(),
                 'safe_id' => $data['safe_id'],
-                'reference_id' => 'فاتوره رقم '.$sale->id,
+                'reference_id' => $sale->id,
                 'reference_type' => Sale::class,
             ]);
 
@@ -52,7 +52,7 @@ class TransactionService
                  'user_id' => Auth::id(),
                  'safe_id' => $data['safe_id'],
                  'client_id' => $data['client_id'],
-                 'reference_id' => 'فاتوره رقم '.$sale->id,
+                 'reference_id' => $sale->id,
                  'reference_type' => Sale::class,
              ]);
 
@@ -72,7 +72,7 @@ class TransactionService
                 'description' => 'فاتوره رقم ' . $sale->id,
                 'balance_after' => $itemData['quantity'], // Original logic
                 'user_id' => Auth::id(),
-                'reference_id' => 'فاتوره رقم '.$sale->id,
+                'reference_id' =>   $sale->id,
                 'reference_type' => Sale::class,
             ]);
             
@@ -117,7 +117,7 @@ class TransactionService
             SafeTransaction::create([
                 'type' => safeTransactionTypeStatus::out->value,
                 'amount' => $actualPaidAmount,
-                'description' => 'مرتجع فاتورة رقم ' . $sale->id,
+                'description' => $sale->id,
                 'balance_after' => Safe::find($data['safe_id'])->balance - $actualPaidAmount,
                 'user_id' => Auth::id(),
                 'safe_id' => $data['safe_id'],
@@ -133,12 +133,12 @@ class TransactionService
              ClientAccountTransaction::create([
                  'type' => ClientAccountTransactionTypeEnum::DEBIT->value,
                  'amount' => $sale->net_amount,
-                 'description' => 'مرتجع فاتورة رقم ' . $sale->id,
+                 'description' => $sale->id,
                  'balance_after' => Client::find($data['client_id'])->balance - $sale->net_amount,
                  'user_id' => Auth::id(),
                  'safe_id' => $data['safe_id'],
                  'client_id' => $data['client_id'],
-                 'reference_id' => 'مرتجع فاتورة رقم '.$sale->id,
+                 'reference_id' => $sale->id,
                  'reference_type' => Sale::class,
              ]);
 
@@ -155,10 +155,10 @@ class TransactionService
                 'type' => WarehouseTransactionEnum::Add->value,
                 'warehouse_id' => $data['warehouse_id'],
                 'quantity' => $itemData['quantity'],
-                'description' => 'مرتجع فاتورة رقم ' . $sale->id,
+                'description' => $sale->id,
                 'balance_after' => Item::find($itemData['item_id'])->quantity, // Note: Controller increments quantity BEFORE calling this service usually? Or we should assume it's done.
                 'user_id' => Auth::id(),
-                'reference_id' =>'مرتجع فاتورة رقم ' . $sale->id,
+                'reference_id' =>$sale->id,
                 'reference_type' => Sale::class,
             ]);
         }
