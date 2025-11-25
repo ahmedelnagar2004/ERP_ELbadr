@@ -30,10 +30,10 @@
         </div>
 
         <!-- تقرير المنتجات -->
-        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 text-white">
-            <h4 class="text-xl font-bold mb-2">تقرير المنتجات</h4>
-            <p class="text-orange-100 mb-4">بيانات المنتجات والمخزون</p>
-            <a href="{{ route('admin.reports.products') }}" class="inline-block bg-white text-orange-600 px-4 py-2 rounded font-medium hover:bg-orange-50">
+        <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h4 class="text-xl font-bold mb-2 text-white">تقرير المنتجات</h4>
+            <p class="text-white mb-4">بيانات المنتجات والمخزون</p>
+            <a href="{{ route('admin.reports.products') }}" class="inline-block bg-white text-red-600 px-4 py-2 rounded font-medium hover:bg-red-50 transition-colors duration-200">
                 عرض التقرير
             </a>
         </div>
