@@ -29,6 +29,15 @@
             </a>
         </div>
 
+        <!-- تقرير المنتجات -->
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 text-white">
+            <h4 class="text-xl font-bold mb-2">تقرير المنتجات</h4>
+            <p class="text-orange-100 mb-4">بيانات المنتجات والمخزون</p>
+            <a href="{{ route('admin.reports.products') }}" class="inline-block bg-white text-orange-600 px-4 py-2 rounded font-medium hover:bg-orange-50">
+                عرض التقرير
+            </a>
+        </div>
+
         <!-- تقرير العملاء -->
         <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-6 text-white">
             <h4 class="text-xl font-bold mb-2">تقرير العملاء</h4>
@@ -37,8 +46,8 @@
                 عرض التقرير
             </a>
         </div>
-    </div>
 
+    </div>
     <div class="mt-8">
         <h4 class="text-lg font-semibold text-gray-800 mb-4">التقارير السريعة</h4>
         <div class="bg-gray-50 rounded-lg p-4">

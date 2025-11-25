@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\SalesExport;
 use App\Exports\ItemTransactionsExport;
 use App\Exports\ClientsExport;
+use App\Exports\ProductsExport;
 
 class ReportController extends Controller
 {
@@ -114,5 +115,46 @@ class ReportController extends Controller
         $clients = Client::all(); // For filter dropdown
 
         return view('admin.reports.clients', compact('clientsData', 'clients'));
+    }
+
+    public function products(Request $request)
+    {
+        $query = Item::with(['category', 'unit', 'warehouse']);
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('warehouse_id')) {
+            $query->where('warehouse_id', $request->warehouse_id);
+        }
+
+        if ($request->filled('min_quantity')) {
+            $query->where('quantity', '>=', $request->min_quantity);
+        }
+
+        if ($request->filled('max_quantity')) {
+            $query->where('quantity', '<=', $request->max_quantity);
+        }
+
+        if ($request->filled('low_stock')) {
+            $query->whereColumn('quantity', '<=', 'minimum_stock');
+        }
+
+        $products = $query->latest()->get();
+
+        if ($request->export === 'excel') {
+            return Excel::download(new ProductsExport($products), 'products_report_' . date('Y-m-d') . '.xlsx');
+        }
+
+        if ($request->export === 'pdf') {
+            $pdf = Pdf::loadView('admin.reports.pdf.products', compact('products'));
+            return $pdf->download('products_report_' . date('Y-m-d') . '.pdf');
+        }
+
+        $categories = \App\Models\Category::all();
+        $warehouses = \App\Models\Warehouse::all();
+
+        return view('admin.reports.products', compact('products', 'categories', 'warehouses'));
     }
 }

@@ -59,6 +59,11 @@ class Item extends Model
         return $this->belongsToMany('App\Models\Warehouse','warehouse');
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo('App\Models\Warehouse', 'warehouse_id');
+    }
+
     public function warehouseTransactions()
     {
         return $this->hasMany('App\Models\WarehouseTransaction');

@@ -159,6 +159,7 @@ Route::middleware(['web'])->group(function () {
                     Route::get('/reports/sales', [\App\Http\Controllers\ReportController::class, 'sales'])->name('reports.sales');
                     Route::get('/reports/clients', [\App\Http\Controllers\ReportController::class, 'clients'])->name('reports.clients');
                     Route::get('/reports/item-transactions', [\App\Http\Controllers\ReportController::class, 'itemTransactions'])->name('reports.item_transactions');
+                    Route::get('/reports/products', [\App\Http\Controllers\ReportController::class, 'products'])->name('reports.products');
                 });
             }); // End of admin prefix group
         }); // End of auth middleware group
