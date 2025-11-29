@@ -3,21 +3,22 @@
 namespace App\Models;
 
 use App\Enums\ClientStatus;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
-class Client extends Model
+class Client extends Authenticatable
 {
     protected $table = 'clients';
 
     public $timestamps = true;
 
-    use SoftDeletes;
+    use SoftDeletes, HasApiTokens;
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['name', 'email', 'phone', 'address', 'balance', 'status'];
+    protected $fillable = ['name', 'email', 'phone', 'address', 'balance', 'status', 'password'];
 
     protected function casts(): array
     {
