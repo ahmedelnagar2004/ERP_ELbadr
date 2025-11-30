@@ -14,10 +14,10 @@ class ItemController extends Controller
      public $resourceName = ItemResource::class;
     public function index()
     {
-       
-        // $items = Item::where('is_shown_in_store', itemStatus::Shown)->paginate();
-        $items = Item::paginate();
-        return $this->paginatedResponseApi($items, "Items retrieved successfully");
+         
+          $items = Item::where('is_shown_in_store', ItemStatus::Shown->value())->paginate();
+          return $this->paginatedResponseApi($items, "Items retrieved successfully");
+
     }
 
     public function show($id)
