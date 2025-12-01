@@ -135,6 +135,7 @@ return [
         'safe_balance' => 'Safe Balance',
         'safes' => 'Safes',
         'active' => 'Active',
+        'settings' => 'Settings',
         'inactive' => 'Inactive',
         'account_number' => 'Account Number',
         'cancel' => 'Cancel',

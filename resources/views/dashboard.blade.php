@@ -323,9 +323,8 @@
          <div class="stat-card">
             <div class="flex items-center justify-between gap-4">
                 <div class="flex-1">
-                    <div class="stat-label">@lang('admin.reports')</div>
-                    <div class="stat-number">{{ number_format($total_reports ?? 0) }}</div>
-                    <x-stat-action href="{{ route('admin.reports.index') }}" color="green" permission="view-reports"> @lang('admin.COMMON.reports')</x-stat-action>
+                    <div class="stat-label">@lang('admin.menu.reports')</div>
+                    <x-stat-action href="{{ route('admin.reports.index') }}" color="green" permission="view-reports"> @lang('admin.menu.reports')</x-stat-action>
                 </div>
                 <div class="stat-icon" style="background: linear-gradient(135deg, #68cc36bb, #45d906ff);">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -335,8 +334,7 @@
             </div>
         </div>
 
-         <!-- setting -->
-         
+       
         
          <!-- alert -->
          <div class="stat-card">
@@ -345,6 +343,22 @@
                     <div class="stat-label">@lang('admin.COMMON.alert_quantity')</div>
                     <div class="stat-number">{{ number_format($total_alerts ?? 0) }}</div>
                     <x-stat-action href="{{ route('admin.alerts.index') }}" color="red" permission="alert-quantity"> @lang('admin.COMMON.alert_quantity')</x-stat-action>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- setting  -->
+        <div class="stat-card">
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1">
+                    <div class="stat-label">@lang('admin.COMMON.settings')</div>
+                    <x-stat-action href="{{ route('admin.settings.edit') }}" color="blue" permission="manage-settings"> @lang('admin.COMMON.settings')</x-stat-action>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.27 5.82 22 7 13.87 2 9l6.91-.74L12 2z"/>
+                    </svg>
                 </div>
             </div>
         </div>

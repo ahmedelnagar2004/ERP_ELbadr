@@ -186,6 +186,7 @@ return [
         'inactive' => 'غير نشط',
         'account_number' => 'رقم الحساب',
         'cancel' => 'إلغاء',
+        'settings' => 'الإعدادات',
         'warehouse' => 'المخزن',
         'reports' => 'التقارير',
         'alert_quantity' => 'تنبيه الكمية',
