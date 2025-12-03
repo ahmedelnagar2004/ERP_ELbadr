@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'المبيعات')
-@section('page-title', 'إدارة المبيعات')
-@section('page-subtitle', 'عرض وإدارة عمليات البيع')
+@section('title', __('admin.menu.sales'))
+@section('page-title', __('admin.sales.management'))
+@section('page-subtitle', __('admin.sales.manage_sales_returns'))
 
 @push('styles')
 <style>
@@ -129,15 +129,15 @@
     <div class="page-header mb-6">
         <div class="flex items-center justify-between mb-4">
             <div>
-                <h2 class="text-xl font-bold text-gray-900">قائمة المبيعات والمرتجعات</h2>
-                <p class="text-sm text-gray-500 mt-1">إدارة ومتابعة جميع عمليات البيع والمرتجعات</p>
+                <h2 class="text-xl font-bold text-gray-900">@lang('admin.sales.sales_returns_list')</h2>
+                <p class="text-sm text-gray-500 mt-1">@lang('admin.sales.manage_track_sales')</p>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('admin.returns.create') }}" class="btn btn-danger">
-                    <i class="fas fa-undo me-1"></i> إضافة مرتجع
+                    <i class="fas fa-undo me-1"></i> @lang('admin.sales.add_return')
                 </a>
                 <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i> إضافة عملية بيع جديدة
+                    <i class="fas fa-plus me-1"></i> @lang('admin.sales.add_new_sale')
                 </a>
             </div>
         </div>
@@ -147,21 +147,21 @@
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                 <a href="{{ route('admin.sales.index') }}" 
                    class="{{ !request()->has('type') ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    الكل
+                    @lang('admin.common.all')
                     <span class="bg-gray-100 text-gray-900 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
                         {{ \App\Models\Sale::count() }}
                     </span>
                 </a>
                 <a href="{{ route('admin.sales.index', ['type' => \App\Enums\SaleStatusEnum::SALE->value]) }}" 
                    class="{{ request('type') === \App\Enums\SaleStatusEnum::SALE->value ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    المبيعات
+                    @lang('admin.menu.sales')
                     <span class="bg-green-100 text-green-800 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
                         {{ \App\Models\Sale::where('type', \App\Enums\SaleStatusEnum::SALE->value)->count() }}
                     </span>
                 </a>
                 <a href="{{ route('admin.sales.index', ['type' => \App\Enums\SaleStatusEnum::RETURN->value]) }}" 
                    class="{{ request('type') === \App\Enums\SaleStatusEnum::RETURN->value ? 'border-red-500 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    المرتجعات
+                    @lang('admin.sales.returns')
                     <span class="bg-red-100 text-red-800 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
                         {{ \App\Models\Sale::where('type', \App\Enums\SaleStatusEnum::RETURN->value)->count() }}
                     </span>
@@ -173,16 +173,16 @@
     <div class="table-card">
         <div class="table-toolbar">
             <div class="toolbar-left">
-                <input id="salesSearch" type="search" class="toolbar-input" placeholder="ابحث برقم الفاتورة أو اسم العميل..." value="{{ request('search') }}">
+                <input id="salesSearch" type="search" class="toolbar-input" placeholder="@lang('admin.sales.search_placeholder')" value="{{ request('search') }}">
             </div>
             <div class="flex items-center gap-2">
-                <label for="salesSortBy" class="text-sm text-slate-600">ترتيب حسب:</label>
+                <label for="salesSortBy" class="text-sm text-slate-600">@lang('admin.common.sort_by'):</label>
                 <select id="salesSortBy" class="toolbar-select">
-                    <option value="date_desc">الأحدث أولاً</option>
-                    <option value="date_asc">الأقدم أولاً</option>
-                    <option value="amount_desc">الأعلى مبيعاً</option>
-                    <option value="amount_asc">الأقل مبيعاً</option>
-                    <option value="customer">اسم العميل (أ-ي)</option>
+                    <option value="date_desc">@lang('admin.common.latest_first')</option>
+                    <option value="date_asc">@lang('admin.common.oldest_first')</option>
+                    <option value="amount_desc">@lang('admin.sales.highest_sales')</option>
+                    <option value="amount_asc">@lang('admin.sales.lowest_sales')</option>
+                    <option value="customer">@lang('admin.sales.customer_name_az')</option>
                 </select>
             </div>
         </div>
@@ -193,11 +193,11 @@
                     <tr>
                         <th class="text-end py-3 px-4">رقم الفاتورة</th>
                         <th class="text-end py-3 px-4">العميل</th>
-                        <th class="text-end py-3 px-4">التاريخ</th>
-                        <th class="text-end py-3 px-4">الإجمالي</th>
-                        <th class="text-center py-3 px-4">حالة الدفع</th>  
-                        <th class="text-center py-3 px-4">حالة المبيعة</th>
-                        <th class="text-center py-3 px-4">الإجراءات</th>
+                        <th class="text-end py-3 px-4">@lang('admin.COMMON.date')</th>
+                        <th class="text-end py-3 px-4">@lang('admin.sales.total')</th>
+                        <th class="text-center py-3 px-4">@lang('admin.sales.payment_status')</th>  
+                        <th class="text-center py-3 px-4">@lang('admin.sales.sale_status')</th>
+                        <th class="text-center py-3 px-4">@lang('admin.COMMON.actions')</th>
                     </tr>
                 </thead>
                 <tbody id="salesTableBody">
@@ -205,11 +205,11 @@
                         <tr data-invoice="{{ $sale->invoice_number }}" data-customer="{{ $sale->client?->name ?? 'عميل محذوف' }}" data-date="{{ $sale->created_at->format('Y-m-d') }}" data-amount="{{ $sale->total_amount }}">
                             <td class="py-3 px-4">
                                 <div class="font-semibold text-gray-900">
-                                            {{ $sale->invoice_number }}
-                                        </div>
-                                </td>
+                                    {{ $sale->invoice_number }}
+                                </div>
+                            </td>
                                 <td class="text-nowrap text-end">
-                                    <div class="fw-medium">{{ $sale->client?->name ?? 'عميل غير محدد' }}</div>
+                                    <div class="fw-medium">{{ $sale->client?->name ?? __('admin.common.unknown_customer') }}</div>
                                     <div class="text-muted small">{{ $sale->client?->phone ?? '' }}</div>
                                 </td>
                                 <td class="text-nowrap text-end">
@@ -280,17 +280,17 @@
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('admin.sales.show', $sale->id) }}" class="btn btn-sm btn-action btn-view" data-bs-toggle="tooltip" title="عرض التفاصيل">
                                             <i class="fas fa-eye"></i>
-                                            <span class="d-none d-md-inline">عرض</span>
+                                            <span class="d-none d-md-inline">@lang('admin.common.view')</span>
                                         </a>
                                         @can('delete-sales')
-                                        <button onclick="confirmDelete({{ $sale->id }}, '{{ $sale->invoice_number }}')" class="btn btn-sm btn-action btn-delete" data-bs-toggle="tooltip" title="حذف الفاتورة">
+                                        <button onclick="confirmDelete({{ $sale->id }}, '{{ $sale->invoice_number }}')" class="btn btn-sm btn-action btn-delete" data-bs-toggle="tooltip" title="@lang('admin.common.delete') الفاتورة">
                                             <i class="fas fa-trash-alt"></i>
-                                            <span class="d-none d-md-inline">حذف</span>
+                                            <span class="d-none d-md-inline">@lang('admin.common.delete')</span>
                                         </button>
                                         @endcan
-                                        <a href="{{ route('admin.sales.print', $sale->id) }}" target="_blank" class="btn btn-sm btn-action btn-print" data-bs-toggle="tooltip" title="طباعة الفاتورة">
+                                        <a href="{{ route('admin.sales.print', $sale->id) }}" target="_blank" class="btn btn-sm btn-action btn-print" data-bs-toggle="tooltip" title="@lang('admin.sales.print') الفاتورة">
                                             <i class="fas fa-print"></i>
-                                            <span class="d-none d-md-inline">طباعة</span>
+                                            <span class="d-none d-md-inline">@lang('admin.sales.print')</span>
                                         </a>
                                     </div>
                                 </td>
@@ -303,10 +303,10 @@
                                             <div class="empty-state-icon">
                                                 <i class="fas fa-shopping-cart"></i>
                                             </div>
-                                            <h4 class="mt-4 mb-3">لا توجد عمليات بيع</h4>
-                                            <p class="text-muted mb-4">لم يتم العثور على أي سجلات للعرض. يمكنك بدء بيع جديد بالنقر على الزر أدناه</p>
+                                            <h4 class="mt-4 mb-3">@lang('admin.sales.no_sales_found')</h4>
+                                            <p class="text-muted mb-4">@lang('admin.sales.no_sales_description')</p>
                                             <a href="{{ route('admin.sales.create') }}" class="btn btn-primary btn-lg">
-                                                <i class="fas fa-plus-circle me-2"></i> بدء عملية بيع جديدة
+                                                <i class="fas fa-plus-circle me-2"></i> @lang('admin.sales.start_new_sale')
                                             </a>
                                         </div>
                                     </div>
@@ -365,7 +365,7 @@
         <div class="modal-content">
             <div class="modal-header bg-light">
                 <h5 class="modal-title text-danger">
-                    <i class="fas fa-exclamation-triangle me-2"></i> تأكيد الحذف
+                    <i class="fas fa-exclamation-triangle me-2"></i> تأكيد ال@lang('admin.common.delete')
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -375,23 +375,23 @@
                         <i class="fas fa-exclamation-circle text-danger" style="font-size: 2rem;"></i>
                     </div>
                     <div>
-                        <h6 class="mb-1">حذف الفاتورة <span id="invoiceNumber" class="fw-bold"></span></h6>
-                        <p class="mb-0 text-muted">هل أنت متأكد من رغبتك في حذف هذه الفاتورة؟</p>
+                        <h6 class="mb-1">@lang('admin.common.delete') الفاتورة <span id="invoiceNumber" class="fw-bold"></span></h6>
+                        <p class="mb-0 text-muted">هل أنت متأكد من رغبتك في @lang('admin.common.delete') هذه الفاتورة؟</p>
                         <p class="mb-0 text-danger">
-                            <small><i class="fas fa-exclamation-circle me-1"></i> لا يمكن التراجع عن هذا الإجراء</small>
+                            <small><i class="fas fa-exclamation-circle me-1"></i> @lang('admin.sales.cannot_undo_action')</small>
                         </p>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                    <i class="fas fa-times me-1"></i> إلغاء
+                    <i class="fas fa-times me-1"></i> @lang('admin.common.cancel')
                 </button>
                 <form id="deleteForm" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash-alt me-1"></i> حذف
+                        <i class="fas fa-trash-alt me-1"></i> @lang('admin.common.delete')
                     </button>
                 </form>
             </div>

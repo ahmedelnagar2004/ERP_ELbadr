@@ -104,6 +104,7 @@ Route::middleware(['web'])->group(function () {
                 // warehouses management routes
                 Route::middleware(['permission:view-warehouses'])->group(function () {
                     Route::resource('warehouses', WarehouseController::class);
+                    Route::get('warehouses/{warehouse}/items', [WarehouseController::class, 'warehouseItems'])->name('warehouses.items');
                 });
 
                 // Settings routes

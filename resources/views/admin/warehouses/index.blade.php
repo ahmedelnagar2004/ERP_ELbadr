@@ -109,6 +109,14 @@
                                    title="تعديل">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                <a href="{{ route('admin.warehouses.items', $warehouse) }}" 
+                                   class="btn btn-sm btn-outline-primary rounded-circle p-2"
+                                   style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top"
+                                   title="المنتجات">
+                                    <i class="fas fa-boxes"></i>
+                                </a>    
                                 <form action="{{ route('admin.warehouses.destroy', $warehouse) }}" 
                                       method="POST" 
                                       class="d-inline"

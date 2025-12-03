@@ -97,6 +97,12 @@ class WareHouseController extends Controller
         $warehouse->delete();
         return redirect()->route('admin.warehouses.index')->with('success', 'Warehouse deleted successfully');
     }
+
+    public function warehouseItems(Warehouse $warehouse)
+    {
+        $items = $warehouse->items()->with(['category', 'unit'])->paginate(10);
+        return view('admin.warehouses.item', compact('warehouse', 'items'));
+    }
 }
 
 

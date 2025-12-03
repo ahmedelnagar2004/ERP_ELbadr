@@ -76,7 +76,9 @@
                         <i class="bx bx-info-circle me-2"></i>
                         معلومات المستودع
                     </h5>
-                    
+                    <a href="{{ route('admin.warehouses.items', $warehouse) }}" class="btn btn-sm btn-light">
+                        <i class="bx bx-box me-1"></i> عرض المنتجات
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="row">
