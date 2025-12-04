@@ -44,6 +44,7 @@ return [
     'currency' => 'ج.م',
     'unknown_customer' => 'عميل غير محدد',
     'sales' => [
+        'start_new_sale'=>'بدء عملية بيع جديدة',
         'total'=> 'إجمالي',
         'management' => 'إدارة المبيعات',
         'manage_sales_returns' => 'عرض وإدارة عمليات البيع',
@@ -205,6 +206,25 @@ return [
     'yearly_earnings_overview' => 'نظرة عامة على الإيرادات السنوية',
 
     'COMMON' => [
+        'view'=>'عرض',
+        'print'=>'طباعه',
+        'unknown_customer' => 'عميل غير معروف',
+         'sort_by'=>'ترتيب حسب',
+        'total'=>'المجموع',
+        'payment_status'=>'حالة الدفع',
+        'sale_status'=>'حالة المبيعات',
+        'client'=>'العميل',
+        'invoice_number'=>'رقم الفاتورة',
+        'search_placeholder'=>'بحث',
+        'highest_sales'=>'الإيرادات العالية',
+        'lowest_sales'=>'الإيرادات المنخفضة',
+        'customer_name_az'=>'اسم العميل (أ-ي)',
+        'oldest_first'=>'المضاف مؤاخرا',
+        'latest_first'=>'المضاف حديثا',
+        'all'=>'الكل',
+        'returns'=>'الإرجاعات',
+        'sales'=>'المبيعات',
+        'date'=>'التاريخ',
         'name' => 'الاسم',
         'description' => 'الوصف',
         'actions' => 'الإجراءات',
@@ -249,3 +269,4 @@ return [
     ],
 
 ];
+

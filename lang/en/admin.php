@@ -44,6 +44,7 @@ return [
     'deleted_customer' => 'Deleted Customer',
     
     'sales' => [
+        'start_new_sale'=>'start sale',
         'total'=> 'Total',
         'management' => 'Sales Management',
         'manage_sales_returns' => 'View and manage sales',
@@ -157,6 +158,25 @@ return [
     'view_all_transactions' => 'View All Transactions',
 
     'COMMON' => [
+        'print'=>'print',
+        'view' => ' view ',
+        'unknown_customer'=>'unknown customer',
+        'sort_by'=>'sort by',
+        'client'=>'client',
+        'payment_status'=>'payment status',
+        'sale_status'=>'sale status',
+        'total'=>'total',
+        'invoice_number'=>'invoice number',
+        'search_placeholder'=>'search',
+        'highest_sales'=>'highest sales',
+        'lowest_sales'=>'lowest sales',
+        'customer_name_az'=>'customer name az',
+        'oldest_first'=>'oldest first',
+        'latest_first'=>'letest first',
+        'all'=>'All',
+        'returns'=>'Returns',
+        'sales'=>'Sales',
+        'date'=>'Date',
         'name' => 'Name',
         'description' => 'Description',
         'actions' => 'Actions',

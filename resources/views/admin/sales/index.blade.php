@@ -129,15 +129,15 @@
     <div class="page-header mb-6">
         <div class="flex items-center justify-between mb-4">
             <div>
-                <h2 class="text-xl font-bold text-gray-900">@lang('admin.sales.sales_returns_list')</h2>
-                <p class="text-sm text-gray-500 mt-1">@lang('admin.sales.manage_track_sales')</p>
+                <h2 class="text-xl font-bold text-gray-900">@lang('admin.COMMON.returns')</h2>
+                <p class="text-sm text-gray-500 mt-1">@lang('admin.COMMON.sales')</p>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('admin.returns.create') }}" class="btn btn-danger">
-                    <i class="fas fa-undo me-1"></i> @lang('admin.sales.add_return')
+                    <i class="fas fa-undo me-1"></i> @lang('admin.COMMON.returns')
                 </a>
                 <a href="{{ route('admin.sales.create') }}" class="btn btn-success">
-                    <i class="fas fa-plus me-1"></i> @lang('admin.sales.add_new_sale')
+                    <i class="fas fa-plus me-1"></i> @lang('admin.COMMON.sales')
                 </a>
             </div>
         </div>
@@ -147,7 +147,7 @@
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                 <a href="{{ route('admin.sales.index') }}" 
                    class="{{ !request()->has('type') ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    @lang('admin.common.all')
+                    @lang('admin.COMMON.all')
                     <span class="bg-gray-100 text-gray-900 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
                         {{ \App\Models\Sale::count() }}
                     </span>
@@ -161,7 +161,7 @@
                 </a>
                 <a href="{{ route('admin.sales.index', ['type' => \App\Enums\SaleStatusEnum::RETURN->value]) }}" 
                    class="{{ request('type') === \App\Enums\SaleStatusEnum::RETURN->value ? 'border-red-500 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    @lang('admin.sales.returns')
+                    @lang('admin.COMMON.returns')
                     <span class="bg-red-100 text-red-800 ml-2 py-0.5 px-2 rounded-full text-xs font-medium">
                         {{ \App\Models\Sale::where('type', \App\Enums\SaleStatusEnum::RETURN->value)->count() }}
                     </span>
@@ -173,16 +173,16 @@
     <div class="table-card">
         <div class="table-toolbar">
             <div class="toolbar-left">
-                <input id="salesSearch" type="search" class="toolbar-input" placeholder="@lang('admin.sales.search_placeholder')" value="{{ request('search') }}">
+                <input id="salesSearch" type="search" class="toolbar-input" placeholder="@lang('admin.COMMON.search_placeholder')" value="{{ request('search') }}">
             </div>
             <div class="flex items-center gap-2">
-                <label for="salesSortBy" class="text-sm text-slate-600">@lang('admin.common.sort_by'):</label>
+                <label for="salesSortBy" class="text-sm text-slate-600">@lang('admin.COMMON.sort_by'):</label>
                 <select id="salesSortBy" class="toolbar-select">
-                    <option value="date_desc">@lang('admin.common.latest_first')</option>
-                    <option value="date_asc">@lang('admin.common.oldest_first')</option>
-                    <option value="amount_desc">@lang('admin.sales.highest_sales')</option>
-                    <option value="amount_asc">@lang('admin.sales.lowest_sales')</option>
-                    <option value="customer">@lang('admin.sales.customer_name_az')</option>
+                    <option value="date_desc">@lang('admin.COMMON.latest_first')</option>
+                    <option value="date_asc">@lang('admin.COMMON.oldest_first')</option>
+                    <option value="amount_desc">@lang('admin.COMMON.highest_sales')</option>
+                    <option value="amount_asc">@lang('admin.COMMON.lowest_sales')</option>
+                    <option value="customer">@lang('admin.COMMON.customer_name_az')</option>
                 </select>
             </div>
         </div>
@@ -191,12 +191,12 @@
             <table class="min-w-full w-full">
                 <thead class="sticky">
                     <tr>
-                        <th class="text-end py-3 px-4">رقم الفاتورة</th>
-                        <th class="text-end py-3 px-4">العميل</th>
+                        <th class="text-end py-3 px-4">@lang('admin.COMMON.invoice_number') </th>
+                        <th class="text-end py-3 px-4">@lang('admin.COMMON.client')</th>
                         <th class="text-end py-3 px-4">@lang('admin.COMMON.date')</th>
-                        <th class="text-end py-3 px-4">@lang('admin.sales.total')</th>
-                        <th class="text-center py-3 px-4">@lang('admin.sales.payment_status')</th>  
-                        <th class="text-center py-3 px-4">@lang('admin.sales.sale_status')</th>
+                        <th class="text-end py-3 px-4">@lang('admin.COMMON.total')</th>
+                        <th class="text-center py-3 px-4">@lang('admin.COMMON.payment_status')</th>  
+                        <th class="text-center py-3 px-4">@lang('admin.COMMON.sale_status')</th>
                         <th class="text-center py-3 px-4">@lang('admin.COMMON.actions')</th>
                     </tr>
                 </thead>
@@ -209,7 +209,7 @@
                                 </div>
                             </td>
                                 <td class="text-nowrap text-end">
-                                    <div class="fw-medium">{{ $sale->client?->name ?? __('admin.common.unknown_customer') }}</div>
+                                    <div class="fw-medium">{{ $sale->client?->name ?? __('admin.COMMON.unknown_customer') }}</div>
                                     <div class="text-muted small">{{ $sale->client?->phone ?? '' }}</div>
                                 </td>
                                 <td class="text-nowrap text-end">
@@ -280,17 +280,17 @@
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('admin.sales.show', $sale->id) }}" class="btn btn-sm btn-action btn-view" data-bs-toggle="tooltip" title="عرض التفاصيل">
                                             <i class="fas fa-eye"></i>
-                                            <span class="d-none d-md-inline">@lang('admin.common.view')</span>
+                                            <span class="d-none d-md-inline">@lang('admin.COMMON.view')</span>
                                         </a>
                                         @can('delete-sales')
                                         <button onclick="confirmDelete({{ $sale->id }}, '{{ $sale->invoice_number }}')" class="btn btn-sm btn-action btn-delete" data-bs-toggle="tooltip" title="@lang('admin.common.delete') الفاتورة">
                                             <i class="fas fa-trash-alt"></i>
-                                            <span class="d-none d-md-inline">@lang('admin.common.delete')</span>
+                                            <span class="d-none d-md-inline">@lang('admin.COMMON.delete')</span>
                                         </button>
                                         @endcan
                                         <a href="{{ route('admin.sales.print', $sale->id) }}" target="_blank" class="btn btn-sm btn-action btn-print" data-bs-toggle="tooltip" title="@lang('admin.sales.print') الفاتورة">
                                             <i class="fas fa-print"></i>
-                                            <span class="d-none d-md-inline">@lang('admin.sales.print')</span>
+                                            <span class="d-none d-md-inline">@lang('admin.COMMON.print')</span>
                                         </a>
                                     </div>
                                 </td>
