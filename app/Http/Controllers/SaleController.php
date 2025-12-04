@@ -33,20 +33,26 @@ class SaleController extends Controller
     /**
      * Display a listing of sales with eager loading.
      */ 
-    public function index()
+    public function index(Request $request)
     {
+        $type = $request->query('type');
+        
         $sales = Sale::with([
-            'client:id,name,phone',
-            'user:id,full_name as name',
-            'items' => function($query) {
-                $query->select([
-                    'items.id', 
-                    'name'
-                ]);
-            }
-        ])
-        ->latest()
-        ->paginate(15);
+                'client:id,name,phone',
+                'user:id,full_name as name',
+                'items' => function($query) {
+                    $query->select([
+                        'items.id', 
+                        'name'
+                    ]);
+                }
+            ])
+            ->when($type !== null, function($query) use ($type) {
+                return $query->filterType((int)$type);
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         return view('admin.sales.index', compact('sales'));
     }
