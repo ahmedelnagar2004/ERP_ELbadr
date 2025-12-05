@@ -63,8 +63,8 @@
             </div>
 
             <div class="pt-2 flex gap-3">
-                <button type="submit" class="btn-success" style="width: 100px; height: 40px;;">حفظ العميل</button>
-                <a href="{{ route('admin.clients.index') }}" class="btn-secondary" style="width: 100px; height: 40px; text-align: center;" >إلغاء</a>
+                <button type="submit" class="btn btn-success">حفظ </button>
+                <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">إلغاء</a>
             </div>
         </form>
     </div>

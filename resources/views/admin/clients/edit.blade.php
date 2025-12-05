@@ -41,7 +41,7 @@
                 <input id="phone" name="phone" type="text" class="input" value="{{ old('phone', $client->phone) }}" required>
                 @error('phone')<div class="error">{{ $message }}</div>@enderror
             </div>
-
+           
             <div>
                 <label class="label" for="address">العنوان</label>
                 <textarea id="address" name="address" rows="3" class="input" required>{{ old('address', $client->address) }}</textarea>
@@ -49,8 +49,8 @@
             </div>
 
             <div class="pt-2 flex gap-3">
-                <button type="submit" class="btn-primary">حفظ التعديلات</button>
-                <a href="{{ route('admin.clients.show', ['client' => $client->id]) }}" class="btn-secondary">إلغاء</a>
+                <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                <a href="{{ route('admin.clients.show', ['client' => $client->id]) }}" class="btn btn-secondary">إلغاء</a>
             </div>
         </form>
     </div>
