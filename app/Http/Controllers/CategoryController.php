@@ -77,7 +77,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category->load(['photo', 'items']);
+        $category->paginate(['photo', 'items']);
         return view('admin.categories.show', compact('category'));
     }
 
@@ -96,7 +96,6 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
         
-        // Convert boolean status to CategoryStatus enum
         $validated['status'] = $validated['status'] ? \App\CategoryStatus::Active : \App\CategoryStatus::Inactive;
         
         $category->update($validated);

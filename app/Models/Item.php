@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\ItemStatus;
 
 class Item extends Model
 {
@@ -45,6 +46,9 @@ class Item extends Model
     {
         return $this->morphedByMany('App\Models\Return', 'itemable');
     }
+    protected $casts = [
+        ItemStatus::class => 'string',
+    ];
 
     public function orders()
     {

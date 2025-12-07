@@ -98,7 +98,7 @@ Route::middleware(['web'])->group(function () {
                 });
 
                 // Orders management routes
-                Route::middleware(['permission:manage-orders'])->group(function () {
+                Route::middleware(['permission:view-orders'])->group(function () {
                     Route::resource('orders', OrderController::class);
                 });
                 // warehouses management routes
@@ -128,15 +128,7 @@ Route::middleware(['web'])->group(function () {
                     })->name('inventory.index');
                 });
 
-                
-
-                // Example protected routes for different ERP modules
-                Route::middleware('permission:view-orders')->group(function () {
-                    Route::get('/orders', function () {
-                        return view('admin.orders.index');
-                    })->name('orders.index');
-                });
-
+            
                 // Sales management routes
                 Route::middleware(['permission:view-sales'])->group(function () {
                     Route::get('/sales', [\App\Http\Controllers\SaleController::class, 'index'])->name('sales.index');

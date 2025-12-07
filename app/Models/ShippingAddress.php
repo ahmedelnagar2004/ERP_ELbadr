@@ -9,6 +9,6 @@ class ShippingAddress extends Model
 
     protected $table = 'shipping_addresses';
     public $timestamps = true;
-    protected $fillable = array('name', 'email', 'phone', 'address');
+    protected $fillable = array('order_id', 'name', 'email', 'phone', 'address');
 
 }

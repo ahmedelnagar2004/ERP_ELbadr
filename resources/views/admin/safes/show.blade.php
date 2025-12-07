@@ -50,6 +50,8 @@
                                 @case(2) حساب بنكي @break
                                 @case(3) إنستا باي @break
                                 @case(4) خزنة داخل الكاشير @break
+
+                                @case(6) خزنه داخل الكاشير @break
                                 @default غير محدد @break
                             @endswitch
                         </div>
