@@ -206,6 +206,8 @@ return [
     'yearly_earnings_overview' => 'نظرة عامة على الإيرادات السنوية',
 
     'COMMON' => [
+        'orders'=>'الطلبات',
+        'carts'=>'السلات',
         'view'=>'عرض',
         'print'=>'طباعه',
         'unknown_customer' => 'عميل غير معروف',

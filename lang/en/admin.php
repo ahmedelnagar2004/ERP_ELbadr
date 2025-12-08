@@ -158,6 +158,8 @@ return [
     'view_all_transactions' => 'View All Transactions',
 
     'COMMON' => [
+        'orders'=>'orders',
+        'carts'=>'carts',
         'print'=>'print',
         'view' => ' view ',
         'unknown_customer'=>'unknown customer',
