@@ -119,7 +119,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="number" name="items[0][quantity]" class="form-control quantity" min="0" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
+                        <td><input type="number" name="items[0][quantity]" class="form-control quantity" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
                         <td><input type="number" step="0.01" name="items[0][price]" class="form-control price" readonly></td>
                         <td class="total">0</td>
                         <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>
@@ -301,7 +301,7 @@ $(document).ready(function() {
                         @endforeach
                     </select>
                 </td>
-                <td><input type="number" name="items[${rowIndex}][quantity]" class="form-control quantity" min="0" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
+                <td><input type="number" name="items[${rowIndex}][quantity]" class="form-control quantity" step="{{ $salesSettings->allow_decimal_quantities ? '0.01' : '1' }}" value="1"></td>
                 <td><input type="number" step="0.01" name="items[${rowIndex}][price]" class="form-control price" readonly></td>
                 <td class="total">0</td>
                 <td><button type="button" class="btn btn-danger btn-sm remove-item">X</button></td>
@@ -364,13 +364,17 @@ $(document).ready(function() {
         const availableQty = selectedOption.data('quantity') || 0;
         
         $(this).closest('tr').find('.price').val(price);
+        // Don't set max if negative stock is allowed
+        @if(!$salesSettings->allow_negative_stock)
         $(this).closest('tr').find('.quantity').attr('max', availableQty);
+        @endif
         
         calculateTotals();
     });
 
     // Handle quantity changes
     $(document).on('input', '.quantity', function() {
+        @if(!$salesSettings->allow_negative_stock)
         const $row = $(this).closest('tr');
         const selectedOption = $row.find('.item-select option:selected');
         const availableQty = selectedOption.data('quantity') || 0;
@@ -380,6 +384,7 @@ $(document).ready(function() {
             $(this).val(availableQty);
             alert('الكمية المطلوبة غير متوفرة. الحد الأقصى المتاح: ' + availableQty);
         }
+        @endif
         
         calculateTotals();
     });

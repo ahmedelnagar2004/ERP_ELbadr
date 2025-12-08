@@ -83,10 +83,36 @@
                     <option value="0" {{ !old('allow_decimal', $item->allow_decimal) ? 'selected' : '' }}>لا</option>
                 </select>
             </div>
+
             <div class="md:col-span-2">
-                <label class="block text-sm font-medium mb-1">الصورة</label>
-                <input type="file" name="photo" class="form-input w-full" />
+                <label class="block text-sm font-medium mb-1">صور المعرض (يمكنك اختيار عدة صور)</label>
+                <input type="file" name="photos[]" class="form-input w-full" accept="image/*" multiple />
+                <p class="text-sm text-gray-500 mt-1">يمكنك اختيار عدة صور في نفس الوقت</p>
             </div>
+
+            @if($item->gallery && $item->gallery->count() > 0)
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium mb-2">الصور الحالية</label>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    @foreach($item->gallery as $photo)
+                    <div class="relative group" style="position: relative;">
+                        <img src="{{ asset('storage/' . $photo->path) }}" alt="Gallery Photo" class="w-full h-32 object-cover rounded">
+                        <button type="button" 
+                                onclick="deletePhoto({{ $photo->id }})"
+                                style="position: absolute; top: 8px; right: 8px; background-color: #ef4444; color: white; border-radius: 9999px; padding: 8px; opacity: 0; transition: opacity 0.2s;"
+                                onmouseover="this.style.opacity='1'"
+                                onmouseout="this.style.opacity='0.7'"
+                                class="delete-btn"
+                                title="حذف الصورة">
+                            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
         </div>
         <div class="mt-6 flex gap-3">
             <button type="submit" class="btn btn-success text-white">حفظ التغييرات</button>
@@ -94,6 +120,41 @@
         </div>
     </form>
 </div>
+
+<style>
+.group:hover .delete-btn {
+    opacity: 1 !important;
+}
+</style>
+
+<script>
+function deletePhoto(photoId) {
+    if (!confirm('هل أنت متأكد من حذف هذه الصورة؟')) {
+        return;
+    }
+
+    fetch(`/admin/items/photo/${photoId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            location.reload();
+        } else {
+            alert(data.message || 'حدث خطأ أثناء حذف الصورة');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('حدث خطأ أثناء حذف الصورة');
+    });
+}
+</script>
 @endsection
 
 

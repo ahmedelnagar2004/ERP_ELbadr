@@ -27,11 +27,34 @@ class StoreSaleRequest extends FormRequest
             'safe_id' => 'required_unless:payment_type,credit|exists:safes,id',
             'items' => 'required|array|min:1',
             'items.*.item_id' => 'required|exists:items,id',
-            'items.*.quantity' => ['required', 'numeric', 'min:0.01', function ($attribute, $value, $fail) {
-                if (!app(\App\Settings\SalesSettings::class)->allow_decimal_quantities && $value != (int) $value) {
-                    $fail('الكميات العشرية غير مسموح بها.');
+            'items.*.quantity' => [
+                'required', 
+                'numeric', 
+                'min:0.01', 
+                function ($attribute, $value, $fail) {
+                    $salesSettings = app(\App\Settings\SalesSettings::class);
+                    
+                    // Check decimal quantities
+                    if (!$salesSettings->allow_decimal_quantities && $value != (int) $value) {
+                        $fail('الكميات العشرية غير مسموح بها.');
+                        return;
+                    }
+                    
+                    // Check stock availability (only if negative stock is NOT allowed)
+                    if (!$salesSettings->allow_negative_stock) {
+                        // Extract item_id from attribute path
+                        $index = explode('.', $attribute)[1];
+                        $itemId = request()->input("items.{$index}.item_id");
+                        
+                        if ($itemId) {
+                            $item = Item::find($itemId);
+                            if ($item && $item->quantity < $value) {
+                                $fail("الكمية المتاحة للمنتج '{$item->name}' هي {$item->quantity} فقط.");
+                            }
+                        }
+                    }
                 }
-            }],
+            ],
             'items.*.price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
             'discount_type' => 'nullable|in:fixed,percentage',

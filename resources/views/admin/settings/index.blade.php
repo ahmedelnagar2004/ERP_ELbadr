@@ -113,6 +113,21 @@
                     </div>
                 </div>
 
+                <!-- Allow Negative Stock -->
+                <div class="col-span-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="allow_negative_stock" id="allow_negative_stock" value="1" 
+                               {{ $salesSettings->allow_negative_stock ? 'checked' : '' }}
+                               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="allow_negative_stock" class="mr-2 block text-sm text-gray-900">
+                            السماح بالبيع بالسالب (البيع حتى لو كانت الكمية صفر أو أقل)
+                        </label>
+                    </div>
+                    <p class="mt-1 mr-6 text-xs text-gray-500">
+                        عند تفعيل هذا الخيار، سيمكنك بيع المنتجات حتى لو كانت الكمية المتاحة 0 أو سالبة
+                    </p>
+                </div>
+
                 <!-- Default Discount Type -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">طريقة تطبيق الخصم الافتراضية</label>

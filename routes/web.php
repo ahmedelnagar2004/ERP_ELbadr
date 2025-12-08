@@ -80,6 +80,7 @@ Route::middleware(['web'])->group(function () {
                 // Items Management
                 Route::middleware(['permission:view-items'])->group(function () {
                     Route::resource('items', ItemController::class);
+                    Route::delete('items/photo/{photoId}', [ItemController::class, 'deletePhoto'])->name('items.photo.delete');
                 });
 
                 // Categories Management

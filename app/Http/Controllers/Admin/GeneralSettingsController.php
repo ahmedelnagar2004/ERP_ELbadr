@@ -44,6 +44,7 @@ class GeneralSettingsController extends Controller
 
         // Save Sales Settings
         $salesSettings->allow_decimal_quantities = $request->has('allow_decimal_quantities');
+        $salesSettings->allow_negative_stock = $request->has('allow_negative_stock');
         $salesSettings->default_discount_type = $request->input('default_discount_type', 'fixed');
         $salesSettings->enabled_payment_methods = $request->input('enabled_payment_methods', []);
         $salesSettings->save();

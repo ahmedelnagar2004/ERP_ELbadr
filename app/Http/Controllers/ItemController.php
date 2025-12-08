@@ -83,6 +83,7 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $item->load(['gallery', 'mainPhoto']); // Load gallery photos
         $categories = Category::where('status', 1)->get();
         
         $units = Unit::where('status', 1)->get();
@@ -100,7 +101,7 @@ class ItemController extends Controller
        
        $item->update($data);
 
-        // Handle photo upload
+        // Handle main photo upload
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
             if ($item->mainPhoto) {
@@ -122,8 +123,46 @@ class ItemController extends Controller
             ]);
         }
 
+        // Handle gallery photos upload (NEW)
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $filename = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('items', $filename, 'public');
+                
+                $item->gallery()->create([
+                    'filename' => $filename,
+                    'path' => $path,
+                    'ext' => $file->getClientOriginalExtension(),
+                    'size' => $file->getSize(),
+                    'mime_type' => $file->getMimeType(),
+                    'usage' => 'item_gallery'
+                ]);
+            }
+        }
+
         return redirect()->route('admin.items.index')
             ->with('success', 'تم تحديث المنتج بنجاح');
+    }
+
+    /**
+     * Delete a specific photo from item gallery
+     */
+    public function deletePhoto($photoId)
+    {
+        $photo = \App\Models\File::findOrFail($photoId);
+        
+        // Verify photo belongs to an item and is a gallery photo
+        if ($photo->usage !== 'item_gallery' && $photo->usage !== 'item_photo') {
+            return response()->json(['success' => false, 'message' => 'صورة غير صالحة'], 400);
+        }
+
+        // Delete file from storage
+        Storage::disk('public')->delete($photo->path);
+        
+        // Delete record from database
+        $photo->delete();
+
+        return response()->json(['success' => true, 'message' => 'تم حذف الصورة بنجاح']);
     }
 
     /**
