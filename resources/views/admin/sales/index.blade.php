@@ -256,10 +256,10 @@
                                             ]
                                         ][$sale->payment_type] ?? [
                                             'class' => 'secondary',
-                                            'text' => 'غير محدد',
-                                            'icon' => 'question-circle',
-                                            'bg' => 'bg-secondary-light',
-                                            'color' => 'text-secondary'
+                                            'text' => 'تحصيل من شركه الشحن ',
+                                            'icon' => 'bg-success-light',
+                                            'bg' => 'bg-success-light',
+                                            'color' => 'text-success'
                                         ];
                                     @endphp
                                     <div class="d-flex align-items-center justify-content-center">
