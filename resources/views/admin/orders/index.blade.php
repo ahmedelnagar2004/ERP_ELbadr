@@ -67,6 +67,8 @@
         </div>
     @endif
 
+    <!-- cart route -->
+    <a href="{{ route('admin.cart.index') }}" class="btn btn-primary mb-4" >عرض الطلبات المعلقه</a>
     <div class="table-card">
         <div class="table-toolbar">
             <div class="toolbar-left">
@@ -84,6 +86,7 @@
             </div>
         </div>
         
+
         <div class="table-wrap">
             <table class="min-w-full w-full">
                 <thead class="sticky">

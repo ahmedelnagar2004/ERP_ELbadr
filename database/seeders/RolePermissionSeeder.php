@@ -40,6 +40,9 @@ class RolePermissionSeeder extends Seeder
             // Order Management
             'view-orders', 'create-orders', 'edit-orders', 'delete-orders', 'approve-orders',
 
+            //cart management
+            'view-cart', 'create-cart', 'edit-cart', 'delete-cart',
+
             // Sales Management
             'view-sales', 'create-sales', 'edit-sales', 'delete-sales', 'approve-sales',
 
@@ -86,6 +89,7 @@ class RolePermissionSeeder extends Seeder
         // Admin - has most permissions except system management
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $adminPermissions = [
+            'view-cart', 'create-cart', 'edit-cart', 'delete-cart',
             'edit-settings',
             'view-users', 'create-users', 'edit-users',
             'view-clients', 'create-clients', 'edit-clients', 'delete-clients',

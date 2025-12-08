@@ -128,7 +128,11 @@ Route::middleware(['web'])->group(function () {
                     })->name('inventory.index');
                 });
 
-            
+                // Cart management routes
+                Route::middleware(['permission:view-cart'])->group(function () {
+                    Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+                    Route::get('/cart/{id}', [\App\Http\Controllers\CartController::class, 'show'])->name('cart.show');
+                });
                 // Sales management routes
                 Route::middleware(['permission:view-sales'])->group(function () {
                     Route::get('/sales', [\App\Http\Controllers\SaleController::class, 'index'])->name('sales.index');
