@@ -75,17 +75,15 @@ class OrderService
 
             // 6. Record Client Account Transaction (For tracking purposes only)
             // Note: Balance is NOT updated because payment is Cash on Delivery
-            // ClientAccountTransaction::create([
-            //     'client_id' => $client->id,
-            //     'safe_id' => 1 ?? null,
-            //     'amount' => $grandTotal,
-            //     'type' => ClientAccountTransactionTypeEnum::CREDIT->value, 
-            //     'reference_type' => Order::class,
-            //     'reference_id' => $order->id,
-            //     'user_id' => 1, 
-            //     'balance_after' => $client->balance, // Balance unchanged
-            //     'description' => 'طلب رقم #' . $order->id . ' (دفع عند الاستلام)',
-            // ]);
+            ClientAccountTransaction::create([
+                'client_id' => $client->id,
+                'amount' => $grandTotal,
+                'type' => ClientAccountTransactionTypeEnum::CREDIT->value, 
+                'reference_type' => Order::class,
+                'reference_id' => $order->id,
+                'balance_after' => $client->balance, 
+                'description' => 'طلب رقم #' . $order->id . ' (دفع عند الاستلام)',
+            ]);
 
             // 7. Clear Cart
             Cart::where('client_id', $client->id)->delete();

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();
-            $table->unsignedInteger('safe_id');
+            $table->unsignedInteger('safe_id')->nullable();
             $table->foreign('safe_id')->references('id')->on('safes')->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
             $table->tinyInteger('type');
             $table->morphs('reference');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->decimal('balance_after', 10, 2);
             $table->text('description')->nullable();
