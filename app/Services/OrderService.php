@@ -38,7 +38,7 @@ class OrderService
 
         // 2. Calculate Totals
         $totalPrice = $cartItems->sum('total_price');
-        $shippingCost = 0;
+        $shippingCost = 50;
         $grandTotal = $totalPrice + $shippingCost;
 
         return DB::transaction(function () use ($client, $cartItems, $totalPrice, $shippingCost, $grandTotal, $shippingData, $paymentMethod) {
