@@ -176,29 +176,19 @@ class SaleController extends Controller
     public function destroy($id)
     {
         $sale = Sale::with(['items', 'safeTransactions'])->findOrFail($id);
-
-        if ($sale->status === 'completed') {
-            return back()->with('error', 'لا يمكن حذف فاتورة مكتملة');
-        }
-
         DB::transaction(function () use ($sale) {
-            // Return items to stock
             foreach ($sale->items as $item) {
                 $item->increment('quantity', $item->pivot->quantity);
             }
             
-            // Detach items
             $sale->items()->detach();
             
-            // Void transactions (reverse balances)
             $this->transactionService->voidSaleTransaction($sale);
             
-            // Delete safe transactions if the relationship exists
             if (method_exists($sale, 'safeTransactions') && $sale->safeTransactions) {
                 $sale->safeTransactions()->delete();
             }
             
-            // Delete the sale
             $sale->delete();
         });
 
